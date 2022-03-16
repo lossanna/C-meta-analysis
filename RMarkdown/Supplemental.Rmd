@@ -1,0 +1,153 @@
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 9, fig.height = 11)
+library(kableExtra)
+
+load("0122 results.RData")
+
+library(tidyverse)
+library(readxl)
+library(metafor)
+```
+
+# Supplemental materials
+Supplemental Figures S1-12 and Table S1 for Ossanna & Gornish (2022), Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Annual/perennial and grass/forb/shrub (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_apgfs", ex.mv.o, ex.mv.papgfs, h)
+h <- c("[B] Annual/perennial and grass/forb/shrub (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_apgfs", nt.mv, nt.mv.papgfs, h)
+```
+**Figure S1.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant lifeform and duration (annual/perennial and grass/forb/shrub). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Duration since first application (exotic)", "Estimate [95% CI]")
+forest.cat(ex.dfc.o, "dfc", ex.mv.dfc.na.o, ex.mv.dfc.o, h)
+h <- c("[B] Duration since first application (native)", "Estimate [95% CI]")
+forest.cat(nt, "dfc", nt.mv, nt.mv.dfc, h)
+```
+**Figure S2.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study duration (months from first C application to when first plant measurements taken). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Duration since last application (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "dlc", ex.mv.o, ex.mv.dlc, h)
+h <- c("[B] Duration since last application (native)", "Estimate [95% CI]")
+forest.cat(nt, "dlc", nt.mv, nt.mv.dlc, h)
+```
+**Figure S3.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study duration (months from first C application to when last plant measurements taken). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] C rate (exotic)", "Estimate [95% CI]")
+forest.cat(ex.cratc.o, "cratc", ex.mv.cratc.na.o, ex.mv.cratc.o, h)
+h <- c("[B] C rate (native)", "Estimate [95% CI]")
+forest.cat(nt.cratc.o, "cratc", nt.mv.cratc.na.o, nt.mv.cratc.o, h)
+```
+**Figure S4.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by C rate (g C m^-2^ y^-1^). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] C applications (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "capc", ex.mv.o, ex.mv.capc, h)
+h <- c("[B] C applications (native)", "Estimate [95% CI]")
+forest.cat(nt, "capc", nt.mv, nt.mv.capc, h)
+```
+**Figure S5.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by total number of C applications. CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Months applying C (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "capt", ex.mv.o, ex.mv.capt, h)
+h <- c("[B] Months applying C (native)", "Estimate [95% CI]")
+forest.cat(nt, "capt", nt.mv, nt.mv.capt, h)
+```
+**Figure S6.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by number of months applying C (takes into account reapplication and study duration). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Region (exotic)", "Estimate [95% CI]")
+forest.cat(ex.reg.o, "region", ex.mv.reg.na.o, ex.mv.reg.o, h)
+h <- c("[B] Region (native)", "Estimate [95% CI]")
+forest.cat(nt, "region", nt.mv, nt.mv.reg, h)
+```
+**Figure S7.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study region. CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Plot size (exotic)", "Estimate [95% CI]")
+forest.cat(ex.plotc.na, "plotc", ex.mv.plotc.na, ex.mv.plotc, h)
+h <- c("[B] Plot size (native)", "Estimate [95% CI]")
+forest.cat(nt.plotc.na, "plotc", nt.mv.plotc.na, nt.mv.plotc, h)
+```
+**Figure S8.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plot size (m^2^). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Seeding of native (exotic)", "Estimate [95% CI]")
+forest.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
+h <- c("[B] Seeding of native (native)", "Estimate [95% CI]")
+forest.cat(nt, "seedn", nt.mv, nt.mv.seedn, h)
+```
+**Figure S9.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by seeding of native plant species (seeded/not seeded). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] C type (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "C_type", ex.mv.o, ex.mv.ctyp, h)
+h <- c("[B] C type (native)", "Estimate [95% CI]")
+forest.cat(nt, "C_type", nt.mv, nt.mv.ctyp, h)
+```
+**Figure S10.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by C type. CIs that do not overlap zero are considered significant.
+
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Grass/forb/shrub (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_gfs", ex.mv.o, ex.mv.pgfs, h)
+h <- c("[B] Grass/forb/shrub (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_gfs", nt.mv, nt.mv.pgfs, h)
+```
+**Figure S11.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant lifeform (grass/forb/shrub). CIs that do not overlap zero are considered significant.
+
+```{r}
+par(mfcol = c(2, 1))
+h <- c("[A] Annual/perennial (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_anper", ex.mv.o, ex.mv.panp, h)
+h <- c("[B] Annual/perennial (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_anper", nt.mv, nt.mv.panp, h)
+```
+**Figure S12.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant duration (annual/perennial). CIs that do not overlap zero are considered significant.
+
+
+
+
+## Table S3. Heterogeneity statistics
+```{r}
+hetero %>% 
+  kbl(longtable = TRUE, booktabs = TRUE) %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped",
+                                                 "repeat_header")) %>% 
+  pack_rows("Summary", 1, 2) %>%
+  pack_rows("Region", 3, 4) %>% 
+  pack_rows("Duration since first C app", 5, 6) %>% 
+  pack_rows("Duration since last C app", 7, 8) %>% 
+  pack_rows("C type", 9, 10) %>% 
+  pack_rows("C rate", 11, 12) %>% 
+  pack_rows("Total C applications", 13, 14) %>% 
+  pack_rows("Months applying C", 15, 16) %>% 
+  pack_rows("Grass/forb/shrub", 17, 18) %>% 
+  pack_rows("Annual/perennial", 19, 20) %>% 
+  pack_rows("Annual/perennial and grass/forb/shrub", 21, 22) %>% 
+  pack_rows("Plot size", 23, 24) %>% 
+  pack_rows("Seeding of native", 25, 26)
+```
+
+*QE*, unexplained heterogeneity (dispersion); *QE_df*, corresponding degrees of freedom; *QE_p*, corresponding p-value; *QM*, heterogeneity explained by the model; *QM_df*, corresponding degrees of freedom; *QM_p*, corresponding p-value; *QM/QT*, proportion of observed (total) heterogeneity explained by the model.

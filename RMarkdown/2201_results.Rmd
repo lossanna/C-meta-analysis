@@ -1,0 +1,267 @@
+---
+title: "Select results"
+author: "Lia Ossanna"
+date: "1/16/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 9, fig.height = 11)
+library(kableExtra)
+
+load("0122 results.RData")
+
+library(tidyverse)
+library(readxl)
+library(metafor)
+```
+
+
+# Introduction
+- Presented here are the results of single-moderator and model selection analysis for the exotic and native datasets.
+- All models have undergone sensitivity analysis and outliers have been removed.
+- Results are summarized in the form of forest plots, and heterogeneity statistics are presented in a single table.
+- Code is omitted to conserve space. See other documents for code and more details.
+
+
+# Summary
+## Summary effect
+- Overall, C addition treatment significantly decreases exotic plant abundance but does not affect native plant abundance.
+  - When predicting the effect of C addition on a random population, we would expect exotic plant abundance to decrease 80% of the time, and native plant abundance to increase 41% of the time.
+
+
+## Single moderator models
+- C addition treatment has been most successful in southeast Australia (New South Wales) and the western United States, especially in the Southwest and Pacific Northwest.
+- C addition treatment steadily becomes less effective over time (effect size decreases as duration since first and last C application increases).
+- Sucrose alone is more effective than sawdust alone; but both had a significant effect when used alone, but not in combination. 
+  - However, this could be an artifact of sample size/number of comparisons. Only sucrose, sucrose AND sawdust, and sawdust have comparable `n` values (number of studies/comparisons).
+- Increasing C rate decreases exotic plant abundance and increases native plant abundance. 
+  - Although these trends are statistically significant, practically speaking, the increase in effect likely does not compensate for the higher cost.
+- The number and timing of C applications show inconsistent trends, but studies that applied C only once saw a simultaneous decrease in exotic plant abundance and increase in native plant abundance.
+  - Studies that applied C 3-6 times reported the greatest decrease in exotic plant abundance; however, native plant abundance also decreased.
+- C application treatment was more effective on annual exotic plants than perennial, but perennial graminoids were still significantly affected.
+- In the subset of annual exotic plants, forbs decreased slightly more than graminoids, but in the overall exotic dataset, graminoids decreased more than forbs, and to a larger degree.
+  - C treatment had no significant effect on perennial native plant abundance.
+  
+## Model selection
+- Candidate model included `region`, `dlc` (duration since last C application), `C_type`, `cratc` (C rate as categorical), `plotc` (plot size), `capt` (months applying C), and `plant_apgfs` (plant lifeform).
+- `dlc`, `cratc`, `region`, `plotc`, and `plant_apgfs` were important moderators for the exotic dataset (importance value > 0.8).
+- `dlc`, `cratc`, `region`, `C_type`, and `plant_apgfs` were important moderators for the native dataset (importance value > 0.8).
+
+
+
+# No moderators (summary effect)
+## Exotic
+### Model summary
+```{r, echo=TRUE}
+summary(ex.mv.o)
+```
+- C treatment causes significant decrease in exotic plant abundance.  
+
+### Prediction interval
+```{r, echo=TRUE}
+predict(ex.mv.o)
+```
+- The prediction interval (`pi.lb` and `pi.ub`) measures the distribution of true effects. A prediction of the effect size for any given population would fall within the prediction interval 95% of the time (Borenstein 2019, *Research Synthesis Methods*).
+- The prediction interval can be used to calculate the probability the effect of a new study will be below or above a certain threshold using the left-tail cumulative t-distribution with k-1 degrees of freedom (IntHout 2016, *BMJ Open*).
+  - See Supplementary Appendix Formula 2: we are finding the probability that t-value $\leq$ T, where $T=\frac{D-M}{SD_{PI}}$, and $D$ is the threshold (0), $M$ is the summary effect, and $SD_{PI}$ is the standard deviation of the prediction interval.
+  - I am calculating $SD_{PI}$ from the definition of the prediction interval, $PI=Mean\pm2SD$ (Borenstein 2019, *Research Synthesis Methods*).
+  - After finding T, calculate the cumulative distribution function with $k-1$ degrees of freedom.
+    - Use the calculator at <https://www.danielsoper.com/statcalc/calculator.aspx?id=41> or the function `pt()`.
+```{r, echo=TRUE}
+SD_PI <- abs(predict(ex.mv.o)$pi.lb - predict(ex.mv.o)$pred) / 2
+t <- (0 - predict(ex.mv.o)$pred) / SD_PI
+pt(t, ex.mv.o$k - 1, lower.tail = TRUE)
+```
+- There is an 80% chance a new study/randomly selected exotic plant population will decrease in response to C addition.  
+  
+
+### *I^2^* statistic
+```{r}
+W <- diag(1 / ex.o$vi)
+X <- model.matrix(ex.mv.o)
+P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
+
+noquote(paste("I^2 =", 100 * sum(ex.mv.o$sigma2) / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))))
+```
+- *I^2^* is a measure of relative heterogeneity. It is the proportion of variance in observed effects that is due to variance in true effects (effects in an infinitely large population with no sampling error), or, in other words, the ratio of excess dispersion to total dispersion ($\frac{V_{TRUE}}{V_{OBS}}$, expressed here as a percentage; Borenstein 2009).
+- *I^2^ *can be thought of as the inconsistency across studies; an *I^2^* of 0% means there is no observed variance that is actually due to true variance, and therefore no variance to explain, while an *I^2^* of 100% means that all the variance could be explained by something besides sampling error, such as the effect of moderators (Borenstein 2019, *Research Synthesis Methods*).
+
+### QM/QT
+```{r}
+noquote(paste("QM/QT =", ex.mv.o[["QM"]] / sum(ex.mv.o[["QE"]], ex.mv.o[["QM"]])))
+```
+- *QM/QT* is the proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and is "functionally equivalent" to the *R^2^* of a linear model (Koricheva 2013).
+
+
+
+## Native
+### Model summary
+```{r, echo=TRUE}
+summary(nt.mv)
+```
+- C treatment does not cause a significant change in native plant abundance.
+
+### Prediction interval
+```{r, echo=TRUE}
+predict(nt.mv)
+
+SD_PI <- (abs(predict(nt.mv)$pi.lb) - abs(predict(nt.mv)$pred)) / 2
+t <- (0 - predict(nt.mv)$pred) / SD_PI
+pt(t, nt.mv$k - 1, lower.tail = TRUE)
+
+1 - pt(t, nt.mv$k - 1, lower.tail = TRUE)
+```
+- There is a 59% chance a new study or randomly selected population of native plants will decrease in response to C addition (or a 41% chance they will increase).
+
+
+### *I^2^* statistic
+```{r}
+W <- diag(1 / nt$vi)
+X <- model.matrix(nt.mv)
+P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
+
+noquote(paste("I^2 =", 100 * sum(nt.mv$sigma2) / (sum(nt.mv$sigma2) + (nt.mv$k-nt.mv$p)/sum(diag(P)))))
+```
+- A low *I^2^* indicates most of the variance is due to randomness and cannot be explained with moderators. Therefore, the following native single moderator models should be interpreted with caution.
+
+### QM/QT
+```{r}
+noquote(paste("QM/QT =", nt.mv[["QM"]] / sum(nt.mv[["QE"]], nt.mv[["QM"]])))
+```
+
+
+# Single moderator models
+## Duration since first C app (`dfc`)
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Duration since first (exotic)", "Estimate [95% CI]")
+forest.cat(eex.reg.o, "region", ex.mv.reg.na.o, ex.mv.reg.o, h)
+h <- c("Duration since first (native)", "Estimate [95% CI]")
+forest.cat(nt, "dfc", nt.mv, nt.mv.dfc, h)
+```
+
+## Duration since last C app (`dlc`)
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Duration (exotic)", "Estimate [95% CI]")
+forest.cat(ex.dfc.o, "dfc", ex.mv.dfc.na.o, ex.mv.dfc.o, h)
+h <- c("Duration since last (native)", "Estimate [95% CI]")
+forest.cat(nt, "dlc", nt.mv, nt.mv.dlc, h)
+```
+
+## C type
+```{r}
+par(mfcol = c(2, 1))
+h <- c("C type (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "C_type", ex.mv.o, ex.mv.ctyp, h)
+h <- c("C type (native)", "Estimate [95% CI]")
+forest.cat(nt, "C_type", nt.mv, nt.mv.ctyp, h)
+```
+
+## C rate (`cratc`)
+```{r}
+par(mfcol = c(2, 1))
+h <- c("C rate (exotic)", "Estimate [95% CI]")
+forest.cat(ex.cratc.o, "cratc", ex.mv.cratc.na.o, ex.mv.cratc.o, h)
+h <- c("C rate (native)", "Estimate [95% CI]")
+forest.cat(nt.cratc.o, "cratc", nt.mv.cratc.na.o, nt.mv.cratc.o, h)
+```
+
+## Total C applications
+```{r}
+par(mfcol = c(2, 1))
+h <- c("C applications (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "capc", ex.mv.o, ex.mv.capc, h)
+h <- c("C applications (native)", "Estimate [95% CI]")
+forest.cat(nt, "capc", nt.mv, nt.mv.capc, h)
+```
+
+## Months applying C (`capt`)
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Months applying C (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "capt", ex.mv.o, ex.mv.capt, h)
+h <- c("Months applying C (native)", "Estimate [95% CI]")
+forest.cat(nt, "capt", nt.mv, nt.mv.capt, h)
+```
+
+## Grass/forb/shrub
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Grass/forb/shrub (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_gfs", ex.mv.o, ex.mv.pgfs, h)
+h <- c("Grass/forb/shrub (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_gfs", nt.mv, nt.mv.pgfs, h)
+```
+
+## Annual/perennial
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Annual/perennial (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_anper", ex.mv.o, ex.mv.panp, h)
+h <- c("Annual/perennial (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_anper", nt.mv, nt.mv.panp, h)
+```
+
+## Annual/perennial and grass/forb/shrub
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Annual/perennial and grass/forb/shrub (exotic)", "Estimate [95% CI]")
+forest.cat(ex, "plant_apgfs", ex.mv.o, ex.mv.papgfs, h)
+h <- c("Annual/perennial and grass/forb/shrub (native)", "Estimate [95% CI]")
+forest.cat(nt, "plant_apgfs", nt.mv, nt.mv.papgfs, h)
+```
+
+## Plot size
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Plot size (exotic)", "Estimate [95% CI]")
+forest.cat(ex.plotc.na, "plotc", ex.mv.plotc.na, ex.mv.plotc, h)
+h <- c("Plot size (native)", "Estimate [95% CI]")
+forest.cat(nt.plotc.na, "plotc", nt.mv.plotc.na, nt.mv.plotc, h)
+```
+
+## Seeding of native
+```{r}
+par(mfcol = c(2, 1))
+h <- c("Seeding of native (exotic)", "Estimate [95% CI]")
+forest.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
+h <- c("Seeding of native (native)", "Estimate [95% CI]")
+forest.cat(nt, "seedn", nt.mv, nt.mv.seedn, h)
+```
+
+## Heterogeneity stats
+```{r}
+hetero %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(font_size = 8, latex_options = "HOLD_position") %>% 
+  pack_rows("Summary", 1, 2) %>%
+  pack_rows("Region", 3, 4) %>% 
+  pack_rows("Duration since first C app", 5, 6) %>% 
+  pack_rows("Duration since last C app", 7, 8) %>% 
+  pack_rows("C type", 9, 10) %>% 
+  pack_rows("C rate", 11, 12) %>% 
+  pack_rows("Total C applications", 13, 14) %>% 
+  pack_rows("Months applying C", 15, 16) %>% 
+  pack_rows("Grass/forb/shrub", 17, 18) %>% 
+  pack_rows("Annual/perennial", 19, 20) %>% 
+  pack_rows("Annual/perennial and grass/forb/shrub", 21, 22) %>% 
+  pack_rows("Plot size", 23, 24) %>% 
+  pack_rows("Seeding of native", 25, 26)
+```
+
+\newpage
+# Model selection
+## Exotic
+```{r}
+top.ex
+```
+- The top model has a weight of 94%.
+
+## Native
+```{r}
+top.nt.o
+```
+- The top model has a weight of 97%.
