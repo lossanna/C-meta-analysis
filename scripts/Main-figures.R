@@ -20,14 +20,14 @@ f1.df <- data.frame(model = c("Exotic", "Native"),
 
 # Orchard plots
 f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
-  ggtitle("Exotic") +
+  ggtitle("Exotic plant summary response") +
   annotate(geom = "text", x = -6, y = 1.4,
            label = paste0("95% CI: ", round(f1.df[1, 2], 3), ", ", round(f1.df[1, 3], 3), "\n",
                           "95% PI: ", round(f1.df[1, 4], 3), ", ", round(f1.df[1, 5], 3)))
 f1.orc.ex
 
 f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
-  ggtitle("Native") +
+  ggtitle("Native plant summary response") +
   annotate(geom = "text", x = -7, y = 1.4,
            label = paste0("95% CI: ", round(f1.df[2, 2], 3), ", ", round(f1.df[2, 3], 3), "\n",
                           "95% PI: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)))
@@ -255,4 +255,4 @@ text(x = 0, y = 16.1, labels = "Native plant response")
 dev.off()
 
 
-save.image("Main-figures.RData")
+save.image(".RData/Main-figures.RData")
