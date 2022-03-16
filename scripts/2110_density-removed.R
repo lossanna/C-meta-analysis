@@ -342,3 +342,4 @@ single.mod.cat(ex, "res", ex.mv, ex.mv.res, h)
 
 
 save.image(".RData/2110_density-removed.RData")
+save.image("RMarkdown/2110_density-removed.RData")
