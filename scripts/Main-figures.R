@@ -1,17 +1,16 @@
 library(tidyverse)
 library(metafor)
 library(orchaRd)
+library(ggpubr)
 
 # Load data ---------------------------------------------------------------
 
 load(".RData/Single-mod-models-for-figures.RData")
 
 
-# Figure ? (summary, CI, PI) ----------------------------------------------
+# Figure 1 (summary, CI, PI) ----------------------------------------------
 
-# This is just staying a table for initial submission
-predict(ex.mv.o)
-
+# Table
 f1.df <- data.frame(model = c("Exotic", "Native"),
                     ci.lb = c(ex.mv.o[["ci.lb"]], nt.mv[["ci.lb"]]),
                     ci.ub = c(ex.mv.o[["ci.ub"]], nt.mv[["ci.ub"]]),
@@ -19,7 +18,7 @@ f1.df <- data.frame(model = c("Exotic", "Native"),
                     pi.ub = c(predict(ex.mv.o)$pi.ub, predict(nt.mv)$pi.ub),
                     estimate = c(ex.mv.o[["b"]], nt.mv[["b"]]))
 
-# Orchard plot
+# Orchard plots
 f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
   ggtitle("Exotic") +
   annotate(geom = "text", x = -6, y = 1.4,
@@ -34,6 +33,7 @@ f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", 
                           "95% PI: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)))
 f1.orc.nt
 
+# Write separate TIFFs
 tiff("output_figs/Orchard_ex.tiff", width = 6, height = 4, units = "in", res = 300)
 f1.orc.ex
 dev.off()
@@ -42,9 +42,22 @@ tiff("output_figs/Orchard_nt.tiff", width = 6, height = 4, units = "in", res = 3
 f1.orc.nt
 dev.off()
 
+# Write Figure_1.pdf
+pdf("output_figs/Figure_1.pdf", width = 6)
+ggarrange(f1.orc.ex, f1.orc.nt,
+          ncol = 1, nrow = 2,
+          labels = c("(A)", "(B)"))
+dev.off()
+
+# Write Figure_1.tiff
+tiff("output_figs/Figure_1.tiff", width = 6, height = 7, units = "in", res = 300)
+ggarrange(f1.orc.ex, f1.orc.nt,
+          ncol = 1, nrow = 2,
+          labels = c("(A)", "(B)"))
+dev.off()
 
 
-# Figure 1 (anpergfs exotic) ----------------------------------------------
+# Figure 2 (anpergfs exotic) ----------------------------------------------
 
 n.forest.ex.papgfs <- count(ex, !!sym("plant_apgfs"))
 n.forest.ex.papgfs$x <- ex.mv.papgfs[[1]]
@@ -54,7 +67,7 @@ n.forest.ex.papgfs <- n.forest.ex.papgfs %>%
   filter(plant_apgfs %in% c("annual forb", "annual graminoid", 
                             "perennial forb", "perennial graminoid"))
 
-pdf("Figure_1.pdf", height = 4)
+pdf("output_figs/Figure_2.pdf", height = 4)
 forest(x = n.forest.ex.papgfs$x,
        ci.lb = n.forest.ex.papgfs$ci.lb,
        ci.ub = n.forest.ex.papgfs$ci.ub,
@@ -73,7 +86,7 @@ par(cex = 0.75, font = 2)
 text(x = 0, y = 6, labels = "Exotic plant response")
 dev.off()
 
-tiff("Figure_1.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Figure_2.tiff", width = 6, height = 4, units = "in", res = 300)
 forest(x = n.forest.ex.papgfs$x,
        ci.lb = n.forest.ex.papgfs$ci.lb,
        ci.ub = n.forest.ex.papgfs$ci.ub,
@@ -93,14 +106,14 @@ text(x = 0, y = 6, labels = "Exotic plant response")
 dev.off()
 
 
-# Figure 2 (dlc exotic) ---------------------------------------------------
+# Figure 3 (dlc exotic) ---------------------------------------------------
 
 n.forest.ex.dlc <- count(ex, !!sym("dlc"))
 n.forest.ex.dlc$x <- ex.mv.dlc[[1]]
 n.forest.ex.dlc$ci.lb <- ex.mv.dlc[[6]]
 n.forest.ex.dlc$ci.ub <- ex.mv.dlc[[7]]
 
-pdf("Figure_2.pdf", height = 5)
+pdf("output_figs/Figure_3.pdf", height = 5)
 forest(x = n.forest.ex.dlc$x,
        ci.lb = n.forest.ex.dlc$ci.lb,
        ci.ub = n.forest.ex.dlc$ci.ub,
@@ -119,7 +132,7 @@ par(cex = 0.75, font = 2)
 text(x = 0, y = 11, labels = "Exotic plant response")
 dev.off()
 
-tiff("Figure_2.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Figure_3.tiff", width = 6, height = 4, units = "in", res = 300)
 forest(x = n.forest.ex.dlc$x,
        ci.lb = n.forest.ex.dlc$ci.lb,
        ci.ub = n.forest.ex.dlc$ci.ub,
@@ -139,14 +152,14 @@ text(x = 0, y = 11, labels = "Exotic plant response")
 dev.off()
 
 
-# Figure 3 (cratc exotic) -------------------------------------------------
+# Figure 4 (cratc exotic) -------------------------------------------------
 
 n.forest.ex.cratc <- count(ex.cratc.o, !!sym("cratc"))
 n.forest.ex.cratc$x <- ex.mv.cratc.o[[1]]
 n.forest.ex.cratc$ci.lb <- ex.mv.cratc.o[[6]]
 n.forest.ex.cratc$ci.ub <- ex.mv.cratc.o[[7]]
 
-pdf("Figure_3.pdf", height = 5)
+pdf("output_figs/Figure_4.pdf", height = 5)
 forest(x = n.forest.ex.cratc$x,
        ci.lb = n.forest.ex.cratc$ci.lb,
        ci.ub = n.forest.ex.cratc$ci.ub,
@@ -167,7 +180,7 @@ par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Exotic plant response")
 dev.off()
 
-tiff("Figure_3.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Figure_4.tiff", width = 6, height = 4, units = "in", res = 300)
 forest(x = n.forest.ex.cratc$x,
        ci.lb = n.forest.ex.cratc$ci.lb,
        ci.ub = n.forest.ex.cratc$ci.ub,
@@ -191,14 +204,14 @@ dev.off()
 
 
 
-# Figure 4 (cratc native) -------------------------------------------------
+# Figure 5 (cratc native) -------------------------------------------------
 
 n.forest.nt.cratc <- count(nt.cratc.o, !!sym("cratc"))
 n.forest.nt.cratc$x <- nt.mv.cratc.o[[1]]
 n.forest.nt.cratc$ci.lb <- nt.mv.cratc.o[[6]]
 n.forest.nt.cratc$ci.ub <- nt.mv.cratc.o[[7]]
 
-pdf("Figure_4.pdf", height = 5)
+pdf("output_figs/Figure_5.pdf", height = 5)
 forest(x = n.forest.nt.cratc$x,
        ci.lb = n.forest.nt.cratc$ci.lb,
        ci.ub = n.forest.nt.cratc$ci.ub,
@@ -219,7 +232,7 @@ par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Native plant response")
 dev.off()
 
-tiff("Figure_4.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Figure_5.tiff", width = 6, height = 4, units = "in", res = 300)
 forest(x = n.forest.nt.cratc$x,
        ci.lb = n.forest.nt.cratc$ci.lb,
        ci.ub = n.forest.nt.cratc$ci.ub,
