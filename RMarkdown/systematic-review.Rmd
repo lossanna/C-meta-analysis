@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "..")
 ```
 
 
@@ -52,7 +53,7 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 
-review <- read_xlsx("C addition studies.xlsx", sheet = "screen_review")
+review <- read_xlsx("C-addition-studies.xlsx", sheet = "screen_review")
 ```
 
 # Biome

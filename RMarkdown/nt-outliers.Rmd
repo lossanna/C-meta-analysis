@@ -12,7 +12,7 @@ output:
 library(tidyverse)
 library(readxl)
 library(metafor)
-load("0821 nt outliers.RData")
+load("nt-outliers.RData")
 ```
 
 

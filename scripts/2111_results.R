@@ -129,8 +129,9 @@ forest(x = ex.mv.ms14.ni$b,
 top.nt.o <- weightable(res14.o.nt)
 top.nt.o <- top.nt.o[top.nt.o$aicc <= min(top.nt.o$aicc) + 2, ]
 top.nt.o
-summary(res14.o@objects[[1]])
-plot(res14.o, type = "s")
+summary(res14.o.nt@objects[[1]])
+plot(res14.o.nt, type = "s")
+rm(res14.o.nt)
 
 nt.ms14 <- nt[!apply(nt[ , c("region", "dlc", "C_type", "cratc", "capt", "plant_apgfs", "plotc")], 1, anyNA), ]
 nt.ms14.o <- nt.ms14 %>% 
@@ -152,3 +153,4 @@ forest(x = nt.mv.ms14.o$b,
        cex = 0.75)
 
 save.image(".RData/2111_results.RData")
+save.image("RMarkdown/2111_results.RData")

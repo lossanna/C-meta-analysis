@@ -4,3 +4,4 @@
 .Ruserdata
 C-meta-analysis.Rproj
 .RData/
+*.RData

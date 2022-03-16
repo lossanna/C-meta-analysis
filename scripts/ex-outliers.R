@@ -926,3 +926,4 @@ summary(dfb.ms14)
 
 
 save.image(".RData/ex-outliers.RData")
+save.image("RMarkdown/ex-outliers.RData")

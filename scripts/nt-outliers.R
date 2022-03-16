@@ -843,3 +843,4 @@ nt[c(351, 637, 325), c("paper", "obs_ID", "dlc", "cratc", "C_type", "plant_apgfs
 
 
 save.image(".RData/nt-outliers.RData")
+save.image("RMarkdown/nt-outliers.RData")

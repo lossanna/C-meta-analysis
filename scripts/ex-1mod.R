@@ -996,3 +996,4 @@ single.mod.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
 
 
 save.image(".RData/ex-1mod.RData")
+save.image("RMarkdown/ex-1mod.RData")

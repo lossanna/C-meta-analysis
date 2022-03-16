@@ -386,3 +386,4 @@ forest(x = res15@objects[[2]]$b,
 
 
 save.image(".RData/ex-modsel.RData")
+save.image("RMarkdown/ex-modsel.RData")

@@ -101,6 +101,7 @@ top.nt.o <- top.nt.o[top.nt.o$aicc <= min(top.nt.o$aicc) + 2, ]
 top.nt.o
 summary(res14.o.nt@objects[[1]])
 plot(res14.o.nt, type = "s")
+rm(res14.o.nt)
 
 nt.ms14 <- nt[!apply(nt[ , c("region", "dlc", "C_type", "cratc", "capt", "plant_apgfs", "plotc")], 1, anyNA), ]
 nt.ms14.o <- nt.ms14 %>% 
@@ -118,8 +119,9 @@ nt.mv.ms14.o <- rma.mv(yi = yi,
 
 save(ex.mv.o, nt.mv, ex.mv.papgfs, ex.mv.dlc, ex.mv.cratc.o, nt.mv.cratc.o,
      ex, nt, ex.cratc.o, nt.cratc.o,
-     file = "Single mod models for figures.RData")
+     file = ".RData/Single-mod-models-for-figures.RData")
 
 
 save.image(".RData/2201_results.RData")
+save.image("RMarkdown/2201_results.RData")
 

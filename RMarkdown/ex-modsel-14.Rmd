@@ -17,7 +17,7 @@ library(readxl)
 library(metafor)
 library(glmulti)
 eval(metafor:::.glmulti)
-load("1121 ex modsel.RData")
+load("ex-modsel.RData")
 ```
 
 
@@ -368,7 +368,7 @@ eval(metafor:::.glmulti)
 - Model had no outliers.
 
 ```{r, eval=FALSE}
-ex.ms13 <- ex[!apply(ex[ , c("region", "dlc", "C_type", "cratc", "capt", "plant_apgfs", "plotc")], 1, anyNA), ]
+ex.ms14 <- ex[!apply(ex[ , c("region", "dlc", "C_type", "cratc", "capt", "plant_apgfs", "plotc")], 1, anyNA), ]
 
 res14 <- glmulti(yi ~ region + dlc + C_type + cratc + capt + plant_apgfs + plotc, 
                   V = "vi", data = ex.ms14, level = 1, fitfunction = rma.glmulti, 

@@ -1011,3 +1011,4 @@ single.mod.cat(nt.seede, "seeding_exotic_cat", nt.mv, nt.mv.seede, h)
 
 
 save.image(".RData/nt-1mod.RData")
+save.image("RMarkdown/nt-1mod.RData")
