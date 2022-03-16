@@ -4,10 +4,10 @@ library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-load("1021 ex 1mod.RData")
-load("0821 nt 1mod.RData")
-load("ex mod14.RData")
-load("nt mod14o.RData")
+load(".RData/ex-1mod.RData")
+load(".RData/nt-1mod.RData")
+load(".RData/ex-mod14.RData")
+load(".RData/nt-mod14o.RData")
 
 
 # Functions ---------------------------------------------------------------
@@ -121,5 +121,5 @@ save(ex.mv.o, nt.mv, ex.mv.papgfs, ex.mv.dlc, ex.mv.cratc.o, nt.mv.cratc.o,
      file = "Single mod models for figures.RData")
 
 
-save.image("0122 results.RData")
+save.image(".RData/2201_results.RData")
 

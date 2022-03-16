@@ -5,7 +5,7 @@ library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (biocov)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (biocov)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -311,7 +311,7 @@ forest(x = ex.mv.ms14.ni$b,
 # Outliers removed
   # no outliers
 
-save(res14, file = "ex mod14.RData")
+save(res14, file = ".RData/ex-mod14.RData")
 
 # Multimodel inference
 mmi <- as.data.frame(coef(res14))
@@ -385,4 +385,4 @@ forest(x = res15@objects[[2]]$b,
        cex = 0.75)
 
 
-save.image("1121 ex modsel.RData")
+save.image(".RData/ex-modsel.RData")

@@ -4,7 +4,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -485,7 +485,7 @@ for(i in 1:nrow(intcp.sym.nt)) {
   }
 }
 
-save(intcp.sym.nt, nt.mv.pb, file = "pbias nt.RData")
+save(intcp.sym.nt, nt.mv.pb, file = ".RData/pbias nt.RData")
 
-save.image("0821 nt pbias.RData")
+save.image(".RData/nt-pbias.RData")
 

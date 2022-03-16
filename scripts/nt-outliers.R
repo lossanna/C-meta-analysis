@@ -5,7 +5,7 @@ library(parallel)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -842,4 +842,4 @@ nt[c(351, 637, 325), c("paper", "obs_ID", "dlc", "cratc", "C_type", "plant_apgfs
 
 
 
-save.image("0821 nt outliers.RData")
+save.image(".RData/nt-outliers.RData")

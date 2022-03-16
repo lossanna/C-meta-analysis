@@ -34,7 +34,7 @@ single.mod.cat <- function(dat, var, dat.mv, dat.mv.var, h) {
 
 # Load data (0621) --------------------------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -228,7 +228,7 @@ single.mod.cat(nt, "res", nt.mv, nt.mv.res, h)
 
 # Load data (1021), overwrite objects -------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (biocov)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (biocov)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -341,4 +341,4 @@ single.mod.cat(ex, "res", ex.mv, ex.mv.res, h)
 
 
 
-save.image("1021 density removed.RData")
+save.image(".RData/2110_density-removed.RData")

@@ -5,10 +5,10 @@ library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-load("1021 ex 1mod.RData")
-load("0821 nt 1mod.RData")
-load("ex mod14.RData")
-load("nt mod14o.RData")
+load(".RData/ex-1mod.RData")
+load(".RData/nt-1mod.RData")
+load(".RData/ex-mod14.RData")
+load(".RData/nt-mod14o.RData")
 
 
 # Functions ---------------------------------------------------------------
@@ -151,4 +151,4 @@ forest(x = nt.mv.ms14.o$b,
        header = c("Top native model 1", "Estimate [95% CI]"),
        cex = 0.75)
 
-save.image("1121 results.RData")
+save.image(".RData/2111_results.RData")

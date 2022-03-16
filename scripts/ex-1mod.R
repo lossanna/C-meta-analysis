@@ -4,7 +4,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (biocov)")
+raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (biocov)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -995,4 +995,4 @@ h <- c("Seeding of native (out rm)", "Estimate [95% CI]")
 single.mod.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
 
 
-save.image("1021 ex 1mod.RData")
+save.image(".RData/ex-1mod.RData")
