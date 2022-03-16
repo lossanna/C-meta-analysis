@@ -15,7 +15,7 @@ library(metafor)
 ```
 
 # Supplemental materials
-Supplemental Figures S1-12 and Table S1 for Ossanna & Gornish (2022), Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis
+Supplemental Figures S1-12 and Table S3 for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis"
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -24,7 +24,7 @@ forest.cat(ex, "plant_apgfs", ex.mv.o, ex.mv.papgfs, h)
 h <- c("[B] Annual/perennial and grass/forb/shrub (native)", "Estimate [95% CI]")
 forest.cat(nt, "plant_apgfs", nt.mv, nt.mv.papgfs, h)
 ```
-**Figure S1.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant lifeform and duration (annual/perennial and grass/forb/shrub). CIs that do not overlap zero are considered significant.
+**Figure S1.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by plant lifeform and duration (annual/perennial and grass/forb/shrub), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -33,7 +33,7 @@ forest.cat(ex.dfc.o, "dfc", ex.mv.dfc.na.o, ex.mv.dfc.o, h)
 h <- c("[B] Duration since first application (native)", "Estimate [95% CI]")
 forest.cat(nt, "dfc", nt.mv, nt.mv.dfc, h)
 ```
-**Figure S2.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study duration (months from first C application to when first plant measurements taken). CIs that do not overlap zero are considered significant.
+**Figure S2.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by study duration (months from first C application to when first plant measurements taken). CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -42,7 +42,7 @@ forest.cat(ex, "dlc", ex.mv.o, ex.mv.dlc, h)
 h <- c("[B] Duration since last application (native)", "Estimate [95% CI]")
 forest.cat(nt, "dlc", nt.mv, nt.mv.dlc, h)
 ```
-**Figure S3.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study duration (months from first C application to when last plant measurements taken). CIs that do not overlap zero are considered significant.
+**Figure S3.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by study duration (months from first C application to when last plant measurements taken), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -51,7 +51,7 @@ forest.cat(ex.cratc.o, "cratc", ex.mv.cratc.na.o, ex.mv.cratc.o, h)
 h <- c("[B] C rate (native)", "Estimate [95% CI]")
 forest.cat(nt.cratc.o, "cratc", nt.mv.cratc.na.o, nt.mv.cratc.o, h)
 ```
-**Figure S4.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by C rate (g C m^-2^ y^-1^). CIs that do not overlap zero are considered significant.
+**Figure S4.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by C rate (g C m^-2^ y^-1^), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -60,7 +60,7 @@ forest.cat(ex, "capc", ex.mv.o, ex.mv.capc, h)
 h <- c("[B] C applications (native)", "Estimate [95% CI]")
 forest.cat(nt, "capc", nt.mv, nt.mv.capc, h)
 ```
-**Figure S5.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by total number of C applications. CIs that do not overlap zero are considered significant.
+**Figure S5.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by total number of C applications, with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -69,7 +69,7 @@ forest.cat(ex, "capt", ex.mv.o, ex.mv.capt, h)
 h <- c("[B] Months applying C (native)", "Estimate [95% CI]")
 forest.cat(nt, "capt", nt.mv, nt.mv.capt, h)
 ```
-**Figure S6.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by number of months applying C (takes into account reapplication and study duration). CIs that do not overlap zero are considered significant.
+**Figure S6.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by number of months applying C (takes into account reapplication and study duration), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -78,7 +78,7 @@ forest.cat(ex.reg.o, "region", ex.mv.reg.na.o, ex.mv.reg.o, h)
 h <- c("[B] Region (native)", "Estimate [95% CI]")
 forest.cat(nt, "region", nt.mv, nt.mv.reg, h)
 ```
-**Figure S7.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by study region. CIs that do not overlap zero are considered significant.
+**Figure S7.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by study region, with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -87,7 +87,7 @@ forest.cat(ex.plotc.na, "plotc", ex.mv.plotc.na, ex.mv.plotc, h)
 h <- c("[B] Plot size (native)", "Estimate [95% CI]")
 forest.cat(nt.plotc.na, "plotc", nt.mv.plotc.na, nt.mv.plotc, h)
 ```
-**Figure S8.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plot size (m^2^). CIs that do not overlap zero are considered significant.
+**Figure S8.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by plot size (m^2^), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -96,7 +96,7 @@ forest.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
 h <- c("[B] Seeding of native (native)", "Estimate [95% CI]")
 forest.cat(nt, "seedn", nt.mv, nt.mv.seedn, h)
 ```
-**Figure S9.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by seeding of native plant species (seeded/not seeded). CIs that do not overlap zero are considered significant.
+**Figure S9.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by seeding of native plant species (seeded/not seeded), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -105,7 +105,7 @@ forest.cat(ex, "C_type", ex.mv.o, ex.mv.ctyp, h)
 h <- c("[B] C type (native)", "Estimate [95% CI]")
 forest.cat(nt, "C_type", nt.mv, nt.mv.ctyp, h)
 ```
-**Figure S10.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by C type. CIs that do not overlap zero are considered significant.
+**Figure S10.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by C type, with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 
 ```{r}
@@ -115,7 +115,7 @@ forest.cat(ex, "plant_gfs", ex.mv.o, ex.mv.pgfs, h)
 h <- c("[B] Grass/forb/shrub (native)", "Estimate [95% CI]")
 forest.cat(nt, "plant_gfs", nt.mv, nt.mv.pgfs, h)
 ```
-**Figure S11.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant lifeform (grass/forb/shrub). CIs that do not overlap zero are considered significant.
+**Figure S11.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by plant lifeform (grass/forb/shrub), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 ```{r}
 par(mfcol = c(2, 1))
@@ -124,7 +124,7 @@ forest.cat(ex, "plant_anper", ex.mv.o, ex.mv.panp, h)
 h <- c("[B] Annual/perennial (native)", "Estimate [95% CI]")
 forest.cat(nt, "plant_anper", nt.mv, nt.mv.panp, h)
 ```
-**Figure S12.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) as a response to C addition, categorized by plant duration (annual/perennial). CIs that do not overlap zero are considered significant.
+**Figure S12.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by plant duration (annual/perennial), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
 
 

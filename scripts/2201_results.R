@@ -17,12 +17,12 @@ forest.cat <- function(dat, var, dat.mv, dat.mv.var, h) {
   colnames(n.forest) <- c("moderator", "n")
   n.forest$end <- rep(")", dim(n.forest)[1])
   n.forest$n <- paste(n.forest$n, n.forest$end, sep = "")
-  n.forest$start <- rep(" (n =", dim(n.forest)[1])
+  n.forest$start <- rep(" (k =", dim(n.forest)[1])
   n.forest$n <- paste(n.forest$start, n.forest$n)
   n.forest$var_col <- paste(n.forest$moderator, n.forest$n)
   n.forest <- n.forest %>% 
     filter(!is.na(moderator))
-  overall <- paste("Overall  (n = ", dat.mv$k, ")", sep = "")
+  overall <- paste("Overall  (k = ", dat.mv$k, ")", sep = "")
   
   forest(x = c(dat.mv[[1]], dat.mv.var[[1]]),
          ci.lb = c(dat.mv[[6]], dat.mv.var[[6]]),
