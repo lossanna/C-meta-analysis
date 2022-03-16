@@ -4,7 +4,7 @@ library(orchaRd)
 
 # Load data ---------------------------------------------------------------
 
-load("Single mod models for figures.RData")
+load(".RData/Single-mod-models-for-figures.RData")
 
 
 # Figure ? (summary, CI, PI) ----------------------------------------------
@@ -34,11 +34,11 @@ f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", 
                           "95% PI: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)))
 f1.orc.nt
 
-png("Orchard_ex.png", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Orchard_ex.tiff", width = 6, height = 4, units = "in", res = 300)
 f1.orc.ex
 dev.off()
 
-png("Orchard_nt.png", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Orchard_nt.tiff", width = 6, height = 4, units = "in", res = 300)
 f1.orc.nt
 dev.off()
 
@@ -87,7 +87,7 @@ forest(x = n.forest.ex.papgfs$x,
        top = 2)
 
 par(cex = 0.75, font = 4)
-text(x = -1.3, y = 6, labels = "n")
+text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 6, labels = "Exotic plant response")
 dev.off()
@@ -114,7 +114,7 @@ forest(x = n.forest.ex.dlc$x,
        top = 2)
 
 par(cex = 0.75, font = 4)
-text(x = -2.4, y = 11, labels = "n")
+text(x = -2.4, y = 11, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 11, labels = "Exotic plant response")
 dev.off()
@@ -133,7 +133,7 @@ forest(x = n.forest.ex.dlc$x,
        top = 2)
 
 par(cex = 0.75, font = 4)
-text(x = -2.4, y = 11, labels = "n")
+text(x = -2.4, y = 11, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 11, labels = "Exotic plant response")
 dev.off()
@@ -162,7 +162,7 @@ forest(x = n.forest.ex.cratc$x,
 par(cex = 0.65, font = 1)
 text(x = -6.55, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
 par(cex = 0.75, font = 4)
-text(x = -5, y = 16.1, labels = "n")
+text(x = -5, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Exotic plant response")
 dev.off()
@@ -184,7 +184,7 @@ forest(x = n.forest.ex.cratc$x,
 par(cex = 0.65, font = 1)
 text(x = -6.35, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
 par(cex = 0.75, font = 4)
-text(x = -4.7, y = 16.1, labels = "n")
+text(x = -4.7, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Exotic plant response")
 dev.off()
@@ -214,7 +214,7 @@ forest(x = n.forest.nt.cratc$x,
 par(cex = 0.65, font = 1)
 text(x = -3.58, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
 par(cex = 0.75, font = 4)
-text(x = -2.5, y = 16.1, labels = "n")
+text(x = -2.5, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Native plant response")
 dev.off()
@@ -236,10 +236,10 @@ forest(x = n.forest.nt.cratc$x,
 par(cex = 0.65, font = 1)
 text(x = -3.43, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
 par(cex = 0.75, font = 4)
-text(x = -2.3, y = 16.1, labels = "n")
+text(x = -2.3, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 16.1, labels = "Native plant response")
 dev.off()
 
 
-save.image("Main figures.RData")
+save.image("Main-figures.RData")
