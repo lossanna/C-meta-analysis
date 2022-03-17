@@ -231,4 +231,5 @@ nscrn2.ynrev <- screen1 %>%
   filter(review == "yes", screen2 == "no") # 15, incompatible experiments
 
 save.image(".RData/systematic-review.RData")
+save.image("RMarkdown/systematic-review.RData")
 
