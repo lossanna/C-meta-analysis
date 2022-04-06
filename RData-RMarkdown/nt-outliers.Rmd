@@ -1,0 +1,1079 @@
+---
+title: "Native outliers for models"
+author: "Lia Ossanna"
+date: "11/28/2021"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(metafor)
+load("nt-outliers.RData")
+```
+
+
+# Introduction
+- This is the analysis to identify outliers in the single-moderator models anticipated to be important, and relevant models generated through model selection.
+- For model selection, the top model (top models are within 2 AICc units of the best model) with the most moderators was used to identify outliers, because using model weighted averages is likely better for analysis.
+- Only "fewer removed" outlier sets are analyzed for the native dataset, analysis of exotic revealed this to be unnecessary, as we are proceeding with "fewer removed" outliers (see "Exotic single moderator models" document for more details, `0621_ex_1mod.html`).
+- Only categorical versions of variables are analyzed, because those versions will be used for exotic analysis.
+  - `duration_first`, `duration_last`, and `C_app` not analyzed here.
+
+## Hat values and standardized residuals
+- The first method for determining outliers is from Habeck 2015 (*AoB Plants*):
+  + "In lieu of other options currently available within the package `metafor` when using the `rma.mv()` function, we define influential outliers as effect sizes with hat values (i.e. diagonal elements of the hat matrix) greater than two times the average hat value (i.e. influential) and standardized residual values exceeding 3.0 (i.e. outliers; Stevens 1984; Viechtbauer and Cheung 2010; Aguinis et al. 2013)."
+- In other words, from Buchan 2019 (*Journal of Animal Ecology*), an observation is considered an outlier if it is "more than double the mean hat value of the dataset and standardized residuals greater than +/-3 as an influential outlier".
+- When plotted with the ratio of hat value to average hat value on the x-axis and the standardized residuals on the y-axis, horizontal lines can be added at +3 and -3, and a vertical line at 2. Outliers will fall in the top right or bottom right box.
+  + Outliers are identified by adding labels to the points (`text(hat, rstn$resid, labels = nt$obs_ID, cex = 1, pos = 4)`), but this makes most of the plot unreadable, so this code is omitted. The paper and other relevant information for outliers are extracted.
+- Code for this analysis was taken from Habeck 2015; Buchan 2019 used the same code.
+
+## Studentized deleted residuals
+- The second method is adapted from Viechtbauer 2010 (*Research Synthesis Methods*).
+- Outliers are defined as having studentized deleted residuals outside the bounds of +/-1.96, but should not necessarily be deleted because of this basis alone; such cases "may call for closer inspection", and "one could consider finding more than *k*/10 studentized deleted residuals larger than +/-1.96 in a set of *k* studies as unusual."
+  + However, this is computationally intensive. According to the `metafor` documentation, using the argument `reestimate = FALSE` in the `rstudent()` function approximates the residuals ("any variance/correlation components in the model are not re-estimated after deleting the *i*th case from the dataset"), and "often yields similar results".
+- Calculate DFBETAS values to identify the influence of removing the *i*th case; DFBETAS > +/-1 indicate influential cases.
+  + Similarly, `reestimate = FALSE` can be applied to the `dftbas.rma.mv()` function to speed up analysis using estimation.
+- Full analysis (not estimation) is not executed (see "Exotic outliers for models" document for full analysis of no moderator model, `0621_ex_outliers.html`).
+- Outliers and influential points are identified by their row number in the dataset (`nt`, or subset for model selection).
+- Models are noted if outliers > *k*/10, and rows with the most extreme residuals.
+
+## Code annotations
+- See Biome section of "Exotic outliers for models" document for annotated code (`0621_ex_outliers.html`).
+
+
+# Summary
+- Numbers refer to `obs_ID` unless otherwise specified.
+- There are no outliers for any model of the native dataset.
+
+## Habeck
+- Models with Habeck outliers:
+  - None
+  
+## Viechtbauer
+- Models with Viechtbauer influential outliers:
+  - C rate (categorical): 440
+  - Model selection 14: 1697, 1002
+- No models with more outliers than *k*/10.
+- Models with influential points that are not outliers:
+  - duration_first (categorical): 1615
+  - C type: 346, 347
+  - C rate (categorical): 452
+  - Annual/perennial and grass/forb/shrub: 1618, 1628
+  - Model selection 14: 1595
+
+## Outlier set (fewer)
+- Outliers removed:
+  - Habeck outliers
+  - Viechtbauer influential outliers
+
+- Sets by model:
+  - No moderators: none 
+  - Biome: none
+  - Region: none
+  - Soil suborder: none
+  - duration_first (categorical): none
+  - duration_last (categorical): none
+  - C type: none
+  - C rate (continuous): none
+  - C rate (categorical): 440
+  - C applications (categorical): none
+  - Months between C app: none
+  - Months applying C: none
+  - Annual/perennial: none
+  - Grass/forb/shrub: none
+  - Annual/perennial and grass/forb/shrub: none
+  - Plot size: none
+  - Seeding of native: none
+  - Model selection 14: 1697, 1002
+  
+
+# Setup
+```{r, eval=FALSE}
+library(tidyverse)
+library(readxl)
+library(metafor)
+library(parallel)
+
+# Load data ---------------------------------------------------------------
+
+raw <- read_xlsx("N invasive studies.xlsx", sheet = "screen 3_data (1 res)")
+raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
+raw$C_app_tm <- raw$duration_first - raw$duration_last
+raw$C_app_ma <- raw$C_app_tm / raw$C_app
+
+# Data wrangling
+trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
+                     "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
+to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
+biomass <- raw %>% 
+  select(!(contains("cover"))) %>% 
+  select(!contains("density")) %>% 
+  filter(!is.na(biomass_mean_trt)) %>% 
+  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
+  mutate(to_sd_trt = biomass_SE_trt * sqrt(n_trt)) %>% 
+  mutate(to_sd_cntrl = biomass_SE_cntrl * sqrt(n_cntrl)) %>% 
+  mutate(biomass_SD_trt = paste(biomass_SD_trt, to_sd_trt)) %>% 
+  mutate(biomass_SD_trt = str_remove(biomass_SD_trt, pattern = "NA"), .keep = "unused") %>% 
+  mutate(biomass_SD_cntrl = paste(biomass_SD_cntrl, to_sd_cntrl)) %>% 
+  mutate(biomass_SD_cntrl = str_remove(biomass_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
+  select(-all_of(to.drop)) %>% 
+  mutate_at(c("biomass_SD_trt", "biomass_SD_cntrl"), as.numeric) %>% 
+  rename(mean_trt = biomass_mean_trt) %>% 
+  rename(mean_cntrl = biomass_mean_cntrl) %>% 
+  rename(SD_trt = biomass_SD_trt) %>% 
+  rename(SD_cntrl = biomass_SD_cntrl)
+
+trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",
+                     "cover_mean_cntrl", "cover_SE_cntrl", "cover_SD_cntrl")
+to.drop <- c("cover_SE_trt", "cover_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
+cover <- raw %>% 
+  select(!(contains("biomass"))) %>% 
+  select(!contains("density")) %>% 
+  filter(!is.na(cover_mean_cntrl)) %>% 
+  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
+  mutate(to_sd_trt = cover_SE_trt * sqrt(n_trt)) %>% 
+  mutate(to_sd_cntrl = cover_SE_cntrl * sqrt(n_cntrl)) %>% 
+  mutate(cover_SD_trt = paste(cover_SD_trt, to_sd_trt)) %>% 
+  mutate(cover_SD_trt = str_remove(cover_SD_trt, pattern = "NA"), .keep = "unused") %>% 
+  mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %>% 
+  mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
+  select(-all_of(to.drop)) %>% 
+  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric)  %>% 
+  rename(mean_trt = cover_mean_trt) %>% 
+  rename(mean_cntrl = cover_mean_cntrl) %>% 
+  rename(SD_trt = cover_SD_trt) %>% 
+  rename(SD_cntrl = cover_SD_cntrl)
+
+trt.cntrl.se.sd <- c("density_mean_trt", "density_SE_trt", "density_SD_trt",
+                     "density_mean_cntrl", "density_SE_cntrl", "density_SD_cntrl")
+to.drop <- c("density_SE_trt", "density_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
+density <- raw %>% 
+  select(!(contains("cover"))) %>% 
+  select(!contains("biomass")) %>% 
+  filter(!is.na(density_mean_trt)) %>% 
+  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
+  mutate(to_sd_trt = density_SE_trt * sqrt(n_trt)) %>% 
+  mutate(to_sd_cntrl = density_SE_cntrl * sqrt(n_cntrl)) %>% 
+  mutate(density_SD_trt = paste(density_SD_trt, to_sd_trt)) %>% 
+  mutate(density_SD_trt = str_remove(density_SD_trt, pattern = "NA"), .keep = "unused") %>% 
+  mutate(density_SD_cntrl = paste(density_SD_cntrl, to_sd_cntrl)) %>% 
+  mutate(density_SD_cntrl = str_remove(density_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
+  select(-all_of(to.drop)) %>% 
+  filter(density_SD_trt != " NA") %>% 
+  mutate_at(c("density_SD_trt", "density_SD_cntrl"), as.numeric)  %>% 
+  rename(mean_trt = density_mean_trt) %>% 
+  rename(mean_cntrl = density_mean_cntrl) %>% 
+  rename(SD_trt = density_SD_trt) %>% 
+  rename(SD_cntrl = density_SD_cntrl)
+
+all.1res <- rbind(biomass, cover, density)
+
+
+# Calculating effect size -------------------------------------------------
+
+nt <- all.1res %>%
+  filter(str_detect(plant_category, "native"))
+
+nt <- escalc(measure = "SMD",
+             n1i = n_trt,
+             n2i = n_cntrl,
+             m1i = mean_trt,
+             m2i = mean_cntrl,
+             sd1i = SD_trt,
+             sd2i = SD_cntrl,
+             data = nt)
+
+nt <- nt %>% 
+  filter(!is.na(yi)) # 1125 to 655 obs
+
+
+
+# Categorical versions ----------------------------------------------------
+
+nt$dfc <- c()
+for(i in 1:nrow(nt)) {
+  if(nt$duration_first[i] == 3) {
+    nt$dfc[i] <- "3"
+  } else if(between(nt$duration_first[i], 5, 6)) {
+    nt$dfc[i] <- "5-6"
+  } else if(between(nt$duration_first[i], 7, 12)) {
+    nt$dfc[i] <- "7-12"
+  } else if(between(nt$duration_first[i], 12, 18)) {
+    nt$dfc[i] <- "12-18"
+  } else if(between(nt$duration_first[i], 19, 24)) {
+    nt$dfc[i] <- "19-24"
+  } else if(between(nt$duration_first[i], 25, 36)) {
+    nt$dfc[i] <- "25-36"
+  } else if(between(nt$duration_first[i], 37, 50)) {
+    nt$dfc[i] <- "37-50"
+  } else if(between(nt$duration_first[i], 100, 200)) {
+    nt$dfc[i] <- "100-200"
+  } else {
+    nt$dfc[i] <- ">200"
+  }
+}
+nt$dfc <- factor(nt$df, levels = c("3", "5-6", "7-12", "12-18", "19-24", "25-36", "37-50", "100-200", ">200"))
+
+nt$dlc <- c()
+for(i in 1:nrow(nt)) {
+  if(between(nt$duration_last[i], 0, 1.5)) {
+    nt$dlc[i] <- "0-1.5"
+  } else if(nt$duration_last[i] == 2) {
+    nt$dlc[i] <- "2"
+  } else if(between(nt$duration_last[i], 3, 3.5)) {
+    nt$dlc[i] <- "3-3.5"
+  } else if(between(nt$duration_last[i], 4, 6)) {
+    nt$dlc[i] <- "4-6"
+  } else if(between(nt$duration_last[i], 7, 12)) {
+    nt$dlc[i] <- "7-12"
+  } else if(between(nt$duration_last[i], 13, 18)) {
+    nt$dlc[i] <- "13-18"
+  } else if(between(nt$duration_last[i], 19, 24)) {
+    nt$dlc[i] <- "19-24"
+  } else if(between(nt$duration_last[i], 36, 49)) {
+    nt$dlc[i] <- "36-49"
+  } else {
+    nt$dlc[i] <- ">100"
+  }
+}
+nt$dlc <- factor(nt$dl, levels = c("0-1.5", "2", "3-3.5", "4-6", "7-12", "13-18", "19-24", 
+                                   "36-49", ">100"))
+
+nt$capc <- c()
+for(i in 1:nrow(nt)) {
+  if(nt$C_app[i] == 1) {
+    nt$capc[i] <- "1"
+  } else if(nt$C_app[i] == 2) {
+    nt$capc[i] <- "2"
+  } else if(between(nt$C_app[i], 3, 6)) {
+    nt$capc[i] <- "3-6"
+  } else if(between(nt$C_app[i], 7, 10)) {
+    nt$capc[i] <- "7-10"
+  } else if(between(nt$C_app[i], 15, 22)) {
+    nt$capc[i] <- "15-22"
+  } else if(between(nt$C_app[i], 32, 40)) {
+    nt$capc[i] <- "32-40"
+  } else {
+    nt$capc[i] <- ">40"
+  }
+}
+nt$capc <- factor(nt$capc, levels = c("1", "2", "3-6", "7-10", "15-22", "32-40", ">40"))
+
+nt$capm <- c()
+for(i in 1:nrow(nt)) {
+  if(nt$C_app_ma[i] == 0) {
+    nt$capm[i] <- "1 application total"
+  } else if(between(nt$C_app_ma[i], 0.001, 1)) {
+    nt$capm[i] <- "<1"
+  } else if(between(nt$C_app_ma[i], 1.001, 2)) {
+    nt$capm[i] <- "1-2"
+  } else if(between(nt$C_app_ma[i], 2.001, 4)) {
+    nt$capm[i] <- "2-4"
+  } else {
+    nt$capm[i] <- "4-11"
+  }
+}
+nt$capm <- factor(nt$capm, levels = c("1 application total", "<1", "1-2", "2-4", "4-11"))
+
+nt$capt <- c()
+for(i in 1:nrow(nt)) {
+  if(nt$C_app_tm[i] == 0) {
+    nt$capt[i] <- "1 application total"
+  } else if(between(nt$C_app_tm[i], 0.001, 6)) {
+    nt$capt[i] <- "1-6"
+  } else if(between(nt$C_app_tm[i], 7, 12)) {
+    nt$capt[i] <- "7-12"
+  } else if(between(nt$C_app_tm[i], 13, 24)) {
+    nt$capt[i] <- "13-24"
+  } else if(between(nt$C_app_tm[i], 25, 36)) {
+    nt$capt[i] <- "25-36"
+  } else if(between(nt$C_app_tm[i], 37, 48)) {
+    nt$capt[i] <- "37-48"
+  } else {
+    nt$capt[i] <- ">48"
+  }
+}
+nt$capt <- factor(nt$capt, levels = c("1 application total", "1-6", "7-12", "13-24", 
+                                      "25-36", "37-48", ">48"))
+
+nt <- nt %>% 
+  mutate(seedn = rep(NA, nrow(nt)))
+for(i in 1:nrow(nt)) {
+  if(is.na(nt$seeding_native[i])) {
+    nt$seedn[i] <- "native seeded"
+  } else if(nt$seeding_native[i] == 0) {
+    nt$seedn[i] <- "native not seeded"
+  } else {
+    nt$seedn[i] <- "native seeded"
+  }
+}
+```
+
+# No moderators (summary effect)
+```{r, eval=FALSE}
+nt.mv <- rma.mv(yi = yi,
+                V = vi,
+                random = ~ 1 | exp_ID / obs_ID,
+                data = nt)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv)
+hat <- hatvalues(nt.mv) / mean(hatvalues(nt.mv))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "no moderators")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd <- rstudent(nt.mv, reestimate = FALSE, progbar = TRUE) # ~ 26 min (Yoga)
+```
+```{r}
+x <- subset(rstd, rstd$resid > 1.96)
+y <- subset(rstd, rstd$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv$k / 10
+```
+```{r, eval=FALSE}
+dfb <- dfbetas.rma.mv(nt.mv, reestimate = FALSE, progbar = TRUE) ## 23 min (Yoga)   
+```
+```{r}
+summary(dfb)
+```
+
+
+# Biome
+```{r, eval=FALSE}
+nt.mv.bio <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = nt,
+                    mods = ~ factor(biome) - 1)
+
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.bio)
+hat <- hatvalues(nt.mv.bio) / mean(hatvalues(nt.mv.bio))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "biome")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.bio <- rstudent(nt.mv.bio, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+x <- subset(rstd.bio, rstd.bio$resid > 1.96)
+y <- subset(rstd.bio, rstd.bio$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.bio$k / 10
+```
+```{r, eval=FALSE}
+dfb.bio <- dfbetas.rma.mv(nt.mv.bio, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+summary(dfb.bio)
+```
+
+
+# Region
+```{r, eval=FALSE}
+nt.mv.reg <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = nt,
+                    mods = ~ factor(region) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.reg)
+hat <- hatvalues(nt.mv.reg) / mean(hatvalues(nt.mv.reg))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "region")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.reg <- rstudent(nt.mv.reg, reestimate = FALSE, progbar = TRUE) # ~ 11 min (ThinkCentre)
+```
+```{r}
+x <- subset(rstd.reg, rstd.reg$resid > 1.96)
+y <- subset(rstd.reg, rstd.reg$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.reg$k / 10
+```
+```{r, eval=FALSE}
+dfb.reg <- dfbetas.rma.mv(nt.mv.reg, reestimate = FALSE, progbar = TRUE) # ~ 11 min (ThinkCentre)
+```
+```{r}
+summary(dfb.reg)
+```
+
+
+# Soil suborder
+```{r, eval=FALSE}
+nt.mv.soil <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(soil_suborder) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.soil)
+hat <- hatvalues(nt.mv.soil) / mean(hatvalues(nt.mv.soil))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "soil_suborder")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.soil <- rstudent(nt.mv.soil, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.soil, rstd.soil$resid > 1.96)
+y <- subset(rstd.soil, rstd.soil$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.soil$k / 10
+```
+```{r, eval=FALSE}
+dfb.soil <- dfbetas.rma.mv(nt.mv.soil, reestimate = FALSE, progbar = TRUE)   
+```
+```{r}
+summary(dfb.soil)
+```
+
+
+# duration_first (categorical)
+```{r, eval=FALSE}
+nt.mv.dfc <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = nt,
+                    mods = ~ factor(dfc) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.dfc)
+hat <- hatvalues(nt.mv.dfc) / mean(hatvalues(nt.mv.dfc))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "dfc")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.dfc <- rstudent(nt.mv.dfc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.dfc, rstd.dfc$resid > 1.96)
+y <- subset(rstd.dfc, rstd.dfc$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.dfc$k / 10
+```
+```{r, eval=FALSE}
+dfb.dfc <- dfbetas.rma.mv(nt.mv.dfc, reestimate = FALSE, progbar = TRUE)   
+```
+```{r}
+summary(dfb.dfc)
+subset(dfb.dfc, dfb.dfc$factor.dfc.5.6 > 1) # 651
+x$slab # not influential
+nt[651, c("paper", "obs_ID", "dfc")]
+```
+- Observation 1615 is influential, but not an outlier.
+
+# duration_last (categorical)
+```{r, eval=FALSE}
+nt.mv.dlc <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = nt,
+                    mods = ~ factor(dlc) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.dlc)
+hat <- hatvalues(nt.mv.dlc) / mean(hatvalues(nt.mv.dlc))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "dlc")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.dlc <- rstudent(nt.mv.dlc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.dlc, rstd.dlc$resid > 1.96)
+y <- subset(rstd.dlc, rstd.dlc$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.dlc$k / 10
+```
+```{r, eval=FALSE}
+dfb.dlc <- dfbetas.rma.mv(nt.mv.dlc, reestimate = FALSE, progbar = TRUE)   
+```
+```{r}
+summary(dfb.dlc)
+```
+
+
+# C type
+```{r, eval=FALSE}
+nt.mv.ctyp <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(C_type) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.ctyp)
+hat <- hatvalues(nt.mv.ctyp) / mean(hatvalues(nt.mv.ctyp))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "C_type")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.ctyp <- rstudent(nt.mv.ctyp, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.ctyp, rstd.ctyp$resid > 1.96)
+y <- subset(rstd.ctyp, rstd.ctyp$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.ctyp$k / 10
+```
+```{r, eval=FALSE}
+dfb.ctyp <- dfbetas.rma.mv(nt.mv.ctyp, reestimate = FALSE, progbar = TRUE)    
+```
+```{r}
+summary(dfb.ctyp)
+subset(dfb.ctyp, dfb.ctyp$factor.C_type.lignin > 1) # 230
+x$slab # not influential
+subset(dfb.ctyp, dfb.ctyp$factor.C_type.lignin < -1) # 229
+y$slab # not influential
+nt[c(230, 229), c("paper", "obs_ID", "C_type")]
+```
+- Observations 346 and 347 are influential, but not outliers.
+
+
+# C rate (continuous)
+```{r, eval=FALSE}
+nt.mv.crat <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ C_rate)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.crat)
+hat <- hatvalues(nt.mv.crat) / mean(hatvalues(nt.mv.crat))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "C_rate")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.crat <- rstudent(nt.mv.crat, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.crat, rstd.crat$resid > 1.96)
+y <- subset(rstd.crat, rstd.crat$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.crat$k / 10
+```
+```{r, eval=FALSE}
+dfb.crat <- dfbetas.rma.mv(nt.mv.crat, reestimate = FALSE, progbar = TRUE)   
+```
+```{r}
+summary(dfb.crat)
+```
+
+
+# C rate (categorical)
+```{r, eval=FALSE}
+nt.mv.cratc <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(cratc) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.cratc)
+hat <- hatvalues(nt.mv.cratc) / mean(hatvalues(nt.mv.cratc))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "cratc")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.cratc <- rstudent(nt.mv.cratc, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+x <- subset(rstd.cratc, rstd.cratc$resid > 1.96)
+y <- subset(rstd.cratc, rstd.cratc$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.cratc$k / 10
+```
+```{r, eval=FALSE}
+dfb.cratc <- dfbetas.rma.mv(nt.mv.cratc, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+summary(dfb.cratc)
+subset(dfb.cratc, dfb.cratc$factor.cratc..5000 > 1) # 247, 253
+x$slab # 247
+nt[c(247, 253), c("paper", "obs_ID", "cratc")]
+```
+- Observation 440 is an influential outlier.
+- Observation 452 is influential, but not an outlier.
+
+
+# C applications total (categorical)
+```{r, eval=FALSE}
+nt.mv.capc <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(capc) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.capc)
+hat <- hatvalues(nt.mv.capc) / mean(hatvalues(nt.mv.capc))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "capc")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.capc <- rstudent(nt.mv.capc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.capc, rstd.capc$resid > 1.96)
+y <- subset(rstd.capc, rstd.capc$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.capc$k / 10
+```
+```{r, eval=FALSE}
+dfb.capc <- dfbetas.rma.mv(nt.mv.capc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.capc)
+```
+
+
+# Months between C applications
+```{r, eval=FALSE}
+nt.mv.capm <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(capm) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.capm)
+hat <- hatvalues(nt.mv.capm) / mean(hatvalues(nt.mv.capm))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "capm")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.capm <- rstudent(nt.mv.capm, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.capm, rstd.capm$resid > 1.96)
+y <- subset(rstd.capm, rstd.capm$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.capm$k / 10
+```
+```{r, eval=FALSE}
+dfb.capm <- dfbetas.rma.mv(nt.mv.capm, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.capm)
+```
+
+
+# Months applying C
+```{r, eval=FALSE}
+nt.mv.capt <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(capt) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.capt)
+hat <- hatvalues(nt.mv.capt) / mean(hatvalues(nt.mv.capt))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "capt")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.capt <- rstudent(nt.mv.capt, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.capt, rstd.capt$resid > 1.96)
+y <- subset(rstd.capt, rstd.capt$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.capt$k / 10
+```
+```{r, eval=FALSE}
+dfb.capt <- dfbetas.rma.mv(nt.mv.capt, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.capt)
+```
+
+
+# Annual/perennial
+```{r, eval=FALSE}
+nt.mv.panp <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(plant_anper) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.panp)
+hat <- hatvalues(nt.mv.panp) / mean(hatvalues(nt.mv.panp))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "annual/perennial")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.panp <- rstudent(nt.mv.panp, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.panp, rstd.panp$resid > 1.96)
+y <- subset(rstd.panp, rstd.panp$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.panp$k / 10
+```
+```{r, eval=FALSE}
+dfb.panp <- dfbetas.rma.mv(nt.mv.panp, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.panp)
+```
+
+
+# Grass/forb/shrub
+```{r, eval=FALSE}
+nt.mv.pgfs <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt,
+                     mods = ~ factor(plant_gfs) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.pgfs)
+hat <- hatvalues(nt.mv.pgfs) / mean(hatvalues(nt.mv.pgfs))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "grass/forb/shrub")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.pgfs <- rstudent(nt.mv.pgfs, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.pgfs, rstd.pgfs$resid > 1.96)
+y <- subset(rstd.pgfs, rstd.pgfs$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.pgfs$k / 10
+```
+```{r, eval=FALSE}
+dfb.pgfs <- dfbetas.rma.mv(nt.mv.pgfs, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.pgfs)
+```
+
+
+# Annual/perennial and grass/forb/shrub 
+```{r, eval=FALSE}
+nt.mv.papgfs <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = nt,
+                       mods = ~ factor(plant_apgfs) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.papgfs)
+hat <- hatvalues(nt.mv.papgfs) / mean(hatvalues(nt.mv.papgfs))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "annual/perennial and grass/forb/shrub")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.papgfs <- rstudent(nt.mv.papgfs, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.papgfs, rstd.papgfs$resid > 1.96)
+y <- subset(rstd.papgfs, rstd.papgfs$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.papgfs$k / 10
+```
+```{r, eval=FALSE}
+dfb.papgfs <- dfbetas.rma.mv(nt.mv.papgfs, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+summary(dfb.papgfs)
+subset(dfb.papgfs, dfb.papgfs$factor.plant_apgfs.annual.unknown > 1) # 331
+subset(dfb.papgfs, dfb.papgfs$factor.plant_apgfs.unknown.graminoid > 1) # 335
+x$slab # not influential
+nt[c(331, 335), c("paper", "obs_ID", "plant_apgfs")]
+```
+- Observations 1618 and 1628 are influential, but not outliers.
+
+
+# Plot size
+```{r, eval=FALSE}
+nt.mv.plotc <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = nt,
+                       mods = ~ factor(plotc) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.plotc)
+hat <- hatvalues(nt.mv.plotc) / mean(hatvalues(nt.mv.plotc))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "plotc")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.plotc <- rstudent(nt.mv.plotc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.plotc, rstd.plotc$resid > 1.96)
+y <- subset(rstd.plotc, rstd.plotc$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.plotc$k / 10
+```
+```{r, eval=FALSE}
+dfb.plotc <- dfbetas.rma.mv(nt.mv.plotc, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.plotc)
+```
+
+
+
+# Seeding of native
+```{r, eval=FALSE}
+nt.mv.seedn <- rma.mv(yi = yi,
+                      V = vi,
+                      random = ~ 1 | exp_ID / obs_ID,
+                      data = nt,
+                      mods = ~ factor(seedn) - 1)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.seedn)
+hat <- hatvalues(nt.mv.seedn) / mean(hatvalues(nt.mv.seedn))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "seedn")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.seedn <- rstudent(nt.mv.seedn, reestimate = FALSE, progbar = TRUE)
+```
+```{r}
+x <- subset(rstd.seedn, rstd.seedn$resid > 1.96)
+y <- subset(rstd.seedn, rstd.seedn$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.seedn$k / 10
+```
+```{r, eval=FALSE}
+dfb.seedn <- dfbetas.rma.mv(nt.mv.seedn, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.seedn)
+```
+
+
+
+
+# Model selection 14
+```{r, eval=FALSE}
+nt.ms14 <- nt[!apply(nt[ , c("region", "dlc", "C_type", "cratc", "capt", "plant_apgfs", "plotc")], 1, anyNA), ]
+
+nt.mv.ms14 <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = nt.ms14,
+                     mods = ~ 1 + dlc + cratc + region + C_type + plant_apgfs)
+```
+## Habeck method
+```{r}
+rstn <- rstandard(nt.mv.ms14)
+hat <- hatvalues(nt.mv.ms14) / mean(hatvalues(nt.mv.ms14))
+plot(hat, rstn$resid,
+     xlab = "hat/mean hat",
+     ylab = "standardised residuals",
+     main = "model selection 14")
+abline(h = -3)
+abline(h = 3)
+abline(v = 2)
+```
+
+## Viechtbauer method
+Estimate
+```{r, eval=FALSE}
+rstd.ms14 <- rstudent(nt.mv.ms14, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+x <- subset(rstd.ms14, rstd.ms14$resid > 1.96)
+y <- subset(rstd.ms14, rstd.ms14$resid < -1.96)
+length(x[["resid"]]) + length(y[["resid"]])
+nt.mv.ms14$k / 10 
+```
+```{r, eval=FALSE}
+dfb.ms14 <- dfbetas.rma.mv(nt.mv.ms14, reestimate = FALSE, progbar = TRUE) 
+```
+```{r}
+summary(dfb.ms14)
+
+subset(dfb.ms14, dfb.ms14$intrcpt > 1) # 351
+subset(dfb.ms14, dfb.ms14$dlc3.3.5 > 1) # 351
+subset(dfb.ms14, dfb.ms14$cratc.5000 > 1) # 637
+subset(dfb.ms14, dfb.ms14$plant_apgfsunknown.graminoid > 1) # 325
+subset(dfb.ms14, dfb.ms14$plant_apgfsunknown.unknown > 1) # 637
+x$slab # none
+subset(dfb.ms14, dfb.ms14$dlc3.3.5 < -1) # 637
+subset(dfb.ms14, dfb.ms14$cratc420.500 < -1) # 351, 637
+subset(dfb.ms14, dfb.ms14$cratc.5000 < -1) # 351
+subset(dfb.ms14, dfb.ms14$C_typelignin < -1) # 351
+subset(dfb.ms14, dfb.ms14$C_typelignin.AND.sucrose < -1) # 351
+subset(dfb.ms14, dfb.ms14$C_typesawdust < -1) # 351
+subset(dfb.ms14, dfb.ms14$C_typesucrose < -1) # 351
+subset(dfb.ms14, dfb.ms14$C_typesucrose.AND.sawdust < -1) # 351
+subset(dfb.ms14, dfb.ms14$plant_apgfsunknown.unknown < -1) # 351
+y$slab # 351, 637
+nt[c(351, 637, 325), c("paper", "obs_ID", "dlc", "cratc", "C_type", "plant_apgfs")]
+```
+- Observations 1697 and 1002 are influential outliers.
+- Observation 1595 is influential, but not an outlier.
+
