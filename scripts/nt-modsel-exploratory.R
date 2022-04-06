@@ -5,7 +5,7 @@ library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("data/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -359,8 +359,8 @@ top.nt.o
 summary(res14.o@objects[[1]])
 plot(res14.o, type = "s")
 
-save(res14.o.nt, file = ".RData/nt-mod14o.RData")
+save(res14.o.nt, file = "RData-RMarkdown/nt-mod14o.RData")
 
 
 
-save.image(".RData/nt-modsel-exploratory.RData")
+save.image("RData-RMarkdown/nt-modsel-exploratory.RData")
