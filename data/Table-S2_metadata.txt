@@ -1,0 +1,24 @@
+column		details
+paper			first author last name and year
+cross			a crossed treatment (to identify/clarify observation only, not for analysis)
+paper_ID		a few papers are combined because they are about the same experiment
+exp_ID		an experiment occurs in the same location, over the same time period (roughly), executed by the same people; this is used to address non-independence
+obs_ID		observation ID (every row is an observation); this is to address non-independence
+region		defined after considering entire available dataset
+duration_first	months from first C application to harvest/measurement
+duration_last	months from last C application to harvest/measurement
+C_type		type of C added
+C_rate		g C/m2 per year (missing data means that rate could not be calculated, likely because C mass was not provided)
+C_calc		if the sawdust rate has been converted to g C/m2 based on an averaged conversion from papers
+C_app			number of applications over the entire duration of the study
+C_total		total amount of C added over the entire experiment (in g C/m2)
+plant			plant identification, as specific as paper gets
+plant_category	plant lifeform and duration as according to USDA Plants (or as defined in paper, especially if experiment occurred outside of USA)
+plant_anper		annual/perennial, as defined by paper; "unknown" refers to either multiple categories (annual and perennial) or was not specified
+plant_gfs		graminoid/forb/shrub, as defined by paper
+seeding_exotic	units are seeds/m2. seeding rate is the total for experiment even if seeding occurred multiple times. relevant to the treatment of that row (applicable if seed mixture composition was provided). averaged if seeding treatments were pooled. missing data mean that seeding rate was reported in g/m2 (incompatible units)
+seeding_native	units are seeds/m2. seeding rate is the total for experiment even if seeding occurred multiple times. relevant to the treatment of that row (applicable if seed mixture composition was provided). averaged if seeding treatments were pooled. missing data mean that seeding rate was reported in g/m2 (incompatible units)
+biomass		units are g/m2
+cover			absolute or relative cover (units vary, decimal proportion, percent, or relative points)"
+density		units are number of plants/m2, tillers/m2, or stems/m2
+	

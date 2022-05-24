@@ -1,0 +1,16 @@
+column	details
+paper		first author last name and year
+biome		as defined by paper (with some adjustments to standardize categories)
+climate	as defined by paper (if provided)
+region	defined after considering entire available dataset
+dur		entire study duration in months (time since first C application to harvest/measurement time); when papers tested treatments of multiple durations (probably because they added different types of C at different times), the longest is used to capture the extent of long-term monitoring in studies (latest harvest point is still used)
+ctyp1-4	type of C added; columns 2-4 are if they tested multiple C types, otherwise are left blank
+cratav	units of g C/m2 per year; (missing data means that rate could not be calculated, likely because C mass was not provided); averaged if paper tested multiple C rates, and averages are not weighted based on numbers of comparisons used in meta-analysis
+capr		yes/no of multiple applications
+ctypm		if multiple C types were tested
+cratm		if paper used tested multiple C rates (if so, they are averaged in cratav column, and the range is given here)
+mtrt1-3	if paper tested C addition with multiple treatments (to see interactions; burning, grazing, watering); additional treatments in combination with C are listed; treatments had to have controls to be counted
+mtrtn		number of additional treatments
+plot		size of plots in m2 (size is the area C was applied to/relevant treatment area)
+cost		if paper mentioned cost; possible values are "absent", "mentioned briefly" (usually just a sentence), "discussed" (if they talk about cost in relation to the actual findings of their study), "numbers" (if any actual figures for cost were provided)
+scrn3		if paper passed screen 3 and was included in meta-analysis
