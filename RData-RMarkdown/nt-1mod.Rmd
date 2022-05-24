@@ -30,6 +30,7 @@ load("nt-1mod.RData")
 - Only categorical versions of variables are analyzed, because those versions will be used for exotic analysis.
   - `duration_first`, `duration_last`, and `C_app` not analyzed here.
 - For relevant moderators, there is also a table of moderator levels where data came only from one paper. Paper/experiment has not been used to subset data, though.
+- 2022-05-24 small update: changed syntax of `df$new <- c()` to `df$new <- NA` because the previous is no longer supported and won't actually create a new empty column.
 
 
 
@@ -290,7 +291,7 @@ single.mod.cat(nt, "soil_suborder", nt.mv.soil.na, nt.mv.soil, h)
 count(nt, duration_first)
 ```
 ```{r, eval=FALSE}
-nt$dfc <- c()
+nt$dfc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$duration_first[i] == 3) {
     nt$dfc[i] <- "3"
@@ -340,7 +341,7 @@ single.mod.cat(nt, "dfc", nt.mv, nt.mv.dfc, h)
 count(nt, duration_last)
 ```
 ```{r, eval=FALSE}
-nt$dlc <- c()
+nt$dlc <- NA
 for(i in 1:nrow(nt)) {
   if(between(nt$duration_last[i], 0, 1.5)) {
     nt$dlc[i] <- "0-1.5"
@@ -430,7 +431,7 @@ single.mod.cont(nt.crat.na$C_rate, nt.mv.crat, nt.crat.na$vi, nt.crat.na$yi,
 count(nt, C_rate)
 ```
 ```{r, eval=FALSE}
-nt$cratc <- c()
+nt$cratc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$C_rate[i])) {
     nt$cratc[i] <- "idk"
@@ -531,7 +532,7 @@ single.mod.cat(nt.cratc.o, "cratc", nt.mv.cratc.na.o, nt.mv.cratc.o, h)
 count(nt, C_app)
 ```
 ```{r, eval=FALSE}
-nt$capc <- c()
+nt$capc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app[i] == 1) {
     nt$capc[i] <- "1"
@@ -576,7 +577,7 @@ single.mod.cat(nt, "capc", nt.mv, nt.mv.capc, h)
 count(nt, C_app_ma)
 ```
 ```{r, eval=FALSE}
-nt$capm <- c()
+nt$capm <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_ma[i] == 0) {
     nt$capm[i] <- "1 application total"
@@ -617,7 +618,7 @@ single.mod.cat(nt, "capm", nt.mv, nt.mv.capm, h)
 count(nt, C_app_tm)
 ```
 ```{r, eval=FALSE}
-nt$capt <- c()
+nt$capt <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_tm[i] == 0) {
     nt$capt[i] <- "1 application total"
@@ -719,7 +720,7 @@ single.mod.cat(nt, "plant_apgfs", nt.mv, nt.mv.papgfs, h)
 count(nt, plot)
 ```
 ```{r, eval=FALSE}
-nt$plotc <- c()
+nt$plotc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$plot[i])) {
     nt$plotc[i] <- "idk"

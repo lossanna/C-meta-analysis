@@ -78,7 +78,7 @@ ex <- ex %>%
 
 # Categorical versions ----------------------------------------------------
 
-ex$dfc <- c()
+ex$dfc <- NA
 for(i in 1:nrow(ex)) {
   if(ex$duration_first[i] == 3) {
     ex$dfc[i] <- "3"
@@ -102,7 +102,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$dfc <- factor(ex$df, levels = c("3", "5-6", "7-12", "12-18", "19-24", "25-36", "37-50", "100-200", ">200"))
 
-ex$dlc <- c()
+ex$dlc <- NA
 for(i in 1:nrow(ex)) {
   if(between(ex$duration_last[i], 0, 1.5)) {
     ex$dlc[i] <- "0-1.5"
@@ -127,7 +127,7 @@ for(i in 1:nrow(ex)) {
 ex$dlc <- factor(ex$dl, levels = c("0-1.5", "2", "3-3.5", "4-6", "7-12", "13-18", "19-24", 
                                    "36-49", ">100"))
 
-ex$cratc <- c()
+ex$cratc <- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$C_rate[i])) {
     ex$cratc[i] <- "idk"
@@ -165,7 +165,7 @@ ex$cratc <- factor(ex$cratc, levels = c("30-100", "133-160", "174-200", "210-300
                                         "506-600", "620-700", "714-999", "1000-1330", "1600-2000",
                                         "2110-3000", "3346-5000", ">5000"))
 
-ex$capc <- c()
+ex$capc <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app[i] == 1) {
     ex$capc[i] <- "1"
@@ -185,7 +185,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$capc <- factor(ex$capc, levels = c("1", "2", "3-6", "7-10", "15-22", "32-40", ">40"))
 
-ex$capm <- c()
+ex$capm <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_ma[i] == 0) {
     ex$capm[i] <- "1 application total"
@@ -201,7 +201,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$capm <- factor(ex$capm, levels = c("1 application total", "<1", "1-2", "2-4", "4-11"))
 
-ex$capt <- c()
+ex$capt <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_tm[i] == 0) {
     ex$capt[i] <- "1 application total"
@@ -222,7 +222,7 @@ for(i in 1:nrow(ex)) {
 ex$capt <- factor(ex$capt, levels = c("1 application total", "1-6", "7-12", "13-24", 
                                       "25-36", "37-48", ">48"))
 
-ex$plotc <- c()
+ex$plotc <- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$plot[i])) {
     ex$plotc[i] <- "idk"

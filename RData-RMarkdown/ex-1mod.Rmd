@@ -29,6 +29,7 @@ load("ex-1mod.RData")
   - The model run with a subset of the data including only moderator levels with three or more observations (for categorical moderators) is not included here, as justified by the previous `0621_ex_1mod.html` analysis, which is still applicable because the 0621 `ex` and 1021 `ex` datasets are very similar (and this model was not very helpful in the first place).
 - For relevant moderators, there is also a table of moderator levels where data came only from one paper. Paper/experiment has not been used to subset data, though.
 - Discontinued moderators not included. See See previous "Exotic single moderator models" document (`0621_ex_1mod.html`) for why these moderators were excluded.
+- 2022-05-24 small update: changed syntax of `df$new <- c()` to `df$new <- NA` because the previous is no longer supported and won't actually create a new empty column.
 
 
 # Setup
@@ -354,7 +355,7 @@ single.mod.cont(ex$duration_first, ex.mv.df, ex$vi, ex$yi,
 count(ex, duration_first)
 ```
 ```{r, eval=FALSE}
-ex$dfc <- c()
+ex$dfc <- NA
 for(i in 1:nrow(ex)) {
   if(ex$duration_first[i] == 3) {
     ex$dfc[i] <- "3"
@@ -450,7 +451,7 @@ single.mod.cont(ex$duration_last, ex.mv.dl, ex$vi, ex$yi,
 count(ex, duration_last)
 ```
 ```{r, eval=FALSE}
-ex$dlc <- c()
+ex$dlc <- NA
 for(i in 1:nrow(ex)) {
   if(between(ex$duration_last[i], 0, 1.5)) {
     ex$dlc[i] <- "0-1.5"
@@ -563,7 +564,7 @@ single.mod.cont(ex.crat.o$C_rate, ex.mv.crat.o, ex.crat.o$vi, ex.crat.o$yi,
 count(ex, C_rate)
 ```
 ```{r, eval=FALSE}
-ex$cratc <- c()
+ex$cratc <- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$C_rate[i])) {
     ex$cratc[i] <- "idk"
@@ -681,7 +682,7 @@ single.mod.cont(ex$C_app, ex.mv.cap, ex$vi, ex$yi,
 count(ex, C_app)
 ```
 ```{r, eval=FALSE}
-ex$capc <- c()
+ex$capc <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app[i] == 1) {
     ex$capc[i] <- "1"
@@ -730,7 +731,7 @@ single.mod.cat(ex, "capc", ex.mv, ex.mv.capc, h)
 count(ex, C_app_ma)
 ```
 ```{r, eval=FALSE}
-ex$capm <- c()
+ex$capm <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_ma[i] == 0) {
     ex$capm[i] <- "1 application total"
@@ -797,7 +798,7 @@ single.mod.cat(ex.capm.o, "capm", ex.mv.capm.na.o, ex.mv.capm.o, h)
 count(ex, C_app_tm)
 ```
 ```{r, eval=FALSE}
-ex$capt <- c()
+ex$capt <- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_tm[i] == 0) {
     ex$capt[i] <- "1 application total"
@@ -930,7 +931,7 @@ single.mod.cat(ex, "plant_apgfs", ex.mv, ex.mv.papgfs, h)
 count(ex, plot)
 ```
 ```{r, eval=FALSE}
-ex$plotc <- c()
+ex$plotc <- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$plot[i])) {
     ex$plotc[i] <- "idk"
@@ -1028,7 +1029,7 @@ single.mod.cat(ex, "seedn", ex.mv, ex.mv.seedn, h)
 
 ## Outliers removed
 ```{r, eval=FALSE}
-out.seedn <- c()
+out.seedn <- NA
 ex.seedn.o <- outliers(ex, out.seedn)
 ex.mv.seedn.o <- rma.mv(yi = yi,
                        V = vi,

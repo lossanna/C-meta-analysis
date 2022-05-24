@@ -65,6 +65,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -272,6 +276,7 @@ div.tocify {
 </ul></li>
 <li>For relevant moderators, there is also a table of moderator levels where data came only from one paper. Paper/experiment has not been used to subset data, though.</li>
 <li>Discontinued moderators not included. See See previous “Exotic single moderator models” document (<code>0621_ex_1mod.html</code>) for why these moderators were excluded.</li>
+<li>2022-05-24 small update: changed syntax of <code>df$new &lt;- c()</code> to <code>df$new &lt;- NA</code> because the previous is no longer supported and won’t actually create a new empty column.</li>
 </ul>
 </div>
 <div id="setup" class="section level1">
@@ -905,7 +910,7 @@ count(ex, duration_first)</code></pre>
 ## 28          123.0  1 
 ## 29          207.0  6 
 ## 30          266.0  2</code></pre>
-<pre class="r"><code>ex$dfc &lt;- c()
+<pre class="r"><code>ex$dfc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$duration_first[i] == 3) {
     ex$dfc[i] &lt;- &quot;3&quot;
@@ -1118,7 +1123,7 @@ count(ex, duration_last)</code></pre>
 ## 22         46.00 19 
 ## 23         49.00  8 
 ## 24        118.00  2</code></pre>
-<pre class="r"><code>ex$dlc &lt;- c()
+<pre class="r"><code>ex$dlc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(between(ex$duration_last[i], 0, 1.5)) {
     ex$dlc[i] &lt;- &quot;0-1.5&quot;
@@ -1424,7 +1429,7 @@ count(ex, C_rate)</code></pre>
 ## 55 4191.60000  1 
 ## 56 5430.00000  5 
 ## 57         NA 22</code></pre>
-<pre class="r"><code>ex$cratc &lt;- c()
+<pre class="r"><code>ex$cratc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$C_rate[i])) {
     ex$cratc[i] &lt;- &quot;idk&quot;
@@ -1701,7 +1706,7 @@ count(ex, C_app)</code></pre>
 ## 18  66.0   1 
 ## 19  71.0   1 
 ## 20 104.0   2</code></pre>
-<pre class="r"><code>ex$capc &lt;- c()
+<pre class="r"><code>ex$capc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app[i] == 1) {
     ex$capc[i] &lt;- &quot;1&quot;
@@ -1813,7 +1818,7 @@ single.mod.cat(ex, &quot;capc&quot;, ex.mv, ex.mv.capc, h)</code></pre>
 ## 28  5.6944444   6 
 ## 29  8.6666667   4 
 ## 30 10.5000000   2</code></pre>
-<pre class="r"><code>ex$capm &lt;- c()
+<pre class="r"><code>ex$capm &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_ma[i] == 0) {
     ex$capm[i] &lt;- &quot;1 application total&quot;
@@ -1973,7 +1978,7 @@ single.mod.cat(ex.capm.o, &quot;capm&quot;, ex.mv.capm.na.o, ex.mv.capm.o, h)</c
 ## 24   121.00   1 
 ## 25   148.00   2 
 ## 26   205.00   6</code></pre>
-<pre class="r"><code>ex$capt &lt;- c()
+<pre class="r"><code>ex$capt &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_tm[i] == 0) {
     ex$capt[i] &lt;- &quot;1 application total&quot;
@@ -2310,7 +2315,7 @@ single.mod.cat(ex, &quot;plant_apgfs&quot;, ex.mv, ex.mv.papgfs, h)</code></pre>
 ## 19 1.000000e+02  28 
 ## 20 1.600000e+02   2 
 ## 21           NA   6</code></pre>
-<pre class="r"><code>ex$plotc &lt;- c()
+<pre class="r"><code>ex$plotc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$plot[i])) {
     ex$plotc[i] &lt;- &quot;idk&quot;
@@ -2489,7 +2494,7 @@ single.mod.cat(ex, &quot;seedn&quot;, ex.mv, ex.mv.seedn, h)</code></pre>
 </div>
 <div id="outliers-removed-19" class="section level2">
 <h2>Outliers removed</h2>
-<pre class="r"><code>out.seedn &lt;- c()
+<pre class="r"><code>out.seedn &lt;- NA
 ex.seedn.o &lt;- outliers(ex, out.seedn)
 ex.mv.seedn.o &lt;- rma.mv(yi = yi,
                        V = vi,

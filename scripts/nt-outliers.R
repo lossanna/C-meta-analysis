@@ -99,7 +99,7 @@ nt <- nt %>%
 
 # Categorical versions ----------------------------------------------------
 
-nt$dfc <- c()
+nt$dfc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$duration_first[i] == 3) {
     nt$dfc[i] <- "3"
@@ -123,7 +123,7 @@ for(i in 1:nrow(nt)) {
 }
 nt$dfc <- factor(nt$df, levels = c("3", "5-6", "7-12", "12-18", "19-24", "25-36", "37-50", "100-200", ">200"))
 
-nt$dlc <- c()
+nt$dlc <- NA
 for(i in 1:nrow(nt)) {
   if(between(nt$duration_last[i], 0, 1.5)) {
     nt$dlc[i] <- "0-1.5"
@@ -148,7 +148,7 @@ for(i in 1:nrow(nt)) {
 nt$dlc <- factor(nt$dl, levels = c("0-1.5", "2", "3-3.5", "4-6", "7-12", "13-18", "19-24", 
                                    "36-49", ">100"))
 
-nt$cratc <- c()
+nt$cratc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$C_rate[i])) {
     nt$cratc[i] <- "idk"
@@ -186,7 +186,7 @@ nt$cratc <- factor(nt$cratc, levels = c("30-100", "133-160", "174-200", "210-300
                                         "506-600", "620-700", "714-999", "1000-1330", "1600-2000",
                                         "2110-3000", "3346-5000", ">5000"))
 
-nt$capc <- c()
+nt$capc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app[i] == 1) {
     nt$capc[i] <- "1"
@@ -206,7 +206,7 @@ for(i in 1:nrow(nt)) {
 }
 nt$capc <- factor(nt$capc, levels = c("1", "2", "3-6", "7-10", "15-22", "32-40", ">40"))
 
-nt$capm <- c()
+nt$capm <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_ma[i] == 0) {
     nt$capm[i] <- "1 application total"
@@ -222,7 +222,7 @@ for(i in 1:nrow(nt)) {
 }
 nt$capm <- factor(nt$capm, levels = c("1 application total", "<1", "1-2", "2-4", "4-11"))
 
-nt$capt <- c()
+nt$capt <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_tm[i] == 0) {
     nt$capt[i] <- "1 application total"
@@ -243,7 +243,7 @@ for(i in 1:nrow(nt)) {
 nt$capt <- factor(nt$capt, levels = c("1 application total", "1-6", "7-12", "13-24", 
                                       "25-36", "37-48", ">48"))
 
-nt$plotc <- c()
+nt$plotc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$plot[i])) {
     nt$plotc[i] <- "idk"
@@ -275,8 +275,7 @@ nt$plotc <- factor(nt$plotc,
                    levels = c("<1", "1", "1.3-3.75", "4", "6-9", "12", "12.5-16", 
                               "25", "28-50", "75", ">100"))
 
-nt <- nt %>% 
-  mutate(seedn = rep(NA, nrow(nt)))
+nt$seedn <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$seeding_native[i])) {
     nt$seedn[i] <- "native seeded"

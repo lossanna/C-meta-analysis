@@ -65,6 +65,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -292,6 +296,7 @@ div.tocify {
 <li>Full analysis (not estimation) was not attempted. See <code>0621_ex_1mod.html</code> for original attempt.</li>
 <li>Outliers and influential points are identified by their row number in the dataset (<code>ex</code>, or subset for model selection).</li>
 <li>Models are noted if outliers &gt; <em>k</em>/10, and rows with the most extreme residuals.</li>
+<li>2022-05-24 small update: changed syntax of <code>df$new &lt;- NA</code> to <code>df$new &lt;- NA</code> because the previous is no longer supported and won’t actually create a new empty column.</li>
 </ul>
 </div>
 <div id="code-annotations" class="section level2">
@@ -458,7 +463,7 @@ ex &lt;- ex %&gt;%
 
 # Categorical versions ----------------------------------------------------
 
-ex$dfc &lt;- c()
+ex$dfc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$duration_first[i] == 3) {
     ex$dfc[i] &lt;- &quot;3&quot;
@@ -482,7 +487,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$dfc &lt;- factor(ex$df, levels = c(&quot;3&quot;, &quot;5-6&quot;, &quot;7-12&quot;, &quot;12-18&quot;, &quot;19-24&quot;, &quot;25-36&quot;, &quot;37-50&quot;, &quot;100-200&quot;, &quot;&gt;200&quot;))
 
-ex$dlc &lt;- c()
+ex$dlc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(between(ex$duration_last[i], 0, 1.5)) {
     ex$dlc[i] &lt;- &quot;0-1.5&quot;
@@ -507,7 +512,7 @@ for(i in 1:nrow(ex)) {
 ex$dlc &lt;- factor(ex$dl, levels = c(&quot;0-1.5&quot;, &quot;2&quot;, &quot;3-3.5&quot;, &quot;4-6&quot;, &quot;7-12&quot;, &quot;13-18&quot;, &quot;19-24&quot;, 
                                    &quot;36-49&quot;, &quot;&gt;100&quot;))
 
-ex$cratc &lt;- c()
+ex$cratc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$C_rate[i])) {
     ex$cratc[i] &lt;- &quot;idk&quot;
@@ -545,7 +550,7 @@ ex$cratc &lt;- factor(ex$cratc, levels = c(&quot;30-100&quot;, &quot;133-160&quo
                                         &quot;506-600&quot;, &quot;620-700&quot;, &quot;714-999&quot;, &quot;1000-1330&quot;, &quot;1600-2000&quot;,
                                         &quot;2110-3000&quot;, &quot;3346-5000&quot;, &quot;&gt;5000&quot;))
 
-ex$capc &lt;- c()
+ex$capc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app[i] == 1) {
     ex$capc[i] &lt;- &quot;1&quot;
@@ -565,7 +570,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$capc &lt;- factor(ex$capc, levels = c(&quot;1&quot;, &quot;2&quot;, &quot;3-6&quot;, &quot;7-10&quot;, &quot;15-22&quot;, &quot;32-40&quot;, &quot;&gt;40&quot;))
 
-ex$capm &lt;- c()
+ex$capm &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_ma[i] == 0) {
     ex$capm[i] &lt;- &quot;1 application total&quot;
@@ -581,7 +586,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$capm &lt;- factor(ex$capm, levels = c(&quot;1 application total&quot;, &quot;&lt;1&quot;, &quot;1-2&quot;, &quot;2-4&quot;, &quot;4-11&quot;))
 
-ex$capt &lt;- c()
+ex$capt &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_tm[i] == 0) {
     ex$capt[i] &lt;- &quot;1 application total&quot;
@@ -602,7 +607,7 @@ for(i in 1:nrow(ex)) {
 ex$capt &lt;- factor(ex$capt, levels = c(&quot;1 application total&quot;, &quot;1-6&quot;, &quot;7-12&quot;, &quot;13-24&quot;, 
                                       &quot;25-36&quot;, &quot;37-48&quot;, &quot;&gt;48&quot;))
 
-ex$plotc &lt;- c()
+ex$plotc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$plot[i])) {
     ex$plotc[i] &lt;- &quot;idk&quot;

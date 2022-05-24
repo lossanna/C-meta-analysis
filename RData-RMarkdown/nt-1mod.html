@@ -65,6 +65,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -271,6 +275,7 @@ div.tocify {
 <li><code>duration_first</code>, <code>duration_last</code>, and <code>C_app</code> not analyzed here.</li>
 </ul></li>
 <li>For relevant moderators, there is also a table of moderator levels where data came only from one paper. Paper/experiment has not been used to subset data, though.</li>
+<li>2022-05-24 small update: changed syntax of <code>df$new &lt;- c()</code> to <code>df$new &lt;- NA</code> because the previous is no longer supported and won’t actually create a new empty column.</li>
 </ul>
 </div>
 <div id="setup" class="section level1">
@@ -721,7 +726,7 @@ count(nt, duration_first)</code></pre>
 ## 25          120.0   4 
 ## 26          207.0   3 
 ## 27          266.0   8</code></pre>
-<pre class="r"><code>nt$dfc &lt;- c()
+<pre class="r"><code>nt$dfc &lt;- NA
 for(i in 1:nrow(nt)) {
   if(nt$duration_first[i] == 3) {
     nt$dfc[i] &lt;- &quot;3&quot;
@@ -828,7 +833,7 @@ count(nt, duration_last)</code></pre>
 ## 20         46.00   5 
 ## 21         49.00   6 
 ## 22        118.00   8</code></pre>
-<pre class="r"><code>nt$dlc &lt;- c()
+<pre class="r"><code>nt$dlc &lt;- NA
 for(i in 1:nrow(nt)) {
   if(between(nt$duration_last[i], 0, 1.5)) {
     nt$dlc[i] &lt;- &quot;0-1.5&quot;
@@ -1068,7 +1073,7 @@ nt.mv.crat &lt;- rma.mv(yi = yi,
 ## 47 4191.60000  54 
 ## 48 5430.00000   5 
 ## 49         NA  15</code></pre>
-<pre class="r"><code>nt$cratc &lt;- c()
+<pre class="r"><code>nt$cratc &lt;- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$C_rate[i])) {
     nt$cratc[i] &lt;- &quot;idk&quot;
@@ -1296,7 +1301,7 @@ count(nt, C_app)</code></pre>
 ## 17  39.5   3 
 ## 18  71.0   2 
 ## 19 104.0   8</code></pre>
-<pre class="r"><code>nt$capc &lt;- c()
+<pre class="r"><code>nt$capc &lt;- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app[i] == 1) {
     nt$capc[i] &lt;- &quot;1&quot;
@@ -1401,7 +1406,7 @@ single.mod.cat(nt, &quot;capc&quot;, nt.mv, nt.mv.capc, h)</code></pre>
 ## 27  8.0000000  47 
 ## 28  8.6666667   2 
 ## 29 10.5000000   4</code></pre>
-<pre class="r"><code>nt$capm &lt;- c()
+<pre class="r"><code>nt$capm &lt;- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_ma[i] == 0) {
     nt$capm[i] &lt;- &quot;1 application total&quot;
@@ -1505,7 +1510,7 @@ single.mod.cat(nt, &quot;capm&quot;, nt.mv, nt.mv.capm, h)</code></pre>
 ## 28    84.00   4 
 ## 29   148.00   8 
 ## 30   205.00   3</code></pre>
-<pre class="r"><code>nt$capt &lt;- c()
+<pre class="r"><code>nt$capt &lt;- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_tm[i] == 0) {
     nt$capt[i] &lt;- &quot;1 application total&quot;
@@ -1772,7 +1777,7 @@ single.mod.cat(nt, &quot;plant_apgfs&quot;, nt.mv, nt.mv.papgfs, h)</code></pre>
 ## 16 1.000000e+02 107 
 ## 17 1.600000e+02   8 
 ## 18           NA   6</code></pre>
-<pre class="r"><code>nt$plotc &lt;- c()
+<pre class="r"><code>nt$plotc &lt;- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$plot[i])) {
     nt$plotc[i] &lt;- &quot;idk&quot;

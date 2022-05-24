@@ -317,7 +317,7 @@ count(soil.region, soil_suborder)
 # Duration since first C application (categorical) ------------------------
 
 count(nt, duration_first)
-nt$dfc <- c()
+nt$dfc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$duration_first[i] == 3) {
     nt$dfc[i] <- "3"
@@ -362,7 +362,7 @@ single.mod.cat(nt, "dfc", nt.mv, nt.mv.dfc, h)
 # Duration since last C app (categorical) ---------------------------------
 
 count(nt, duration_last)
-nt$dlc <- c()
+nt$dlc <- NA
 for(i in 1:nrow(nt)) {
   if(between(nt$duration_last[i], 0, 1.5)) {
     nt$dlc[i] <- "0-1.5"
@@ -447,7 +447,7 @@ single.mod.cont(nt.crat.na$C_rate, nt.mv.crat, nt.crat.na$vi, nt.crat.na$yi,
 any(is.na(nt$C_rate))
 
 count(nt, C_rate)
-nt$cratc <- c()
+nt$cratc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$C_rate[i])) {
     nt$cratc[i] <- "idk"
@@ -546,7 +546,7 @@ single.mod.cont(nt$C_app, nt.mv.cap, nt$vi, nt$yi,
 # C applications total (categorical) --------------------------------------
 
 count(nt, C_app)
-nt$capc <- c()
+nt$capc <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app[i] == 1) {
     nt$capc[i] <- "1"
@@ -592,7 +592,7 @@ single.mod.cat(nt, "capc", nt.mv, nt.mv.capc, h)
 
 # As categorical
 count(nt, C_app_ma)
-nt$capm <- c()
+nt$capm <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_ma[i] == 0) {
     nt$capm[i] <- "1 application total"
@@ -648,7 +648,7 @@ cap.capm[ , c("paper", "C_app", "C_app_tm", "capm")]
 
 # As categorical
 count(nt, C_app_tm)
-nt$capt <- c()
+nt$capt <- NA
 for(i in 1:nrow(nt)) {
   if(nt$C_app_tm[i] == 0) {
     nt$capt[i] <- "1 application total"
@@ -750,7 +750,7 @@ single.mod.cat(nt, "plant_apgfs", nt.mv, nt.mv.papgfs, h)
 any(is.na(nt$plot))
 
 count(nt, plot)
-nt$plotc <- c()
+nt$plotc <- NA
 for(i in 1:nrow(nt)) {
   if(is.na(nt$plot[i])) {
     nt$plotc[i] <- "idk"
