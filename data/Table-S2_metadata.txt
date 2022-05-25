@@ -4,7 +4,9 @@ cross			a crossed treatment (to identify/clarify observation only, not for analy
 paper_ID		a few papers are combined because they are about the same experiment
 exp_ID		an experiment occurs in the same location, over the same time period (roughly), executed by the same people; this is used to address non-independence
 obs_ID		observation ID (every row is an observation); this is to address non-independence
+biome			as defined by paper (with some adjustments to standardize categories)
 region		defined after considering entire available dataset
+soil_suborder	classified by USDA NCRS taxonomy (or Canadian or Australian taxonomy, if applicable); classifications either provided by paper, found via coordinates and Web Soil Survey, or found by a name locator and WSS
 duration_first	months from first C application to harvest/measurement
 duration_last	months from last C application to harvest/measurement
 C_type		type of C added

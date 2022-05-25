@@ -266,13 +266,12 @@ div.tocify {
 <div id="setup" class="section level1">
 <h1>Setup</h1>
 <pre class="r"><code>library(tidyverse)
-library(readxl)
 library(metafor)
 library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-raw &lt;- read_xlsx(&quot;data/C-addition-studies.xlsx&quot;, sheet = &quot;screen 3_data (biocov)&quot;)
+raw &lt;- read.csv(&quot;data/Table-S2_meta-analysis.csv&quot;)
 raw$plant_apgfs &lt;- paste(raw$plant_anper, raw$plant_gfs, sep = &quot; &quot;)
 raw$C_app_tm &lt;- raw$duration_first - raw$duration_last
 raw$C_app_ma &lt;- raw$C_app_tm / raw$C_app

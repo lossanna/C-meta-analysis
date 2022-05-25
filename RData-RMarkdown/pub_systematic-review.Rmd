@@ -46,12 +46,11 @@ load("systematic-review.RData")
 
 # Setup
 ```{r, eval=FALSE}
-library(readxl)
 library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 
-review <- read_xlsx("C-addition-studies.xlsx", sheet = "screen_review")
+review <- read.csv("data/Table-S1_review.csv")
 ```
 
 # Biome

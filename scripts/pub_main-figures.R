@@ -3,7 +3,6 @@
 # lossanna@email.arizona.edu
 # 2022-05-24
 
-library(readxl)
 library(tidyverse)
 library(metafor)
 library(orchaRd)
@@ -11,7 +10,7 @@ library(ggpubr)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("data/C-addition-studies.xlsx", sheet = "screen 3_data (biocov)")
+raw <- read.csv("data/Table-S2_meta-analysis.csv")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app

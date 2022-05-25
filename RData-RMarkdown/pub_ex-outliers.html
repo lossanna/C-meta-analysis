@@ -368,12 +368,11 @@ div.tocify {
 <div id="setup" class="section level1">
 <h1>Setup</h1>
 <pre class="r"><code>library(tidyverse)
-library(readxl)
 library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw &lt;- read_xlsx(&quot;data/C-addition-studies.xlsx&quot;, sheet = &quot;screen 3_data (biocov)&quot;)
+raw &lt;- read.csv(&quot;data/Table-S2_meta-analysis.csv&quot;)
 raw$plant_apgfs &lt;- paste(raw$plant_anper, raw$plant_gfs, sep = &quot; &quot;)
 raw$C_app_tm &lt;- raw$duration_first - raw$duration_last
 raw$C_app_ma &lt;- raw$C_app_tm / raw$C_app
@@ -447,7 +446,7 @@ ex &lt;- ex %&gt;%
 
 # Categorical versions ----------------------------------------------------
 
-ex$dfc &lt;- c()
+ex$dfc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$duration_first[i] == 3) {
     ex$dfc[i] &lt;- &quot;3&quot;
@@ -471,7 +470,7 @@ for(i in 1:nrow(ex)) {
 }
 ex$dfc &lt;- factor(ex$df, levels = c(&quot;3&quot;, &quot;5-6&quot;, &quot;7-12&quot;, &quot;12-18&quot;, &quot;19-24&quot;, &quot;25-36&quot;, &quot;37-50&quot;, &quot;100-200&quot;, &quot;&gt;200&quot;))
 
-ex$dlc &lt;- c()
+ex$dlc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(between(ex$duration_last[i], 0, 1.5)) {
     ex$dlc[i] &lt;- &quot;0-1.5&quot;
@@ -496,7 +495,7 @@ for(i in 1:nrow(ex)) {
 ex$dlc &lt;- factor(ex$dl, levels = c(&quot;0-1.5&quot;, &quot;2&quot;, &quot;3-3.5&quot;, &quot;4-6&quot;, &quot;7-12&quot;, &quot;13-18&quot;, &quot;19-24&quot;, 
                                    &quot;36-49&quot;, &quot;&gt;100&quot;))
 
-ex$cratc &lt;- c()
+ex$cratc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$C_rate[i])) {
     ex$cratc[i] &lt;- &quot;idk&quot;
@@ -534,7 +533,7 @@ ex$cratc &lt;- factor(ex$cratc, levels = c(&quot;30-100&quot;, &quot;133-160&quo
                                         &quot;506-600&quot;, &quot;620-700&quot;, &quot;714-999&quot;, &quot;1000-1330&quot;, &quot;1600-2000&quot;,
                                         &quot;2110-3000&quot;, &quot;3346-5000&quot;, &quot;&gt;5000&quot;))
 
-ex$capc &lt;- c()
+ex$capc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app[i] == 1) {
     ex$capc[i] &lt;- &quot;1&quot;
@@ -554,23 +553,8 @@ for(i in 1:nrow(ex)) {
 }
 ex$capc &lt;- factor(ex$capc, levels = c(&quot;1&quot;, &quot;2&quot;, &quot;3-6&quot;, &quot;7-10&quot;, &quot;15-22&quot;, &quot;32-40&quot;, &quot;&gt;40&quot;))
 
-ex$capm &lt;- c()
-for(i in 1:nrow(ex)) {
-  if(ex$C_app_ma[i] == 0) {
-    ex$capm[i] &lt;- &quot;1 application total&quot;
-  } else if(between(ex$C_app_ma[i], 0.001, 1)) {
-    ex$capm[i] &lt;- &quot;&lt;1&quot;
-  } else if(between(ex$C_app_ma[i], 1.001, 2)) {
-    ex$capm[i] &lt;- &quot;1-2&quot;
-  } else if(between(ex$C_app_ma[i], 2.001, 4)) {
-    ex$capm[i] &lt;- &quot;2-4&quot;
-  } else {
-    ex$capm[i] &lt;- &quot;4-11&quot;
-  }
-}
-ex$capm &lt;- factor(ex$capm, levels = c(&quot;1 application total&quot;, &quot;&lt;1&quot;, &quot;1-2&quot;, &quot;2-4&quot;, &quot;4-11&quot;))
 
-ex$capt &lt;- c()
+ex$capt &lt;- NA
 for(i in 1:nrow(ex)) {
   if(ex$C_app_tm[i] == 0) {
     ex$capt[i] &lt;- &quot;1 application total&quot;
@@ -591,7 +575,7 @@ for(i in 1:nrow(ex)) {
 ex$capt &lt;- factor(ex$capt, levels = c(&quot;1 application total&quot;, &quot;1-6&quot;, &quot;7-12&quot;, &quot;13-24&quot;, 
                                       &quot;25-36&quot;, &quot;37-48&quot;, &quot;&gt;48&quot;))
 
-ex$plotc &lt;- c()
+ex$plotc &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$plot[i])) {
     ex$plotc[i] &lt;- &quot;idk&quot;
@@ -623,8 +607,7 @@ ex$plotc &lt;- factor(ex$plotc,
                    levels = c(&quot;&lt;1&quot;, &quot;1&quot;, &quot;1.3-3.75&quot;, &quot;4&quot;, &quot;6-9&quot;, &quot;12&quot;, &quot;12.5-16&quot;, 
                               &quot;25&quot;, &quot;28-50&quot;, &quot;75&quot;, &quot;&gt;100&quot;))
 
-ex &lt;- ex %&gt;% 
-  mutate(seedn = rep(NA, nrow(ex)))
+ex$seedn &lt;- NA
 for(i in 1:nrow(ex)) {
   if(is.na(ex$seeding_native[i])) {
     ex$seedn[i] &lt;- &quot;native seeded&quot;
