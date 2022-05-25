@@ -81,7 +81,7 @@ forest(x = n.forest.ex.papgfs$x,
        top = 2)
 
 par(cex = 0.75, font = 4)
-text(x = -1.3, y = 6, labels = "n")
+text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 6, labels = "Exotic plant response")
 dev.off()
