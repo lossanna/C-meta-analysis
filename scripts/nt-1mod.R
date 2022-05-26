@@ -4,104 +4,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("data/cleaned/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
-raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
-raw$C_app_tm <- raw$duration_first - raw$duration_last
-raw$C_app_ma <- raw$C_app_tm / raw$C_app
-
-# Data wrangling
-trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
-                     "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
-to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-biomass <- raw %>% 
-  select(!(contains("cover"))) %>% 
-  select(!contains("density")) %>% 
-  filter(!is.na(biomass_mean_trt)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = biomass_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = biomass_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(biomass_SD_trt = paste(biomass_SD_trt, to_sd_trt)) %>% 
-  mutate(biomass_SD_trt = str_remove(biomass_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(biomass_SD_cntrl = paste(biomass_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(biomass_SD_cntrl = str_remove(biomass_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  mutate_at(c("biomass_SD_trt", "biomass_SD_cntrl"), as.numeric) %>% 
-  rename(mean_trt = biomass_mean_trt) %>% 
-  rename(mean_cntrl = biomass_mean_cntrl) %>% 
-  rename(SD_trt = biomass_SD_trt) %>% 
-  rename(SD_cntrl = biomass_SD_cntrl)
-biomass$res <- rep("biomass", nrow(biomass))
-
-trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",
-                     "cover_mean_cntrl", "cover_SE_cntrl", "cover_SD_cntrl")
-to.drop <- c("cover_SE_trt", "cover_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-cover <- raw %>% 
-  select(!(contains("biomass"))) %>% 
-  select(!contains("density")) %>% 
-  filter(!is.na(cover_mean_cntrl)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = cover_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = cover_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(cover_SD_trt = paste(cover_SD_trt, to_sd_trt)) %>% 
-  mutate(cover_SD_trt = str_remove(cover_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric)  %>% 
-  rename(mean_trt = cover_mean_trt) %>% 
-  rename(mean_cntrl = cover_mean_cntrl) %>% 
-  rename(SD_trt = cover_SD_trt) %>% 
-  rename(SD_cntrl = cover_SD_cntrl) # warning because one Burke point is blank (was <1)
-cover$res <- rep("cover", nrow(cover))
-
-trt.cntrl.se.sd <- c("density_mean_trt", "density_SE_trt", "density_SD_trt",
-                     "density_mean_cntrl", "density_SE_cntrl", "density_SD_cntrl")
-to.drop <- c("density_SE_trt", "density_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-density <- raw %>% 
-  select(!(contains("cover"))) %>% 
-  select(!contains("biomass")) %>% 
-  filter(!is.na(density_mean_trt)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = density_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = density_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(density_SD_trt = paste(density_SD_trt, to_sd_trt)) %>% 
-  mutate(density_SD_trt = str_remove(density_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(density_SD_cntrl = paste(density_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(density_SD_cntrl = str_remove(density_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  filter(density_SD_trt != " NA") %>% 
-  mutate_at(c("density_SD_trt", "density_SD_cntrl"), as.numeric)  %>% 
-  rename(mean_trt = density_mean_trt) %>% 
-  rename(mean_cntrl = density_mean_cntrl) %>% 
-  rename(SD_trt = density_SD_trt) %>% 
-  rename(SD_cntrl = density_SD_cntrl)
-density$res <- rep("density", nrow(density))
-
-all.1res <- rbind(biomass, cover, density)
-
-
-# Calculating effect size -------------------------------------------------
-
-nt <- all.1res %>%
-  filter(str_detect(plant_category, "native"))
-
-nt <- escalc(measure = "SMD",
-             n1i = n_trt,
-             n2i = n_cntrl,
-             m1i = mean_trt,
-             m2i = mean_cntrl,
-             sd1i = SD_trt,
-             sd2i = SD_cntrl,
-             data = nt)
-
-nt <- nt %>% 
-  filter(!is.na(yi)) # 1125 to 655 obs
-
-
-
-# Outliers (fewer removed) ------------------------------------------------
-
-nt.out.cratc <- c(440)
+nt <- read.csv("data/cleaned/native-cleaned.csv") # data cleaning and effect size calculation in separate script
 
 
 # Functions ---------------------------------------------------------------
@@ -156,6 +59,10 @@ outliers <- function(dat, out) {
     filter(!obs_ID %in% out)
 }
 
+
+# Outliers (fewer removed) ------------------------------------------------
+
+nt.out.cratc <- c(440)
 
 
 # No moderators -----------------------------------------------------------
