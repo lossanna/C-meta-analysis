@@ -2,8 +2,8 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 
-load("1021 ex 1mod.RData")
-load("0821 nt 1mod.RData")
+load("RData/ex-1mod.RData")
+load("RData/nt-1mod.RData")
 
 
 # Count of all papers used in meta-analysis -------------------------------

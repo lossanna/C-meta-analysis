@@ -4,7 +4,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("data/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("data/cleaned/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
@@ -1010,4 +1010,4 @@ single.mod.cat(nt.seede, "seeding_exotic_cat", nt.mv, nt.mv.seede, h)
 
 
 
-save.image("RData-RMarkdown/nt-1mod.RData")
+save.image("RData/nt-1mod.RData")

@@ -3,9 +3,9 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 
-review <- read_xlsx("data/C-addition-studies.xlsx", sheet = "screen_review")
+review <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen_review")
 
-screen1 <- read_xlsx("data/C-addition-studies.xlsx", sheet = "screen 1_intake")
+screen1 <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 1_intake")
 screen1 <- screen1[ , c(1:2, 48:50)]
 colnames(screen1) <- c("authors", "year", "review", "screen2", "screen3")
 screen1$authors <- str_split_fixed(screen1$authors, " ", 2)
@@ -231,5 +231,5 @@ nscrn2.ynrev <- screen1 %>%
   filter(review == "yes", screen2 == "no") # 15, incompatible experiments
 
 
-save.image("RData-RMarkdown/systematic-review.RData")
+save.image("RData/systematic-review.RData")
 

@@ -5,7 +5,7 @@ library(ggpubr)
 
 # Load data ---------------------------------------------------------------
 
-load("RData-RMarkdown/Single-mod-models-for-figures.RData")
+load("RData/Single-mod-models-for-figures.RData")
 
 
 # Figure 1 (summary, CI, PI) ----------------------------------------------
@@ -255,4 +255,4 @@ text(x = 0, y = 16.1, labels = "Native plant response")
 dev.off()
 
 
-save.image("RData-RMarkdown/Main-figures.RData")
+save.image("RData/Main-figures.RData")

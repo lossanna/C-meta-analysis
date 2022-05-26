@@ -5,10 +5,10 @@ library(glmulti)
 
 # Load data ---------------------------------------------------------------
 
-load("RData-RMarkdown/ex-1mod.RData")
-load("RData-RMarkdown/nt-1mod.RData")
-load("RData-RMarkdown/ex-mod14.RData")
-load("RData-RMarkdown/nt-mod14o.RData")
+load("RData/ex-1mod.RData")
+load("RData/nt-1mod.RData")
+load("RData/ex-mod14.RData")
+load("RData/nt-mod14o.RData")
 
 
 # Functions ---------------------------------------------------------------
@@ -153,4 +153,4 @@ forest(x = nt.mv.ms14.o$b,
        cex = 0.75)
 
 
-save.image("RData-RMarkdown/2111_results.RData")
+save.image("RData/2021-11_results.RData")
