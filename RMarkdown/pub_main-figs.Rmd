@@ -1,0 +1,267 @@
+---
+title: "Main figures"
+author: "Lia Ossanna"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(metafor)
+library(orchaRd)
+library(ggpubr)
+
+load("../RData/Main-figures.RData")
+```
+
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+
+# Introduction
+- This document contains the code used to produce the main figures in the paper.
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+
+# Setup
+```{r, eval=FALSE}
+library(tidyverse)
+library(metafor)
+library(orchaRd)
+library(ggpubr)
+
+# Load data ---------------------------------------------------------------
+
+ex <- read.csv("data/cleaned/exotic-cleaned.csv") # data cleaning and effect size calculation in separate script
+nt <- read.csv("data/cleaned/native-cleaned.csv")
+
+# Functions ---------------------------------------------------------------
+
+outliers <- function(dat, out) {
+  dat %>% 
+    filter(!obs_ID %in% out)
+}
+
+# Outliers ----------------------------------------------------------------
+
+# Exotic
+out <- c(457, 601)
+out.cratc <- c(437)
+
+# Native
+nt.out.cratc <- c(440)
+```
+
+# Figure 1
+Figure 1 is an orchard plot to display the results of the exotic and native summary models.
+```{r, eval=FALSE}
+# Exotic summary model
+out <- c(601, 457)
+ex.o <- outliers(ex, out)
+ex.mv.o <- rma.mv(yi = yi,
+                  V = vi,
+                  random = ~ 1 | exp_ID / obs_ID,
+                  data = ex.o)
+
+# Native summary model
+nt.mv <- rma.mv(yi = yi,
+                V = vi,
+                random = ~ 1 | exp_ID / obs_ID,
+                data = nt)
+
+# Table of estimate, CI, and PI
+f1.df <- data.frame(model = c("Exotic", "Native"),
+                    ci.lb = c(ex.mv.o[["ci.lb"]], nt.mv[["ci.lb"]]),
+                    ci.ub = c(ex.mv.o[["ci.ub"]], nt.mv[["ci.ub"]]),
+                    pi.lb = c(predict(ex.mv.o)$pi.lb, predict(nt.mv)$pi.lb),
+                    pi.ub = c(predict(ex.mv.o)$pi.ub, predict(nt.mv)$pi.ub),
+                    estimate = c(ex.mv.o[["b"]], nt.mv[["b"]]))
+```
+```{r, fig.height=7, fig.width=6}
+# Orchard plots
+f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
+  ggtitle("Exotic plant summary response") +
+  annotate(geom = "text", x = -6, y = 1.4,
+           label = paste0("95% CI: ", round(f1.df[1, 2], 3), ", ", round(f1.df[1, 3], 3), "\n",
+                          "95% PI: ", round(f1.df[1, 4], 3), ", ", round(f1.df[1, 5], 3)))
+
+f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
+  ggtitle("Native plant summary response") +
+  annotate(geom = "text", x = -7, y = 1.4,
+           label = paste0("95% CI: ", round(f1.df[2, 2], 3), ", ", round(f1.df[2, 3], 3), "\n",
+                          "95% PI: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)))
+
+ggarrange(f1.orc.ex, f1.orc.nt,
+          ncol = 1, nrow = 2,
+          labels = c("(A)", "(B)"))
+```
+
+# Figure 2
+Figure 2 is a forest plot of exotic plant response by plant lifeform (annual/perennial and grass/forb/shrub).
+```{r, eval=FALSE}
+# Exotic anpergfs model
+ex.mv.papgfs <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = ex,
+                       mods = ~ factor(plant_apgfs) - 1)
+
+# Table of estimate, CI, and PI
+n.forest.ex.papgfs <- count(ex, !!sym("plant_apgfs"))
+n.forest.ex.papgfs$x <- ex.mv.papgfs[[1]]
+n.forest.ex.papgfs$ci.lb <- ex.mv.papgfs[[6]]
+n.forest.ex.papgfs$ci.ub <- ex.mv.papgfs[[7]]
+n.forest.ex.papgfs <- n.forest.ex.papgfs %>% 
+  filter(plant_apgfs %in% c("annual forb", "annual graminoid", 
+                            "perennial forb", "perennial graminoid"))
+```
+```{r, fig.height=4, fig.width=6}
+# Forest plot
+forest(x = n.forest.ex.papgfs$x,
+       ci.lb = n.forest.ex.papgfs$ci.lb,
+       ci.ub = n.forest.ex.papgfs$ci.ub,
+       slab = n.forest.ex.papgfs$plant_apgfs,
+       header = "Lifeform",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.papgfs$n,
+       ilab.xpos = -1.3,
+       cex = 0.75, 
+       top = 2)
+
+par(cex = 0.75, font = 4)
+text(x = -1.3, y = 6, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 6, labels = "Exotic plant response")
+```
+
+# Figure 3
+Figure 3 is a forest plot of exotic plant response by study duration (months from first C app to harvest).
+```{r, eval=FALSE}
+# Exotic dlc model
+ex.mv.dlc <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex,
+                    mods = ~ factor(dlc) - 1)
+
+# Table of estimate, CI, and PI
+n.forest.ex.dlc <- count(ex, !!sym("dlc"))
+n.forest.ex.dlc$x <- ex.mv.dlc[[1]]
+n.forest.ex.dlc$ci.lb <- ex.mv.dlc[[6]]
+n.forest.ex.dlc$ci.ub <- ex.mv.dlc[[7]]
+```
+```{r, fig.height=4, fig.width=6}
+forest(x = n.forest.ex.dlc$x,
+       ci.lb = n.forest.ex.dlc$ci.lb,
+       ci.ub = n.forest.ex.dlc$ci.ub,
+       slab = n.forest.ex.dlc$dlc,
+       header = "Study duration (months)",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.dlc$n,
+       ilab.xpos = -2.4,
+       cex = 0.75,
+       top = 2)
+
+par(cex = 0.75, font = 4)
+text(x = -2.4, y = 11, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 11, labels = "Exotic plant response")
+```
+
+# Figure 4
+Figure 4 is a forest plot of exotic plant response by C application rate.
+```{r, eval=FALSE}
+# Exotic C rate models
+ex.cratc.na <- ex %>% 
+  filter(!is.na(cratc)) # some C rates are missing or couldn't be converted to g C/m2
+ex.cratc.o <- outliers(ex.cratc.na, out.cratc) # remove outliers
+
+ex.mv.cratc.o <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = ex.cratc.o,
+                        mods = ~ factor(cratc) - 1) # summary model using subset of observations with C rate
+
+ex.mv.cratc.na.o <- rma.mv(yi = yi,
+                           V = vi,
+                           random = ~ 1 | exp_ID / obs_ID,
+                           data = ex.cratc.o) # model with C rate as a moderator
+
+# Table of estimate, CI, and PI
+n.forest.ex.cratc <- count(ex.cratc.o, !!sym("cratc"))
+n.forest.ex.cratc$x <- ex.mv.cratc.o[[1]]
+n.forest.ex.cratc$ci.lb <- ex.mv.cratc.o[[6]]
+n.forest.ex.cratc$ci.ub <- ex.mv.cratc.o[[7]]
+```
+```{r, fig.height=4, fig.width=4}
+forest(x = n.forest.ex.cratc$x,
+       ci.lb = n.forest.ex.cratc$ci.lb,
+       ci.ub = n.forest.ex.cratc$ci.ub,
+       slab = n.forest.ex.cratc$cratc,
+       annotate = FALSE,
+       header = "C rate",
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.cratc$n,
+       ilab.xpos = -5,
+       cex = 0.75,
+       top = 2)
+
+par(cex = 0.65, font = 1)
+text(x = -6.35, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
+par(cex = 0.75, font = 4)
+text(x = -4.7, y = 16.1, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 16.1, labels = "Exotic plant response")
+```
+
+# Figure 5
+Figure 5 is a forest plot of native plant response by C rate.
+```{r, eval=FALSE}
+# Native C rate models
+nt.cratc.na <- nt %>% 
+  filter(!is.na(cratc)) # some C rates are missing or couldn't be converted to g C/m2
+nt.cratc.o <- outliers(nt.cratc.na, nt.out.cratc) # remove outliers
+
+ex.mv.cratc.o <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = ex.cratc.o,
+                        mods = ~ factor(cratc) - 1) # summary model using subset of observations with C rate
+
+nt.mv.cratc.o <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = nt.cratc.o,
+                        mods = ~ factor(cratc) - 1) # model with C rate as a moderator
+
+# Table of estimate, CI, and PI
+n.forest.nt.cratc <- count(nt.cratc.o, !!sym("cratc"))
+n.forest.nt.cratc$x <- nt.mv.cratc.o[[1]]
+n.forest.nt.cratc$ci.lb <- nt.mv.cratc.o[[6]]
+n.forest.nt.cratc$ci.ub <- nt.mv.cratc.o[[7]]
+```
+```{r, fig.height=4, fig.width=4}
+forest(x = n.forest.nt.cratc$x,
+       ci.lb = n.forest.nt.cratc$ci.lb,
+       ci.ub = n.forest.nt.cratc$ci.ub,
+       slab = n.forest.nt.cratc$cratc,
+       header = "C rate",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.nt.cratc$n,
+       ilab.xpos = -2.5,
+       cex = 0.75,
+       top = 2)
+
+par(cex = 0.65, font = 1)
+text(x = -3.43, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),)
+par(cex = 0.75, font = 4)
+text(x = -2.3, y = 16.1, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 16.1, labels = "Native plant response")
+```
+
