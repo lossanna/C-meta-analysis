@@ -1,7 +1,7 @@
 ---
 title: "Systematic review"
 author: "Lia Ossanna"
-date: "2022-05-24"
+date: "`r format(Sys.Date())`"
 output: 
   html_document:
     toc: true
@@ -50,7 +50,7 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 
-review <- read.csv("data/Table-S1_review.csv")
+review <- read.csv("data/raw/Table-S1_review.csv")
 ```
 
 # Biome

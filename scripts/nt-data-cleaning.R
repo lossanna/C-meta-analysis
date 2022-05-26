@@ -1,14 +1,17 @@
 library(tidyverse)
 library(readxl)
+library(metafor)
 
 # Load data ---------------------------------------------------------------
 
 raw <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
+
+# Data wrangling ----------------------------------------------------------
+
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
 
-# Data wrangling
 trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
                      "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
 to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")

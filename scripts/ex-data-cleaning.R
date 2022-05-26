@@ -1,14 +1,17 @@
 library(tidyverse)
 library(readxl)
+library(metafor)
 
 # Load data ---------------------------------------------------------------
 
 raw <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (biocov)")
+
+# Data wrangling ----------------------------------------------------------
+
 raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
 raw$C_app_tm <- raw$duration_first - raw$duration_last
 raw$C_app_ma <- raw$C_app_tm / raw$C_app
 
-# Data wrangling
 trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
                      "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
 to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
@@ -28,7 +31,7 @@ biomass <- raw %>%
   rename(mean_trt = biomass_mean_trt) %>% 
   rename(mean_cntrl = biomass_mean_cntrl) %>% 
   rename(SD_trt = biomass_SD_trt) %>% 
-  rename(SD_cntrl = biomass_SD_cntrl)
+  rename(SD_cntrl = biomass_SD_cntrl) 
 biomass$res <- rep("biomass", nrow(biomass))
 
 trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",

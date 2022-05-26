@@ -1,7 +1,7 @@
 ---
 title: "Exotic single moderator models"
 author: "Lia Ossanna"
-date: "2022-05-24"
+date: "`r format(Sys.Date())`"
 output: 
   html_document:
     toc: true
@@ -9,7 +9,6 @@ output:
 ---
 ```{r, include=FALSE, message=FALSE}
 library(tidyverse)
-library(readxl)
 library(metafor)
 load("../RData/ex-1mod.RData")
 ```
@@ -18,7 +17,8 @@ load("../RData/ex-1mod.RData")
 Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
-- Models examine effect of a single moderator.
+- This is the analysis of the summary effect and effect of a single moderator on exotic plant abundance.
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
 - For each model there are the model results, proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and a forest plot.
 - When there are missing data for a moderator, a new model is run with the subset of data that the single-moderator model uses; this is reflected in the forest plot.
   - Missing data will return `TRUE` for the first line of code, `any(is.na(dat$variable))`.
@@ -33,58 +33,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read.csv("data/Table-S2_meta-analysis.csv")
-raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
-raw$C_app_tm <- raw$duration_first - raw$duration_last
-raw$C_app_ma <- raw$C_app_tm / raw$C_app
-
-# Data wrangling
-trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
-                     "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
-to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-biomass <- raw %>% 
-  select(!(contains("cover"))) %>% 
-  select(!contains("density")) %>% 
-  filter(!is.na(biomass_mean_trt)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = biomass_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = biomass_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(biomass_SD_trt = paste(biomass_SD_trt, to_sd_trt)) %>% 
-  mutate(biomass_SD_trt = str_remove(biomass_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(biomass_SD_cntrl = paste(biomass_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(biomass_SD_cntrl = str_remove(biomass_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  mutate_at(c("biomass_SD_trt", "biomass_SD_cntrl"), as.numeric) %>% 
-  rename(mean_trt = biomass_mean_trt) %>% 
-  rename(mean_cntrl = biomass_mean_cntrl) %>% 
-  rename(SD_trt = biomass_SD_trt) %>% 
-  rename(SD_cntrl = biomass_SD_cntrl)
-biomass$res <- rep("biomass", nrow(biomass))
-
-trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",
-                     "cover_mean_cntrl", "cover_SE_cntrl", "cover_SD_cntrl")
-to.drop <- c("cover_SE_trt", "cover_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-cover <- raw %>% 
-  select(!(contains("biomass"))) %>% 
-  select(!contains("density")) %>% 
-  filter(!is.na(cover_mean_cntrl)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = cover_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = cover_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(cover_SD_trt = paste(cover_SD_trt, to_sd_trt)) %>% 
-  mutate(cover_SD_trt = str_remove(cover_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric)  %>% 
-  rename(mean_trt = cover_mean_trt) %>% 
-  rename(mean_cntrl = cover_mean_cntrl) %>% 
-  rename(SD_trt = cover_SD_trt) %>% 
-  rename(SD_cntrl = cover_SD_cntrl) # warning because one Burke point is blank (was <1)
-cover$res <- rep("cover", nrow(cover))
-
-all.1res <- rbind(biomass, cover)
-
+ex <- read.csv("data/cleaned/exotic-cleaned.csv") # data cleaning and effect size calculation in separate script
 
 # Functions ---------------------------------------------------------------
 
@@ -125,25 +74,6 @@ out.crat <- c(54, 120, 132)
 out.cratc <- c(437)
 out.capm <- c(257, 247, 601)
 out.pgfs <- c(257, 258)
-
-
-# Calculating effect size -------------------------------------------------
-
-ex <- all.1res %>%
-  filter(str_detect(plant_category, "exotic"))
-
-ex <- escalc(measure = "SMD",
-                    n1i = n_trt,
-                    n2i = n_cntrl,
-                    m1i = mean_trt,
-                    m2i = mean_cntrl,
-                    sd1i = SD_trt,
-                    sd2i = SD_cntrl,
-                    data = ex)
-
-ex <- ex %>% 
-  filter(!is.na(yi)) # 568 to 488 obs
-
 ```
 
 
@@ -216,7 +146,7 @@ ex.mv.bio.na <- rma.mv(yi = yi,
                        data = ex.bio.na)
 ```
 ```{r}
-h <- c("Biome (all)", "Estimate [95% CI]")
+h <- c("Biome", "Estimate [95% CI]")
 single.mod.cat(ex, "biome", ex.mv.bio.na, ex.mv.bio, h)
 ```
 
@@ -255,7 +185,7 @@ ex.mv.reg.na.o <- rma.mv(yi = yi,
                           data = ex.reg.o)
 ```
 ```{r}
-h <- c("Region (out rm)", "Estimate [95% CI]")
+h <- c("Region (outliers removed)", "Estimate [95% CI]")
 single.mod.cat(ex.reg.o, "region", ex.mv.reg.na.o, ex.mv.reg.o, h)
 ```
 
@@ -285,7 +215,7 @@ ex.mv.soil.na <- rma.mv(yi = yi,
                         data = ex.soil.na)
 ```
 ```{r}
-h <- c("Soil suborder (all)", "Estimate [95% CI]")
+h <- c("Soil suborder", "Estimate [95% CI]")
 single.mod.cat(ex, "soil_suborder", ex.mv.soil.na, ex.mv.soil, h)
 ```
 
@@ -336,7 +266,7 @@ ex.mv.dfc <- rma.mv(yi = yi,
                     mods = ~ factor(dfc) - 1)
 ```
 ```{r}
-h <- c("duration_first (all)", "Estimate [95% CI]")
+h <- c("Duration since first C app (all)", "Estimate [95% CI]")
 single.mod.cat(ex, "dfc", ex.mv, ex.mv.dfc, h)
 ```
 
@@ -356,7 +286,7 @@ ex.mv.dfc.na.o <- rma.mv(yi = yi,
                          data = ex.dfc.o)
 ```
 ```{r}
-h <- c("duration_first (out rm)", "Estimate [95% CI]")
+h <- c("Duration since first C app (outliers removed)", "Estimate [95% CI]")
 single.mod.cat(ex.dfc.o, "dfc", ex.mv.dfc.na.o, ex.mv.dfc.o, h)
 ```
 
@@ -411,14 +341,13 @@ ex.mv.dlc <- rma.mv(yi = yi,
                     mods = ~ factor(dlc) - 1)
 ```
 ```{r}
-h <- c("Duration (all)", "Estimate [95% CI]")
+h <- c("Duration since last C app", "Estimate [95% CI]")
 single.mod.cat(ex, "dlc", ex.mv, ex.mv.dlc, h)
 ```
 
 
 
 # C type 
-## All data
 ```{r}
 any(is.na(ex$C_type))
 ```
@@ -430,12 +359,13 @@ ex.mv.ctyp <- rma.mv(yi = yi,
                     mods = ~ factor(C_type) - 1)
 ```
 ```{r}
-h <- c("C_type (all)", "Estimate [95% CI]")
+h <- c("C_type", "Estimate [95% CI]")
 single.mod.cat(ex, "C_type", ex.mv, ex.mv.ctyp, h)
 ```
 
 
 # C rate (categorical)
+## All data
 ```{r}
 # Create categories
 count(ex, C_rate)
@@ -521,7 +451,7 @@ ex.mv.cratc.na.o <- rma.mv(yi = yi,
                          data = ex.cratc.o)
 ```
 ```{r}
-h <- c("C rate (out rm)", "Estimate [95% CI]")
+h <- c("C rate (outliers removed)", "Estimate [95% CI]")
 single.mod.cat(ex.cratc.o, "cratc", ex.mv.cratc.na.o, ex.mv.cratc.o, h)
 ```
 
@@ -570,7 +500,7 @@ ex.mv.capc <- rma.mv(yi = yi,
                      mods = ~ factor(capc) - 1)
 ```
 ```{r}
-h <- c("C applications (all)", "Estimate [95% CI]")
+h <- c("C applications", "Estimate [95% CI]")
 single.mod.cat(ex, "capc", ex.mv, ex.mv.capc, h)
 ```
 
@@ -615,7 +545,7 @@ ex.mv.capt <- rma.mv(yi = yi,
                      mods = ~ factor(capt) - 1)
 ```
 ```{r}
-h <- c("Months applying C (all)", "Estimate [95% CI]")
+h <- c("Months applying C", "Estimate [95% CI]")
 single.mod.cat(ex, "capt", ex.mv, ex.mv.capt, h)
 ```
 
@@ -632,7 +562,7 @@ ex.mv.panp <- rma.mv(yi = yi,
                      mods = ~ factor(plant_anper) - 1)
 ```
 ```{r}
-h <- c("Annual/perennial (all)", "Estimate [95% CI]")
+h <- c("Annual/perennial", "Estimate [95% CI]")
 single.mod.cat(ex, "plant_anper", ex.mv, ex.mv.panp, h)
 ```
 
@@ -671,7 +601,7 @@ ex.mv.pgfs.na.o <- rma.mv(yi = yi,
                           data = ex.pgfs.o)
 ```
 ```{r}
-h <- c("Grass/forb/shrub (out rm)", "Estimate [95% CI]")
+h <- c("Grass/forb/shrub (outliers removed)", "Estimate [95% CI]")
 single.mod.cat(ex.pgfs.o, "plant_gfs", ex.mv.pgfs.na.o, ex.mv.pgfs.o, h)
 ```
 
@@ -693,7 +623,7 @@ ex.mv.papgfs <- rma.mv(yi = yi,
                      mods = ~ factor(plant_apgfs) - 1)
 ```
 ```{r}
-h <- c("Annual/perennial and grass/forb/shrub (all)", "Estimate [95% CI]")
+h <- c("Annual/perennial and grass/forb/shrub", "Estimate [95% CI]")
 single.mod.cat(ex, "plant_apgfs", ex.mv, ex.mv.papgfs, h)
 ```
 
@@ -757,7 +687,7 @@ ex.mv.plotc.na <- rma.mv(yi = yi,
                          data = ex.plotc.na)
 ```
 ```{r}
-h <- c("Plot size (all)", "Estimate [95% CI]")
+h <- c("Plot size", "Estimate [95% CI]")
 single.mod.cat(ex.plotc.na, "plotc", ex.mv.plotc.na, ex.mv.plotc, h)
 ```
 
@@ -814,7 +744,7 @@ ex.mv.seedn.na.o <- rma.mv(yi = yi,
                           data = ex.seedn.o)
 ```
 ```{r}
-h <- c("Seeding of native (out rm)", "Estimate [95% CI]")
+h <- c("Seeding of native (outliers removed)", "Estimate [95% CI]")
 single.mod.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
 ```
 

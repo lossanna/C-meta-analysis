@@ -1617,7 +1617,7 @@ the 1021 analysis.</li>
 </ul>
 <pre class="r"><code># Load data (0621) --------------------------------------------------------
 
-raw &lt;- read_xlsx(&quot;C addition studies.xlsx&quot;, sheet = &quot;screen 3_data (1 res)&quot;)
+raw &lt;- read_xlsx(&quot;data/raw/C-addition-studies.xlsx&quot;, sheet = &quot;screen 3_data (1 res)&quot;)
 raw$plant_apgfs &lt;- paste(raw$plant_anper, raw$plant_gfs, sep = &quot; &quot;)
 raw$C_app_tm &lt;- raw$duration_first - raw$duration_last
 raw$C_app_ma &lt;- raw$C_app_tm / raw$C_app
@@ -1930,7 +1930,7 @@ that the Excel spreadsheet tab is different
 </ul>
 <pre class="r"><code># Load data (1021), overwrite objects -------------------------------------
 
-raw &lt;- read_xlsx(&quot;C addition studies.xlsx&quot;, sheet = &quot;screen 3_data (biocov)&quot;)
+raw &lt;- read_xlsx(&quot;data/raw/C-addition-studies.xlsx&quot;, sheet = &quot;screen 3_data (biocov)&quot;)
 raw$plant_apgfs &lt;- paste(raw$plant_anper, raw$plant_gfs, sep = &quot; &quot;)
 raw$C_app_tm &lt;- raw$duration_first - raw$duration_last
 raw$C_app_ma &lt;- raw$C_app_tm / raw$C_app
