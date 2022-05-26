@@ -1,0 +1,1049 @@
+---
+title: "Exotic single moderator models"
+author: "Lia Ossanna"
+date: "11/28/2021"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+```{r, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(metafor)
+load("ex-1mod.RData")
+```
+
+
+# Introduction
+- This document differs from previous analysis (`0621_ex_1mod.html`) because this `ex` dataset has all density data removed, because density was shown to respond differently than biomass and cover (see "Removing density from exotic dataset" document, `1021_density_rm.html`).
+  - I will be using this new no-density dataset (1021 `ex`) over the previous one (0621 `ex`) for all future analysis.
+- This is analysis for the relevant moderators on which I collected information.
+  - "Discontinued moderators" as defined in previous analysis (`0621_ex_1mod.html`) are not included.
+- Models examine effect of a single moderator.
+- For each model there are the model results, proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and a forest plot (for categorical variables) or scatter plot (for continuous variables).
+- When there are missing data for a moderator, a new model is run with the subset of data that the single-moderator model uses; this is reflected in the forest plot.
+  - Missing data will return `TRUE` for the first line of code, `any(is.na(dat$variable))`.
+- Analysis includes a model run with all the data, and a model run with outliers removed (see "Exotic outliers for models" document for details; `1021_ex_outliers.html`).
+  - See previous "Exotic single moderator models" document (`0621_ex_1mod.html`) for details on "more removed" vs. "fewer removed" outliers. 
+  - The model run with a subset of the data including only moderator levels with three or more observations (for categorical moderators) is not included here, as justified by the previous `0621_ex_1mod.html` analysis, which is still applicable because the 0621 `ex` and 1021 `ex` datasets are very similar (and this model was not very helpful in the first place).
+- For relevant moderators, there is also a table of moderator levels where data came only from one paper. Paper/experiment has not been used to subset data, though.
+- Discontinued moderators not included. See See previous "Exotic single moderator models" document (`0621_ex_1mod.html`) for why these moderators were excluded.
+- 2022-05-24 small update: changed syntax of `df$new <- c()` to `df$new <- NA` because the previous is no longer supported and won't actually create a new empty column.
+
+
+# Setup
+```{r, eval=FALSE}
+library(tidyverse)
+library(readxl)
+library(metafor)
+
+# Load data ---------------------------------------------------------------
+
+raw <- read_xlsx("C addition studies.xlsx", sheet = "screen 3_data (biocov)")
+raw$plant_apgfs <- paste(raw$plant_anper, raw$plant_gfs, sep = " ")
+raw$C_app_tm <- raw$duration_first - raw$duration_last
+raw$C_app_ma <- raw$C_app_tm / raw$C_app
+
+# Data wrangling
+trt.cntrl.se.sd <- c("biomass_mean_trt", "biomass_SE_trt", "biomass_SD_trt",
+                     "biomass_mean_cntrl", "biomass_SE_cntrl", "biomass_SD_cntrl")
+to.drop <- c("biomass_SE_trt", "biomass_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
+biomass <- raw %>% 
+  select(!(contains("cover"))) %>% 
+  select(!contains("density")) %>% 
+  filter(!is.na(biomass_mean_trt)) %>% 
+  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
+  mutate(to_sd_trt = biomass_SE_trt * sqrt(n_trt)) %>% 
+  mutate(to_sd_cntrl = biomass_SE_cntrl * sqrt(n_cntrl)) %>% 
+  mutate(biomass_SD_trt = paste(biomass_SD_trt, to_sd_trt)) %>% 
+  mutate(biomass_SD_trt = str_remove(biomass_SD_trt, pattern = "NA"), .keep = "unused") %>% 
+  mutate(biomass_SD_cntrl = paste(biomass_SD_cntrl, to_sd_cntrl)) %>% 
+  mutate(biomass_SD_cntrl = str_remove(biomass_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
+  select(-all_of(to.drop)) %>% 
+  mutate_at(c("biomass_SD_trt", "biomass_SD_cntrl"), as.numeric) %>% 
+  rename(mean_trt = biomass_mean_trt) %>% 
+  rename(mean_cntrl = biomass_mean_cntrl) %>% 
+  rename(SD_trt = biomass_SD_trt) %>% 
+  rename(SD_cntrl = biomass_SD_cntrl)
+biomass$res <- rep("biomass", nrow(biomass))
+
+trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",
+                     "cover_mean_cntrl", "cover_SE_cntrl", "cover_SD_cntrl")
+to.drop <- c("cover_SE_trt", "cover_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
+cover <- raw %>% 
+  select(!(contains("biomass"))) %>% 
+  select(!contains("density")) %>% 
+  filter(!is.na(cover_mean_cntrl)) %>% 
+  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
+  mutate(to_sd_trt = cover_SE_trt * sqrt(n_trt)) %>% 
+  mutate(to_sd_cntrl = cover_SE_cntrl * sqrt(n_cntrl)) %>% 
+  mutate(cover_SD_trt = paste(cover_SD_trt, to_sd_trt)) %>% 
+  mutate(cover_SD_trt = str_remove(cover_SD_trt, pattern = "NA"), .keep = "unused") %>% 
+  mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %>% 
+  mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
+  select(-all_of(to.drop)) %>% 
+  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric)  %>% 
+  rename(mean_trt = cover_mean_trt) %>% 
+  rename(mean_cntrl = cover_mean_cntrl) %>% 
+  rename(SD_trt = cover_SD_trt) %>% 
+  rename(SD_cntrl = cover_SD_cntrl) # warning because one Burke point is blank (was <1)
+cover$res <- rep("cover", nrow(cover))
+
+all.1res <- rbind(biomass, cover)
+
+
+# Functions ---------------------------------------------------------------
+
+single.mod.cat <- function(dat, var, dat.mv, dat.mv.var, h) {
+  print(dat.mv.var)
+  print(noquote(paste("QM/QT =", dat.mv.var[["QM"]] / sum(dat.mv.var[["QE"]], dat.mv.var[["QM"]]))))
+  
+  n.forest <- count(dat, !!sym(var))
+  colnames(n.forest) <- c("moderator", "n")
+  n.forest$end <- rep(")", dim(n.forest)[1])
+  n.forest$n <- paste(n.forest$n, n.forest$end, sep = "")
+  n.forest$start <- rep("(n = ", dim(n.forest)[1])
+  n.forest$n <- paste(n.forest$start, n.forest$n)
+  n.forest$var_col <- paste(n.forest$moderator, n.forest$n)
+  n.forest <- n.forest %>% 
+    filter(!is.na(moderator))
+  overall <- paste("Overall (n = ", dat.mv$k, ")", sep = "")
+  
+  forest(x = c(dat.mv[[1]], dat.mv.var[[1]]),
+         ci.lb = c(dat.mv[[6]], dat.mv.var[[6]]),
+         ci.ub = c(dat.mv[[7]], dat.mv.var[[7]]),
+         slab = c(overall, n.forest$var_col),
+         header = h,
+         cex = 0.7)
+}
+
+single.mod.cont <- function(dat_var, dat.mv.var, dat_vi, dat_yi, xlab, main) {
+  print(dat.mv.var)
+  print(noquote(paste("QM/QT =", dat.mv.var[["QM"]] / sum(dat.mv.var[["QE"]], dat.mv.var[["QM"]]))))
+  
+  x <- 1.1 * range(dat_var)[2]
+  preds <- predict(dat.mv.var, newmods = c(0:x))
+  size <- 1 / sqrt(dat_vi)
+  size <- size / max(size) * x / 100
+  
+  plot(NA, NA, xlim = c(0, x), ylim = c(-10, 8),
+       xlab = xlab,
+       ylab = "Hedges' d",
+       main = main)
+  symbols(dat_var, dat_yi, circles = size, inches = FALSE, add = TRUE, bg = "black")
+  lines(0:x, preds$pred)
+  lines(0:x, preds$ci.lb, lty = "dashed")
+  lines(0:x, preds$ci.ub, lty = "dashed")
+}
+
+
+outliers <- function(dat, out) {
+  dat %>% 
+    filter(!obs_ID %in% out)
+}
+
+# Outliers ----------------------------------------------------------------
+
+out <- c(457, 601)
+out.reg <- c(601, 457)
+out.dfc <- c(457)
+out.crat <- c(54, 120, 132)
+out.cratc <- c(437)
+out.capm <- c(257, 247, 601)
+out.pgfs <- c(257, 258)
+
+
+# Calculating effect size -------------------------------------------------
+
+ex <- all.1res %>%
+  filter(str_detect(plant_category, "exotic"))
+
+ex <- escalc(measure = "SMD",
+                    n1i = n_trt,
+                    n2i = n_cntrl,
+                    m1i = mean_trt,
+                    m2i = mean_cntrl,
+                    sd1i = SD_trt,
+                    sd2i = SD_cntrl,
+                    data = ex)
+
+ex <- ex %>% 
+  filter(!is.na(yi)) # 568 to 488 obs
+
+```
+
+
+# No moderators (summary effect)
+## All data
+```{r, eval=FALSE}
+ex.mv <- rma.mv(yi = yi,
+                V = vi,
+                random = ~ 1 | exp_ID / obs_ID,
+                data = ex)
+```
+```{r}
+print(ex.mv)
+predict(ex.mv)
+ex.mv[["QM"]] / sum(ex.mv[["QE"]], ex.mv[["QM"]])
+
+# I^2
+W <- diag(1 / ex$vi)
+X <- model.matrix(ex.mv)
+P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
+100 * sum(ex.mv$sigma2) / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))
+
+100 * ex.mv$sigma2 / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out <- c(457, 601)
+ex.o <- outliers(ex, out)
+ex.mv.o <- rma.mv(yi = yi,
+                  V = vi,
+                  random = ~ 1 | exp_ID / obs_ID,
+                  data = ex.o)
+```
+```{r}
+print(ex.mv.o)
+predict(ex.mv.o)
+ex.mv.o[["QM"]] / sum(ex.mv.o[["QE"]], ex.mv.o[["QM"]])
+
+# I^2
+W <- diag(1 / ex.o$vi)
+X <- model.matrix(ex.mv.o)
+P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
+100 * sum(ex.mv.o$sigma2) / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))
+
+100 * ex.mv.o$sigma2 / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT, but decreases *I^2^*.
+
+# Biome
+## All data
+```{r}
+any(is.na(ex$biome)) # if TRUE, run no-moderators model on subset with no missing data for that moderator (i.e. ex.mv.bio.na)
+```
+```{r, eval=FALSE}
+ex.bio.na <- ex %>% 
+  filter(!is.na(biome))
+
+ex.mv.bio <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex.bio.na,
+                    mods = ~ factor(biome) - 1)
+
+ex.mv.bio.na <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = ex.bio.na)
+```
+```{r}
+h <- c("Biome (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "biome", ex.mv.bio.na, ex.mv.bio, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+# Region
+## All data
+```{r}
+any(is.na(ex$region)) # if FALSE, use ex.mv for no-moderator model
+  # but still requires new model for outliers removed and levels n > 3
+```
+```{r, eval=FALSE}
+ex.mv.reg <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex,
+                    mods = ~ factor(region) - 1)
+```
+```{r}
+h <- c("Region (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "region", ex.mv, ex.mv.reg, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.reg <- c(601, 457)
+ex.reg.o <- outliers(ex, out.reg.1)
+ex.mv.reg.o <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = ex.reg.o,
+                       mods = ~ factor(region) - 1)
+
+ex.mv.reg.na.o <- rma.mv(yi = yi,
+                          V = vi,
+                          random = ~ 1 | exp_ID / obs_ID,
+                          data = ex.reg.o)
+```
+```{r}
+h <- c("Region (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.reg.o, "region", ex.mv.reg.na.o, ex.mv.reg.o, h)
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT.
+
+
+
+# Soil suborder
+## All data
+```{r}
+any(is.na(ex$soil_suborder))
+```
+```{r, eval=FALSE}
+ex.soil.na <- ex %>% 
+  filter(!is.na(soil_suborder))
+
+ex.mv.soil <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex.soil.na,
+                    mods = ~ factor(soil_suborder) - 1)
+
+ex.mv.soil.na <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = ex.soil.na)
+```
+```{r}
+h <- c("Soil suborder (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "soil_suborder", ex.mv.soil.na, ex.mv.soil, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+
+# Duration since first C app (continuous)
+## All data
+```{r}
+any(is.na(ex$duration_first))
+```
+```{r, eval=FALSE}
+ex.mv.df <- rma.mv(yi = yi,
+                   V = vi,
+                   random = ~ 1 | exp_ID / obs_ID,
+                   data = ex,
+                   mods = ~ duration_first)
+```
+```{r}
+single.mod.cont(ex$duration_first, ex.mv.df, ex$vi, ex$yi, 
+                "Months since first C application", "Duration (all)")
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+
+# Duration since first C app (categorical)
+## All data
+```{r}
+# Create categories
+count(ex, duration_first)
+```
+```{r, eval=FALSE}
+ex$dfc <- NA
+for(i in 1:nrow(ex)) {
+  if(ex$duration_first[i] == 3) {
+    ex$dfc[i] <- "3"
+  } else if(between(ex$duration_first[i], 5, 6)) {
+    ex$dfc[i] <- "5-6"
+  } else if(between(ex$duration_first[i], 7, 12)) {
+    ex$dfc[i] <- "7-12"
+  } else if(between(ex$duration_first[i], 13, 18)) {
+    ex$dfc[i] <- "13-18"
+  } else if(between(ex$duration_first[i], 19, 24)) {
+    ex$dfc[i] <- "19-24"
+  } else if(between(ex$duration_first[i], 25, 36)) {
+    ex$dfc[i] <- "25-36"
+  } else if(between(ex$duration_first[i], 37, 50)) {
+    ex$dfc[i] <- "37-50"
+  } else if(between(ex$duration_first[i], 100, 200)) {
+    ex$dfc[i] <- "100-200"
+  } else {
+    ex$dfc[i] <- ">200"
+  }
+}
+ex$dfc <- factor(ex$df, levels = c("3", "5-6", "7-12", "12-18", "19-24", "25-36", "37-50", "100-200", ">200"))
+```
+```{r}
+count(ex, dfc)
+
+any(is.na(ex$dfc))
+```
+```{r, eval=FALSE}
+ex.mv.dfc <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex,
+                    mods = ~ factor(dfc) - 1)
+```
+```{r}
+h <- c("duration_first (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "dfc", ex.mv, ex.mv.dfc, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.dfc <- c(457)
+ex.dfc.o <- outliers(ex, out.dfc)
+ex.mv.dfc.o <- rma.mv(yi = yi,
+                      V = vi,
+                      random = ~ 1 | exp_ID / obs_ID,
+                      data = ex.dfc.o,
+                      mods = ~ factor(dfc) - 1)
+
+ex.mv.dfc.na.o <- rma.mv(yi = yi,
+                         V = vi,
+                         random = ~ 1 | exp_ID / obs_ID,
+                         data = ex.dfc.o)
+```
+```{r}
+h <- c("duration_first (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.dfc.o, "dfc", ex.mv.dfc.na.o, ex.mv.dfc.o, h)
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT.
+
+
+
+# Duration since last C application (continuous)
+## All data
+```{r}
+any(is.na(ex$duration_last))
+```
+```{r, eval=FALSE}
+ex.mv.dl <- rma.mv(yi = yi,
+                   V = vi,
+                   random = ~ 1 | exp_ID / obs_ID,
+                   data = ex,
+                   mods = ~ duration_last)
+```
+```{r}
+single.mod.cont(ex$duration_last, ex.mv.dl, ex$vi, ex$yi, 
+                "Months since last C application", "Duration (all)")
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+
+# Duration since last C app (categorical)
+## All data
+```{r}
+# Create categories
+count(ex, duration_last)
+```
+```{r, eval=FALSE}
+ex$dlc <- NA
+for(i in 1:nrow(ex)) {
+  if(between(ex$duration_last[i], 0, 1.5)) {
+    ex$dlc[i] <- "0-1.5"
+  } else if(ex$duration_last[i] == 2) {
+    ex$dlc[i] <- "2"
+  } else if(between(ex$duration_last[i], 3, 3.5)) {
+    ex$dlc[i] <- "3-3.5"
+  } else if(between(ex$duration_last[i], 4, 6)) {
+    ex$dlc[i] <- "4-6"
+  } else if(between(ex$duration_last[i], 7, 12)) {
+    ex$dlc[i] <- "7-12"
+  } else if(between(ex$duration_last[i], 13, 18)) {
+    ex$dlc[i] <- "13-18"
+  } else if(between(ex$duration_last[i], 19, 24)) {
+    ex$dlc[i] <- "19-24"
+  } else if(between(ex$duration_last[i], 36, 49)) {
+    ex$dlc[i] <- "36-49"
+  } else {
+    ex$dlc[i] <- ">100"
+  }
+}
+ex$dlc <- factor(ex$dl, levels = c("0-1.5", "2", "3-3.5", "4-6", "7-12", "13-18", "19-24", 
+                                   "36-49", ">100"))
+```
+```{r}
+count(ex, dlc)
+
+any(is.na(ex$dlc))
+```
+```{r, eval=FALSE}
+ex.mv.dlc <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex,
+                    mods = ~ factor(dlc) - 1)
+```
+```{r}
+h <- c("Duration (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "dlc", ex.mv, ex.mv.dlc, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+# C type 
+## All data
+```{r}
+any(is.na(ex$C_type))
+```
+```{r, eval=FALSE}
+ex.mv.ctyp <- rma.mv(yi = yi,
+                    V = vi,
+                    random = ~ 1 | exp_ID / obs_ID,
+                    data = ex,
+                    mods = ~ factor(C_type) - 1)
+```
+```{r}
+h <- c("C_type (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "C_type", ex.mv, ex.mv.ctyp, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+# C rate (continuous)
+## All data
+```{r}
+any(is.na(ex$C_rate))
+```
+```{r, eval=FALSE}
+ex.crat.na <- ex %>% 
+  filter(!is.na(C_rate))
+
+ex.mv.crat <- rma.mv(yi = yi,
+                   V = vi,
+                   random = ~ 1 | exp_ID / obs_ID,
+                   data = ex.crat.na,
+                   mods = ~ C_rate)
+```
+```{r}
+single.mod.cont(ex.crat.na$C_rate, ex.mv.crat, ex.crat.na$vi, ex.crat.na$yi, 
+                "C rate (g C/m2 per year)", "C rate (all)")
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.crat <- c(54, 120, 132)
+ex.crat.o <- outliers(ex.crat.na, out.crat)
+ex.mv.crat.o <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex.crat.o,
+                     mods = ~ C_rate)
+```
+```{r}
+single.mod.cont(ex.crat.o$C_rate, ex.mv.crat.o, ex.crat.o$vi, ex.crat.o$yi, 
+                "C rate (g C/m2 per year)", "C rate (out rm)")
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT.
+
+
+
+# C rate (categorical)
+```{r}
+# Create categories
+count(ex, C_rate)
+```
+```{r, eval=FALSE}
+ex$cratc <- NA
+for(i in 1:nrow(ex)) {
+  if(is.na(ex$C_rate[i])) {
+    ex$cratc[i] <- "idk"
+  } else if(between(ex$C_rate[i], 0, 100)) {
+    ex$cratc[i] <- "30-100"
+  } else if(between(ex$C_rate[i], 101, 160)) {
+    ex$cratc[i] <- "133-160"
+  } else if(between(ex$C_rate[i], 161, 200)) {
+    ex$cratc[i] <- "174-200"
+  } else if(between(ex$C_rate[i], 201, 300)) {
+    ex$cratc[i] <- "210-300"
+  } else if(between(ex$C_rate[i], 301, 400)) {
+    ex$cratc[i] <- "330-400"
+  } else if(between(ex$C_rate[i], 401, 500)) {
+    ex$cratc[i] <- "420-500"
+  } else if(between(ex$C_rate[i], 501, 600)) {
+    ex$cratc[i] <- "506-600"
+  } else if(between(ex$C_rate[i], 630, 700)) {
+    ex$cratc[i] <- "620-700"
+  } else if(between(ex$C_rate[i], 714, 999)) {
+    ex$cratc[i] <- "714-999"
+  } else if(between(ex$C_rate[i], 1000, 1330)) {
+    ex$cratc[i] <- "1000-1330"
+  } else if(between(ex$C_rate[i], 1600, 2000)) {
+    ex$cratc[i] <- "1600-2000"
+  } else if(between(ex$C_rate[i], 2001, 3000)) {
+    ex$cratc[i] <- "2110-3000"
+  } else if(between(ex$C_rate[i], 3001, 5000)) {
+    ex$cratc[i] <- "3346-5000"
+  } else {
+    ex$cratc[i] <- ">5000"
+  }
+}
+ex$cratc <- factor(ex$cratc, levels = c("30-100", "133-160", "174-200", "210-300", "330-400", "420-500", 
+                                     "506-600", "620-700", "714-999", "1000-1330", "1600-2000",
+                                     "2110-3000", "3346-5000", ">5000"))
+```
+```{r}
+count(ex, cratc)
+
+any(is.na(ex$cratc))
+```
+```{r, eval=FALSE}
+ex.cratc.na <- ex %>% 
+  filter(!is.na(cratc))
+
+ex.mv.cratc <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex.cratc.na,
+                     mods = ~ factor(cratc) - 1)
+
+ex.mv.cratc.na <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = ex.cratc.na)
+```
+```{r}
+h <- c("C rate (all)", "Estimate [95% CI]")
+single.mod.cat(ex.cratc.na, "cratc", ex.mv.cratc.na, ex.mv.cratc, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.cratc <- c(437)
+ex.cratc.o <- outliers(ex.cratc.na, out.cratc)
+
+ex.mv.cratc.o <- rma.mv(yi = yi,
+                      V = vi,
+                      random = ~ 1 | exp_ID / obs_ID,
+                      data = ex.cratc.o,
+                      mods = ~ factor(cratc) - 1)
+
+ex.mv.cratc.na.o <- rma.mv(yi = yi,
+                         V = vi,
+                         random = ~ 1 | exp_ID / obs_ID,
+                         data = ex.cratc.o)
+```
+```{r}
+h <- c("C rate (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.cratc.o, "cratc", ex.mv.cratc.na.o, ex.mv.cratc.o, h)
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT.
+
+
+
+# C applications total (continuous)
+## All data
+```{r}
+any(is.na(ex$C_app))
+```
+```{r, eval=FALSE}
+ex.mv.cap <- rma.mv(yi = yi,
+                   V = vi,
+                   random = ~ 1 | exp_ID / obs_ID,
+                   data = ex,
+                   mods = ~ C_app)
+```
+```{r}
+single.mod.cont(ex$C_app, ex.mv.cap, ex$vi, ex$yi, 
+                "Total C applications", "C app (all)")
+```
+
+## Outliers removed 
+- There were no outliers.
+
+
+# C applications total (categorical)
+## All data
+```{r}
+# Create categories
+count(ex, C_app)
+```
+```{r, eval=FALSE}
+ex$capc <- NA
+for(i in 1:nrow(ex)) {
+  if(ex$C_app[i] == 1) {
+    ex$capc[i] <- "1"
+  } else if(ex$C_app[i] == 2) {
+    ex$capc[i] <- "2"
+  } else if(between(ex$C_app[i], 3, 6)) {
+    ex$capc[i] <- "3-6"
+  } else if(between(ex$C_app[i], 7, 10)) {
+    ex$capc[i] <- "7-10"
+  } else if(between(ex$C_app[i], 15, 22)) {
+    ex$capc[i] <- "15-22"
+  } else if(between(ex$C_app[i], 32, 40)) {
+    ex$capc[i] <- "32-40"
+  } else {
+    ex$capc[i] <- ">40"
+  }
+}
+ex$capc <- factor(ex$capc, levels = c("1", "2", "3-6", "7-10", "15-22", "32-40", ">40")))
+```
+```{r}
+count(ex, capc)
+
+any(is.na(ex$capc))
+```
+```{r, eval=FALSE}
+ex.mv.capc <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(capc) - 1)
+```
+```{r}
+h <- c("C applications (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "capc", ex.mv, ex.mv.capc, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+
+
+# Months between C applications
+## All data
+```{r}
+count(ex, C_app_ma)
+```
+```{r, eval=FALSE}
+ex$capm <- NA
+for(i in 1:nrow(ex)) {
+  if(ex$C_app_ma[i] == 0) {
+    ex$capm[i] <- "1 application total"
+  } else if(between(ex$C_app_ma[i], 0.001, 1)) {
+    ex$capm[i] <- "<1"
+  } else if(between(ex$C_app_ma[i], 1.001, 2)) {
+    ex$capm[i] <- "1-2"
+  } else if(between(ex$C_app_ma[i], 2.001, 4)) {
+    ex$capm[i] <- "2-4"
+  } else {
+    ex$capm[i] <- "4-11"
+  }
+}
+ex$capm <- factor(ex$capm, levels = c("1 application total", "<1", "1-2", "2-4", "4-11"))
+```
+```{r}
+count(ex, capm)
+
+any(is.na(ex$capm))
+```
+```{r, eval=FALSE}
+ex.mv.capm <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(capm) - 1)
+```
+```{r}
+h <- c("Months between C applications (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "capm", ex.mv, ex.mv.capm, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.capm <- c(257, 457, 601)
+ex.capm.o <- outliers(ex, out.capm)
+
+ex.mv.capm.o <- rma.mv(yi = yi,
+                        V = vi,
+                        random = ~ 1 | exp_ID / obs_ID,
+                        data = ex.capm.o,
+                        mods = ~ factor(capm) - 1)
+
+ex.mv.capm.na.o <- rma.mv(yi = yi,
+                           V = vi,
+                           random = ~ 1 | exp_ID / obs_ID,
+                           data = ex.capm.o)
+```
+```{r}
+h <- c("Months between C applications (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.capm.o, "capm", ex.mv.capm.na.o, ex.mv.capm.o, h)
+```
+
+## Comparison
+- Removing outliers does not change significance.
+- Removing outliers increases QM/QT.
+
+
+
+
+# Months applying C
+## All data
+```{r}
+count(ex, C_app_tm)
+```
+```{r, eval=FALSE}
+ex$capt <- NA
+for(i in 1:nrow(ex)) {
+  if(ex$C_app_tm[i] == 0) {
+    ex$capt[i] <- "1 application total"
+  } else if(between(ex$C_app_tm[i], 0.001, 6)) {
+    ex$capt[i] <- "1-6"
+  } else if(between(ex$C_app_tm[i], 7, 12)) {
+    ex$capt[i] <- "7-12"
+  } else if(between(ex$C_app_tm[i], 13, 24)) {
+    ex$capt[i] <- "13-24"
+  } else if(between(ex$C_app_tm[i], 25, 36)) {
+    ex$capt[i] <- "25-36"
+  } else if(between(ex$C_app_tm[i], 37, 48)) {
+    ex$capt[i] <- "37-48"
+  } else {
+    ex$capt[i] <- ">48"
+  }
+}
+ex$capt <- factor(ex$capt, levels = c("1 application total", "1-6", "7-12", "13-24", 
+                                      "25-36", "37-48", ">48"))
+```
+```{r}
+count(ex, capt)
+
+any(is.na(ex$capt))
+```
+```{r, eval=FALSE}
+ex.mv.capt <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(capt) - 1)
+```
+```{r}
+h <- c("Months applying C (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "capt", ex.mv, ex.mv.capt, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+# Annual/perennial
+## All data
+```{r}
+any(is.na(ex$plant_anper))
+```
+```{r, eval=FALSE}
+ex.mv.panp <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(plant_anper) - 1)
+```
+```{r}
+h <- c("Annual/perennial (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "plant_anper", ex.mv, ex.mv.panp, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+# Grass/forb/shrub 
+## All data
+```{r}
+any(is.na(ex$plant_gfs))
+```
+```{r, eval=FALSE}
+ex.mv.pgfs <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(plant_gfs) - 1)
+```
+```{r}
+h <- c("Grass/forb/shrub (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "plant_gfs", ex.mv, ex.mv.pgfs, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.pgfs <- c(257, 258)
+ex.pgfs.o <- outliers(ex, out.pgfs)
+ex.mv.pgfs.o <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = ex.pgfs.o,
+                       mods = ~ factor(plant_gfs) - 1)
+
+ex.mv.pgfs.na.o <- rma.mv(yi = yi,
+                          V = vi,
+                          random = ~ 1 | exp_ID / obs_ID,
+                          data = ex.pgfs.o)
+```
+```{r}
+h <- c("Grass/forb/shrub (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.pgfs.o, "plant_gfs", ex.mv.pgfs.na.o, ex.mv.pgfs.o, h)
+```
+
+## Comparison
+- Removing outliers changes unknown from significant to not significant.
+- Removing outliers increases QM/QT.
+
+
+
+# Annual/perennial and grass/forb/shrub
+## All data
+```{r}
+any(is.na(ex$plant_apgfs))
+```
+```{r, eval=FALSE}
+ex.mv.papgfs <- rma.mv(yi = yi,
+                     V = vi,
+                     random = ~ 1 | exp_ID / obs_ID,
+                     data = ex,
+                     mods = ~ factor(plant_apgfs) - 1)
+```
+```{r}
+h <- c("Annual/perennial and grass/forb/shrub (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "plant_apgfs", ex.mv, ex.mv.papgfs, h)
+```
+
+## Outliers removed 
+- There were no outliers.
+
+
+# Plot size (categorical)
+## All data
+```{r}
+count(ex, plot)
+```
+```{r, eval=FALSE}
+ex$plotc <- NA
+for(i in 1:nrow(ex)) {
+  if(is.na(ex$plot[i])) {
+    ex$plotc[i] <- "idk"
+  } else if(ex$plot[i] < 1) {
+    ex$plotc[i] <- "<1"
+  } else if(ex$plot[i] == 1) {
+    ex$plotc[i] <- "1"
+  } else if(between(ex$plot[i], 1.3, 3.75)) {
+    ex$plotc[i] <- "1.3-3.75"
+  } else if(ex$plot[i] == 4) {
+    ex$plotc[i] <- "4"
+  } else if(between(ex$plot[i], 6, 9)) {
+    ex$plotc[i] <- "6-9"
+  } else if(ex$plot[i] == 12) {
+    ex$plotc[i] <- "12"
+  } else if(between(ex$plot[i], 12.5, 16)) {
+    ex$plotc[i] <- "12.5-16"
+  } else if(ex$plot[i] == 25) {
+    ex$plotc[i] <- "25"
+  } else if(between(ex$plot[i], 28, 50)) {
+    ex$plotc[i] <- "28-50"
+  } else if(ex$plot[i] == 75) {
+    ex$plotc[i] <- "75"
+  } else {
+    ex$plotc[i] <- ">100"
+  }
+}
+ex$plotc <- factor(ex$plotc, 
+                           levels = c("<1", "1", "1.3-3.75", "4", "6-9", "12", "12.5-16", 
+                                      "25", "28-50", "75", ">100"))
+```
+```{r}
+count(ex, plotc)
+
+any(is.na(ex$plotc))
+```
+```{r, eval=FALSE}
+ex.plotc.na <- ex %>% 
+  filter(!is.na(plotc))
+
+ex.mv.plotc <- rma.mv(yi = yi,
+                      V = vi,
+                      random = ~ 1 | exp_ID / obs_ID,
+                      data = ex.plotc.na,
+                      mods = ~ factor(plotc) - 1)
+
+ex.mv.plotc.na <- rma.mv(yi = yi,
+                         V = vi,
+                         random = ~ 1 | exp_ID / obs_ID,
+                         data = ex.plotc.na)
+```
+```{r}
+h <- c("Plot size (all)", "Estimate [95% CI]")
+single.mod.cat(ex.plotc.na, "plotc", ex.mv.plotc.na, ex.mv.plotc, h)
+```
+
+## Outliers removed
+- There were no outliers.
+
+
+# Seeding of native
+## All data
+```{r}
+count(ex, seeding_native)
+```
+```{r, eval=FALSE}
+ex <- ex %>% 
+  mutate(seedn = rep(NA, nrow(ex)))
+for(i in 1:nrow(ex)) {
+  if(is.na(ex$seeding_native[i])) {
+    ex$seedn[i] <- "native seeded"
+  } else if(ex$seeding_native[i] == 0) {
+    ex$seedn[i] <- "native not seeded"
+  } else {
+    ex$seedn[i] <- "native seeded"
+  }
+}
+```
+```{r}
+count(ex, seedn)
+
+any(is.na(ex$seedn))
+```
+```{r, eval=FALSE}
+ex.mv.seedn <- rma.mv(yi = yi,
+                      V = vi,
+                      random = ~ 1 | exp_ID / obs_ID,
+                      data = ex,
+                      mods = ~ factor(seedn) - 1)
+```
+```{r}
+h <- c("Seeding of native (all)", "Estimate [95% CI]")
+single.mod.cat(ex, "seedn", ex.mv, ex.mv.seedn, h)
+```
+
+## Outliers removed
+```{r, eval=FALSE}
+out.seedn <- NA
+ex.seedn.o <- outliers(ex, out.seedn)
+ex.mv.seedn.o <- rma.mv(yi = yi,
+                       V = vi,
+                       random = ~ 1 | exp_ID / obs_ID,
+                       data = ex.seedn.o,
+                       mods = ~ factor(seedn) - 1)
+
+ex.mv.seedn.na.o <- rma.mv(yi = yi,
+                          V = vi,
+                          random = ~ 1 | exp_ID / obs_ID,
+                          data = ex.seedn.o)
+```
+```{r}
+h <- c("Seeding of native (out rm)", "Estimate [95% CI]")
+single.mod.cat(ex.seedn.o, "seedn", ex.mv.seedn.na.o, ex.mv.seedn.o, h)
+```
+
