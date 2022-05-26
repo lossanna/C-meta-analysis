@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 library(tidyverse)
 library(readxl)
 library(metafor)
-load("2110_density-removed.RData")
+load("../RData/2021-10_density-removed.RData")
 ```
 
 

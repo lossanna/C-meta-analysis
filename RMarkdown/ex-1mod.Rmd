@@ -11,7 +11,7 @@ output:
 library(tidyverse)
 library(readxl)
 library(metafor)
-load("ex-1mod.RData")
+load("../RData/ex-1mod.RData")
 ```
 
 

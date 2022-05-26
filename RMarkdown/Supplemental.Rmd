@@ -7,8 +7,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
                       fig.width = 9, fig.height = 11)
 library(kableExtra)
 
-load("systematic-review.RData")
-load("2201_results.RData")
+load("../RData/systematic-review.RData")
+load("../RData/2022-01_results.RData")
 
 library(tidyverse)
 library(readxl)

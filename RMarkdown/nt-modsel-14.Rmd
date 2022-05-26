@@ -17,7 +17,7 @@ library(readxl)
 library(metafor)
 library(glmulti)
 eval(metafor:::.glmulti)
-load("nt-mod14o.RData")
+load("../RData/nt-mod14o.RData")
 ```
 
 

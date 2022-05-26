@@ -11,7 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-load("systematic-review.RData")
+load("../RData/systematic-review.RData")
 ```
 
 
