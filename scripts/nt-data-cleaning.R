@@ -4,7 +4,7 @@ library(metafor)
 
 # Load data ---------------------------------------------------------------
 
-raw <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (1 res)")
+raw <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (1 res, nt)")
 
 # Data wrangling ----------------------------------------------------------
 
