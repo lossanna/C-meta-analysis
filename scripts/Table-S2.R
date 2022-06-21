@@ -37,16 +37,12 @@ nt.obs <- raw.nt %>%
   mutate(dataset = rep("native", nrow(raw.nt)))
 nt.obs <- nt.obs$obs_ID
 
-ex.nt <- c(ex.obs, nt.obs)
-
 # Combine and reorder
 s2.ex <- biocov %>% 
-  filter(obs_ID %in% ex.nt) %>% 
-  arrange(obs_ID)
+  filter(obs_ID %in% ex.obs) 
 
 s2.nt <- one.res %>% 
-  filter(obs_ID %in% ex.nt) %>% 
-  arrange(obs_ID)
+  filter(obs_ID %in% nt.obs)
 
 s2 <- rbind(s2.ex, s2.nt)
 s2 <- s2 %>% 
