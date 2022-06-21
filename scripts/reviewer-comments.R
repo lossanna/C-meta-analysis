@@ -6,13 +6,12 @@ library(metafor)
 load("RData/Main-figures.RData")
 
 
-
 # R1 comment 6 ------------------------------------------------------------
 
 # Looking at study overlap between native and exotic datasets
-exp.diff.ex <- setdiff(ex$exp_ID, nt$exp_ID) # 9 experiments
-length(setdiff(ex$paper_ID, nt$paper_ID)) # 9 papers, but that includes Iannone 2008 (paper_ID 24), which is not
-exp.diff.nt <- setdiff(nt$exp_ID, ex$exp_ID) # 12 experiments
+exp.diff.ex <- setdiff(ex$exp_ID, nt$exp_ID) # 9 experiments in ex but not nt
+length(setdiff(ex$paper_ID, nt$paper_ID)) # 9 papers in ex but not nt
+exp.diff.nt <- setdiff(nt$exp_ID, ex$exp_ID) # 12 experiments in nt but not ex
 
 ex.diff <- ex %>% 
   filter(!exp_ID %in% exp.diff.ex)
@@ -35,8 +34,23 @@ print(nt.diff.mv)
 predict(nt.diff.mv)
 
 # Compare
-predict(ex.mv.o)
-predict(ex.diff.mv)
+pred.ex.diff <- predict(ex.diff.mv)
+pred.ex <- predict(ex.mv.o)
 
-predict(nt.mv)
-predict(nt.diff.mv)
+pred.nt.diff <- predict(nt.diff.mv)
+pred.nt <- predict(nt.mv)
+
+
+r1c6.table <- data.frame(model = c("ex removed", "ex original", "nt removed", "nt original"),
+                         g = c(pred.ex.diff[[1]], pred.ex[[1]], pred.nt.diff[[1]], pred.nt[[1]]),
+                         ci.lb = c(pred.ex.diff[[3]], pred.ex[[3]], pred.nt.diff[[3]], pred.nt[[3]]),
+                         ci.ub = c(pred.ex.diff[[4]], pred.ex[[4]], pred.nt.diff[[4]], pred.nt[[4]]),
+                         pi.lb = c(pred.ex.diff[[5]], pred.ex[[5]], pred.nt.diff[[5]], pred.nt[[5]]),
+                         pi.ub = c(pred.ex.diff[[6]], pred.ex[[6]], pred.nt.diff[[6]], pred.nt[[6]]))
+r1c6.table <- r1c6.table %>% 
+  mutate_if(is.numeric, round, 3)
+
+
+# Save --------------------------------------------------------------------
+
+save.image("RData/reviewer-comments.RData")
