@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-05-26" />
+<meta name="date" content="2022-06-20" />
 
 <title>Data cleaning and effect size</title>
 
@@ -1512,7 +1512,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Data cleaning and effect size</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-05-26</h4>
+<h4 class="date">2022-06-20</h4>
 
 </div>
 
@@ -1566,6 +1566,7 @@ biomass &lt;- raw %&gt;%
   rename(mean_cntrl = biomass_mean_cntrl) %&gt;% 
   rename(SD_trt = biomass_SD_trt) %&gt;% 
   rename(SD_cntrl = biomass_SD_cntrl)
+biomass$res &lt;- rep(&quot;biomass&quot;, nrow(biomass))
 
 # Calculate SD from SE for cover
 trt.cntrl.se.sd &lt;- c(&quot;cover_mean_trt&quot;, &quot;cover_SE_trt&quot;, &quot;cover_SD_trt&quot;,
@@ -1583,26 +1584,12 @@ cover &lt;- raw %&gt;%
   mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %&gt;% 
   mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = &quot;NA&quot;), .keep = &quot;unused&quot;) %&gt;% 
   select(-all_of(to.drop)) %&gt;% 
-  mutate_at(c(&quot;cover_SD_trt&quot;, &quot;cover_SD_cntrl&quot;), as.numeric) # warning because one Burke point is blank (was &lt;1)
+  mutate_at(c(&quot;cover_SD_trt&quot;, &quot;cover_SD_cntrl&quot;), as.numeric) %&gt;% # warning because one Burke point is blank (was &lt;1)
+  rename(mean_trt = cover_mean_trt) %&gt;% 
+  rename(mean_cntrl = cover_mean_cntrl) %&gt;% 
+  rename(SD_trt = cover_SD_trt) %&gt;% 
+  rename(SD_cntrl = cover_SD_cntrl)
 cover$res &lt;- rep(&quot;cover&quot;, nrow(cover))
-
-trt.cntrl.se.sd &lt;- c(&quot;density_mean_trt&quot;, &quot;density_SE_trt&quot;, &quot;density_SD_trt&quot;,
-                     &quot;density_mean_cntrl&quot;, &quot;density_SE_cntrl&quot;, &quot;density_SD_cntrl&quot;)
-to.drop &lt;- c(&quot;density_SE_trt&quot;, &quot;density_SE_cntrl&quot;, &quot;to_sd_trt&quot;, &quot;to_sd_cntrl&quot;)
-density &lt;- raw %&gt;% 
-  select(!(contains(&quot;cover&quot;))) %&gt;% 
-  select(!contains(&quot;biomass&quot;)) %&gt;% 
-  filter(!is.na(density_mean_trt)) %&gt;% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %&gt;% 
-  mutate(to_sd_trt = density_SE_trt * sqrt(n_trt)) %&gt;% 
-  mutate(to_sd_cntrl = density_SE_cntrl * sqrt(n_cntrl)) %&gt;% 
-  mutate(density_SD_trt = paste(density_SD_trt, to_sd_trt)) %&gt;% 
-  mutate(density_SD_trt = str_remove(density_SD_trt, pattern = &quot;NA&quot;), .keep = &quot;unused&quot;) %&gt;% 
-  mutate(density_SD_cntrl = paste(density_SD_cntrl, to_sd_cntrl)) %&gt;% 
-  mutate(density_SD_cntrl = str_remove(density_SD_cntrl, pattern = &quot;NA&quot;), .keep = &quot;unused&quot;) %&gt;% 
-  select(-all_of(to.drop)) %&gt;% 
-  filter(density_SD_trt != &quot; NA&quot;) %&gt;% 
-  mutate_at(c(&quot;density_SD_trt&quot;, &quot;density_SD_cntrl&quot;), as.numeric)  
 
 # Calculate SD from SE for density
 trt.cntrl.se.sd &lt;- c(&quot;density_mean_trt&quot;, &quot;density_SE_trt&quot;, &quot;density_SD_trt&quot;,
@@ -1626,6 +1613,7 @@ density &lt;- raw %&gt;%
   rename(mean_cntrl = density_mean_cntrl) %&gt;% 
   rename(SD_trt = density_SD_trt) %&gt;% 
   rename(SD_cntrl = density_SD_cntrl)
+density$res &lt;- rep(&quot;density&quot;, nrow(density))
 
 # Combine only biomass and cover for exotic (density responded differently)
 all.1res.ex &lt;- rbind(biomass, cover)

@@ -54,6 +54,7 @@ biomass <- raw %>%
   rename(mean_cntrl = biomass_mean_cntrl) %>% 
   rename(SD_trt = biomass_SD_trt) %>% 
   rename(SD_cntrl = biomass_SD_cntrl)
+biomass$res <- rep("biomass", nrow(biomass))
 
 # Calculate SD from SE for cover
 trt.cntrl.se.sd <- c("cover_mean_trt", "cover_SE_trt", "cover_SD_trt",
@@ -71,26 +72,12 @@ cover <- raw %>%
   mutate(cover_SD_cntrl = paste(cover_SD_cntrl, to_sd_cntrl)) %>% 
   mutate(cover_SD_cntrl = str_remove(cover_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
   select(-all_of(to.drop)) %>% 
-  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric) # warning because one Burke point is blank (was <1)
+  mutate_at(c("cover_SD_trt", "cover_SD_cntrl"), as.numeric) %>% # warning because one Burke point is blank (was <1)
+  rename(mean_trt = cover_mean_trt) %>% 
+  rename(mean_cntrl = cover_mean_cntrl) %>% 
+  rename(SD_trt = cover_SD_trt) %>% 
+  rename(SD_cntrl = cover_SD_cntrl)
 cover$res <- rep("cover", nrow(cover))
-
-trt.cntrl.se.sd <- c("density_mean_trt", "density_SE_trt", "density_SD_trt",
-                     "density_mean_cntrl", "density_SE_cntrl", "density_SD_cntrl")
-to.drop <- c("density_SE_trt", "density_SE_cntrl", "to_sd_trt", "to_sd_cntrl")
-density <- raw %>% 
-  select(!(contains("cover"))) %>% 
-  select(!contains("biomass")) %>% 
-  filter(!is.na(density_mean_trt)) %>% 
-  mutate_at(trt.cntrl.se.sd, as.numeric) %>% 
-  mutate(to_sd_trt = density_SE_trt * sqrt(n_trt)) %>% 
-  mutate(to_sd_cntrl = density_SE_cntrl * sqrt(n_cntrl)) %>% 
-  mutate(density_SD_trt = paste(density_SD_trt, to_sd_trt)) %>% 
-  mutate(density_SD_trt = str_remove(density_SD_trt, pattern = "NA"), .keep = "unused") %>% 
-  mutate(density_SD_cntrl = paste(density_SD_cntrl, to_sd_cntrl)) %>% 
-  mutate(density_SD_cntrl = str_remove(density_SD_cntrl, pattern = "NA"), .keep = "unused") %>% 
-  select(-all_of(to.drop)) %>% 
-  filter(density_SD_trt != " NA") %>% 
-  mutate_at(c("density_SD_trt", "density_SD_cntrl"), as.numeric)  
 
 # Calculate SD from SE for density
 trt.cntrl.se.sd <- c("density_mean_trt", "density_SE_trt", "density_SD_trt",
@@ -114,6 +101,7 @@ density <- raw %>%
   rename(mean_cntrl = density_mean_cntrl) %>% 
   rename(SD_trt = density_SD_trt) %>% 
   rename(SD_cntrl = density_SD_cntrl)
+density$res <- rep("density", nrow(density))
 
 # Combine only biomass and cover for exotic (density responded differently)
 all.1res.ex <- rbind(biomass, cover)
