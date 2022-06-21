@@ -83,15 +83,17 @@ f1.df <- data.frame(model = c("Exotic", "Native"),
 # Orchard plots
 f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
   ggtitle("Exotic plant summary response") +
-  annotate(geom = "text", x = -6, y = 1.4,
-           label = paste0("95% CI: ", round(f1.df[1, 2], 3), ", ", round(f1.df[1, 3], 3), "\n",
-                          "95% PI: ", round(f1.df[1, 4], 3), ", ", round(f1.df[1, 5], 3)))
+  annotate(geom = "text", x = -10, y = 1.4,
+           label = paste0("Confidence interval: ", round(f1.df[1, 2], 3), ", ", round(f1.df[1, 3], 3), "***", "\n",
+                          "Prediction interval: ", round(f1.df[1, 4], 3), ", ", round(f1.df[1, 5], 3)),
+           hjust = 0)
 
 f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
   ggtitle("Native plant summary response") +
-  annotate(geom = "text", x = -7, y = 1.4,
-           label = paste0("95% CI: ", round(f1.df[2, 2], 3), ", ", round(f1.df[2, 3], 3), "\n",
-                          "95% PI: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)))
+  annotate(geom = "text", x = -10, y = 1.4,
+           label = paste0("Confidence interval: ", round(f1.df[2, 2], 3), ", ", round(f1.df[2, 3], 3), "\n",
+                          "Prediction interval: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)),
+           hjust = 0)
 
 ggarrange(f1.orc.ex, f1.orc.nt,
           ncol = 1, nrow = 2,
