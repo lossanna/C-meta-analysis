@@ -6,8 +6,6 @@ library(tidyverse)
 raw <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data")
 one.res <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (1 res, nt)")
 biocov <- read_xlsx("data/raw/C-addition-studies.xlsx", sheet = "screen 3_data (biocov, ex)") 
-  # sometimes opening biocov doesn't work for some reason; open Excel and go to biocov tab and then close it and try again
-
 
 
 # Filter out unused rows from screen 3_data -------------------------------

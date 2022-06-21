@@ -1,4 +1,4 @@
-authors,year,journal,title,location,exp ID
+authors,year,journal,title,location/experiment descriptor,exp ID
 "Alpert P, Maron JL",2000,Biological Invasions,Carbon addition as a countermeasure against biological invasion by plants,less invaded,1
 "Alpert P, Maron JL",2000,Biological Invasions,Carbon addition as a countermeasure against biological invasion by plants,more invaded,2
 "Averett JM, et al.",2004,Restoration Ecology,Effects of soil carbon amendment on nitrogen availability and plant growth in an experimental tallgrass prairie restoration,,3
@@ -69,5 +69,5 @@ Summerhays JCR,2011,not peer-reviewed; Utah State University master's thesis,Eff
 "Wilson SD, Gerry AK",1995,Restoration Ecology,"Strategies for mixed-grass prairie restoration - herbicide, tilling, and nitrogen manipulation",,65
 "Peltzer DA, Wilson SD, Gerry AK",1998,The American Naturalist,Competition intensity along a productivity gradient in a low-diversity grassland,,65
 "Gendron F, Wilson D",2007,Plant Ecology,Responses to fertility and disturbance in a low-diversity grassland,,65
-"Wilson SD, Pinno BD",2012,Oikos,Environmentally-contingent behaviour of invasive plants as drivers or passengers,,65
+"Wilson SD, Pinno BD",2013,Oikos,Environmentally-contingent behaviour of invasive plants as drivers or passengers,,65
 Blumenthal DM,2009,Biological Invasions,Carbon addition interacts with water availability to reduce invasive forb establishment in a semi-arid grassland,,66

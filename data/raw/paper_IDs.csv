@@ -1,4 +1,4 @@
-authors,year,journal,title,paper_ID,meta-analysis,review
+authors,year,journal,title,paper ID,meta-analysis,review
 "Alpert P, Maron JL",2000,Biological Invasions,Carbon addition as a countermeasure against biological invasion by plants,1,included,included
 "Averett JM, et al.",2004,Restoration Ecology,Effects of soil carbon amendment on nitrogen availability and plant growth in an experimental tallgrass prairie restoration,2,included,included
 "Baer SG, Blair JM, Collins SL, Knapp AK",2004,Oecologia,Plant community responses to resource availability and heterogenity during restoration,3,included,included
@@ -46,7 +46,7 @@ Summerhays JCR,2011,not peer-reviewed; Utah State University master's thesis,Eff
 "Wilson SD, Gerry AK",1995,Restoration Ecology,"Strategies for mixed-grass prairie restoration - herbicide, tilling, and nitrogen manipulation",48,included,included
 "Peltzer DA, Wilson SD, Gerry AK",1998,The American Naturalist,Competition intensity along a productivity gradient in a low-diversity grassland,49,included,included
 "Gendron F, Wilson D",2007,Plant Ecology,Responses to fertility and disturbance in a low-diversity grassland,50,included,included
-"Wilson SD, Pinno BD",2012,Oikos,Environmentally-contingent behaviour of invasive plants as drivers or passengers,51,included,included
+"Wilson SD, Pinno BD",2013,Oikos,Environmentally-contingent behaviour of invasive plants as drivers or passengers,51,included,included
 Blumenthal DM,2009,Biological Invasions,Carbon addition interacts with water availability to reduce invasive forb establishment in a semi-arid grassland,52,included,included
 "Badgery WB, Kemp DR, Michalk DL, King, WM",2008,Australian Journal of Agricultural Research,Studies of competition between Nassella trichotoma (Nees) Hack. ex Arechav. (serrated tussock) and native pastures. 1. Adult plants,53,excluded,included
 "Bakker JD, Wilson SD, Christian JM, Li X, Ambrose LG, Waddington J",2003,Ecological Applications,"Contingency of grassland restoration on year, site, and competition from introduced grasses",54,excluded,included
@@ -83,3 +83,4 @@ Ringer L,2016,not peer-reviewed; Colorado State University master's thesis,Alter
 "Witwicki DL, Doescher PS, Pyke DA, DeCrappeo NM, Perakis SS",2013,Oecologia,"Nitrogen limitation, 15N tracer retention, and growth response in intact and Bromus tectorum-invaded Artemisia tridentata ssp. wyomingensis communities",85,excluded,included
 "Young KR, Roundy BA, Eggett DL",2013,Rangeland Ecology and Management,Plant establishment in masticated Utah juniper woodlands,86,excluded,included
 "Yelenik SG, D'Antonio CM, August-Schmidt, E",2017,Plant Ecology,The influence of soil resources and plant traits on invasion and restoration in a subtropical woodland,87,excluded,included
+"Young JA, Clements CD, Blank RR ",1997,Journal of Range Management,Influence of nitrogen on antelope bitterbrush seedling establishment,88,excluded,included

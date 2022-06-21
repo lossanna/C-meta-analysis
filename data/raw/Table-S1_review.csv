@@ -29,7 +29,7 @@ Morris_2013,30,grassy woodland,southeast Australia,11,sucrose,,,,840,reapplied,s
 Morris_2018,31,grassy woodland,southeast Australia,30,sucrose,,,,2100,reapplied,single,"averaged, 700-3500",cutting,burn,scalp,3,4,absent,peer-reviewed,cover
 Neill_2015,32,coastal sandplain grassland,northeast USA,46,sawdust,,,,76.33719369,1,single,single,tilling,water manipulation,,2,25,discussed,peer-reviewed,cover
 Nowak_2006,33,sagebrush steppe,"Great Basin, USA",30.5,sucrose,,,,150,reapplied,single,single,native seeded,,,1,3.75,discussed,technical report,density
-Nowak_Mazzola,34,sagebrush steppe,"Great Basin, USA",20,sucrose,,,,150,reapplied,single,single,native seeded,,,2,3.75,absent,peer-reviewed,biomass
+Mazzola_2008,34,sagebrush steppe,"Great Basin, USA",20,sucrose,,,,150,reapplied,single,single,native seeded,,,2,3.75,absent,peer-reviewed,biomass
 Paschke_2000,35,shortgrass steppe,"Great Plains, USA",39,sucrose,,,,160,reapplied,single,single,none,,,0,100,absent,peer-reviewed,biomass
 Peltzer_1998,49,mixed-grass prairie,central Canada,39,sawdust,,,,183.945045,reapplied,single,single,none,,,0,0.007853982,absent,peer-reviewed,cover
 Prober_2005,37,grassy woodland,southeast Australia,17,sucrose,,,,630,reapplied,single,single,native seeded,burn,herbicide,3,6,absent,peer-reviewed,cover
@@ -81,4 +81,4 @@ Suding_2004,84,mixed-grass prairie,"Rocky Mountains, USA",25,sucrose,,,,210,reap
 Witwicki_2013,85,sagebrush steppe,"Great Basin, USA",18,sucrose,,,,200,1,single,single,water manipulation,,,1,25,absent,peer-reviewed,excluded (incompatible experiment)
 Young_2013,86,sagebrush steppe,"Great Basin, USA",19,sucrose,,,,110,reapplied,single,single,cutting,,,1,not provided,absent,peer-reviewed,excluded (incompatible experiment)
 Yelenik_2017,87,subtropical woodland,"HI, USA",27,sawdust,,,,550,reapplied,single,single,cutting,,,1,10,absent,peer-reviewed,excluded (incompatible experiment)
-Young_1997,86,,"Great Basin, USA",20,sucrose,,,,174,reapplied,single,single,none,,,0,9,absent,peer-reviewed,excluded (incompatible experiment)
+Young_1997,88,,"Great Basin, USA",20,sucrose,,,,174,reapplied,single,single,none,,,0,9,absent,peer-reviewed,excluded (incompatible experiment)
