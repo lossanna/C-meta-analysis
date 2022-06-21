@@ -14,6 +14,7 @@ library(tidyverse)
 load("../RData/systematic-review.RData")
 ```
 
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
 - This systematic review is to survey what types of experiments have been done using C addition. 

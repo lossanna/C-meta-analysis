@@ -19,7 +19,7 @@ eval(metafor:::.glmulti)
 load("../RData/ex-modsel.RData")
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
 - Model selection follows [this tutorial](https://www.metafor-project.org/doku.php/tips:model_selection_with_glmulti_and_mumin) from the  `metafor` website.

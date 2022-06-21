@@ -16,7 +16,7 @@ library(metafor)
 ```
 
 # Supplemental materials
-Supplemental Figures S1-15 and Tables S3-9 for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce exotic invasive plants: A review and meta-analysis"
+Supplemental Figures S1-15 and Tables S3-9 for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis"
 
 ## Table S3. Systematic review: Publication types
 ```{r}
