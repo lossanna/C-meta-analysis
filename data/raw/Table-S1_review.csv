@@ -1,84 +1,84 @@
-paper,biome,region,dur,ctyp1,ctyp2,ctyp3,ctyp4,cratav,capr,ctypm,cratm,mtrt1,mtrt2,mtrt3,mtrtn,plot,cost,peer,scrn3
-Alpert_2000,coastal grassland,"coastal CA, USA",22,sawdust,,,,689.7939189,1,single,single,none,,,0,1,mentioned briefly,peer-reviewed,biomass
-Averett_2004,tallgrass prairie,"Midwest, USA",26,sawdust,,,,3000,1,single,single,none,,,0,4,absent,peer-reviewed,biomass
-Baer_2004,tallgrass prairie,"Midwest, USA",30,sawdust,,,,2529.244369,1,single,single,none,,,0,4,absent,peer-reviewed,cover
-Beckstead_2004,shadscale-bunchgrass,"Great Basin, USA",9,sucrose,,,,63,reapplied,single,single,litter removal,,,1,0.09,absent,peer-reviewed,density
-Belnap_1995,cold desert,"Great Basin, USA",12,sucrose,mulch,sucrose AND mulch,straw,30,reapplied,multiple,multiple,fertilizer,,,1,50,absent,technical report,density
-Blumenthal_2003,tallgrass prairie,"Midwest, USA",3,sucrose AND sawdust,,,,1151.461538,1,single,"averaged, 84-3346",none,,,0,4,mentioned briefly,peer-reviewed,biomass
-Brown_2017,grassy woodland,southeast Australia,3,sucrose,,,,420,reapplied,single,multiple,none,,,0,1,mentioned briefly,peer-reviewed,"cover, density"
-Brunson_2010,sagebrush steppe,"Great Basin, USA",8,sucrose,,,,709.0909091,1,single,"averaged, 50-1200",none,,,0,12,mentioned briefly,peer-reviewed,biomass
-Burke_2013,shortgrass steppe,"Great Plains, USA",120,lignin,lignin AND sucrose,sawdust,sucrose AND sawdust,350,reapplied,multiple,single,none,,,0,9,absent,peer-reviewed,cover
-Cherwin_2009,mixed-grass prairie,"Rocky Mountains, USA",27,sucrose,,,,800,reapplied,single,single,soil amendment,,,1,4,mentioned briefly,peer-reviewed,cover
-Cione_2002,coastal sage scrub,"coastal CA, USA",3,mulch,,,,,1,single,,native seeded,,,1,25,absent,peer-reviewed,cover
-Concilio_2016,mixed-grass prairie,"Rocky Mountains, USA",5,sucrose,,,,500,reapplied,single,single,water manipulation,,,1,9,absent,peer-reviewed,cover
-Corbin_2004,coastal grassland,"coastal CA, USA",18,sawdust,,,,275.9175676,reapplied,single,single,none,,,0,2.25,mentioned briefly,peer-reviewed,biomass
-Davis_2001,wetland prairie,"Pacific Northwest, USA",9,sucrose AND sawdust,,,,521.1776276,reapplied,single,"averaged, 460-598",none,,,0,0.25,discussed,dissertation,biomass
-DeCorte_2011,creosote scrub,southwest USA,15,sucrose,,,,1263,1,single,single,tilling,,,1,1,discussed,thesis,biomass
-Desserud_2013,fescue prairie,central Canada,24,straw,,,,,1,single,,none,,,0,not provided,absent,peer-reviewed,biomass
-Gendron_2007,mixed-grass prairie,central Canada,123,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,cover
-Gray_2013,upland prairie,"Pacific Northwest, USA",15,sucrose,,,,3620,1,single,"averaged, 1810-5430",none,,,0,1,absent,technical report,cover
-Haubensak_2006,coastal grassland,"coastal CA, USA",17.5,sawdust,,,,229.9313063,reapplied,single,single,native seeded,,,1,2.25,absent,peer-reviewed,biomass
-Hoelzle_2010,sagebrush steppe,"Rocky Mountains, USA",266,sucrose,,,,160,reapplied,single,single,none,,,0,160,absent,thesis,biomass
-Holmes_2008,fynbos,South Africa,23,woodchip mulch,,,,,1,single,,tilling,herbicide,,2,12.5,numbers,peer-reviewed,cover
-Iannone_2008,sedge meadow,"Midwest, USA",22,sawdust,,,,4191.6,1,single,single,native seeded,cover crop,,2,1,absent,peer-reviewed,density
-Kirkpatrick_2011,Puget lowland prairie,"Pacific Northwest, USA",50,sucrose,,,,1000,reapplied,single,single,none,,,0,1,discussed,peer-reviewed,cover
-Lamm JF_2019,sagebrush steppe,"Pacific Northwest, USA",3,sucrose,,,,50,1,,,none,,,0,1,numbers,thesis,cover
-Lawrence_2015,upland prairie,"Pacific Northwest, USA",18.5,sucrose,,,,630,reapplied,,,native seeded,,,1,1,absent,thesis,cover
-LeJeune_2006,mixed-grass prairie,"Rocky Mountains, USA",16,sucrose,,,,210,reapplied,single,single,none,,,0,1.5,absent,peer-reviewed,cover
-Morris_2013,grassy woodland,southeast Australia,11,sucrose,,,,840,reapplied,single,single,native seeded,burn,,2,25,absent,peer-reviewed,cover
-Morris_2018,grassy woodland,southeast Australia,30,sucrose,,,,2100,reapplied,single,"averaged, 700-3500",cutting,burn,scalp,3,4,absent,peer-reviewed,cover
-Neill_2015,coastal sandplain grassland,northeast USA,46,sawdust,,,,76.33719369,1,single,single,tilling,water manipulation,,2,25,discussed,peer-reviewed,cover
-Nowak_2006,sagebrush steppe,"Great Basin, USA",30.5,sucrose,,,,150,reapplied,single,single,native seeded,,,1,3.75,discussed,technical report,density
-Nowak_Mazzola,sagebrush steppe,"Great Basin, USA",20,sucrose,,,,150,reapplied,single,single,native seeded,,,2,3.75,absent,peer-reviewed,biomass
-Paschke_2000,shortgrass steppe,"Great Plains, USA",39,sucrose,,,,160,reapplied,single,single,none,,,0,100,absent,peer-reviewed,biomass
-Peltzer_1998,mixed-grass prairie,central Canada,39,sawdust,,,,183.945045,reapplied,single,single,none,,,0,0.007853982,absent,peer-reviewed,cover
-Prober_2005,grassy woodland,southeast Australia,17,sucrose,,,,630,reapplied,single,single,native seeded,burn,herbicide,3,6,absent,peer-reviewed,cover
-Rashid_2010,Kashmir Himalaya,Himalaya,10,sawdust,,,,,1,single,,none,,,0,4,mentioned briefly,peer-reviewed,density
-Reever Morgan_1999,mixed-grass prairie,"Rocky Mountains, USA",6,sucrose AND sawdust,,,,714.3120721,reapplied,single,single,none,,,0,2.25,discussed,peer-reviewed,"biomass, density"
-Rowe_2009,sagebrush steppe,"Rocky Mountains, USA",22,sucrose,,,,260.4,reapplied,single,single,soil amendment,,,1,1.5,mentioned briefly,peer-reviewed,cover
-Sandel_2011,coastal grassland,"coastal CA, USA",45,sucrose AND sawdust,,,,195,reapplied,single,single,none,,,0,20.5,mentioned briefly,peer-reviewed,cover
-Smith_2021,grassy woodland,southeast Australia,5,sucrose AND sawdust,,,,420,1,single,single,cutting,burn,scalp,3,2,mentioned briefly,peer-reviewed,biomass
-Sollenberger_2016,tallgrass prairie,"Midwest, USA",46,woodchip,,,,,1,single,single,none,,,0,16,absent,peer-reviewed,biomass
-Souza_2011,,"Midwest, USA",30,sucrose,,,,1000,reapplied,single,single,none,,,0,9,absent,peer-reviewed,cover
-Steers_2011,creosote scrub,southwest USA,30,sucrose,,,,133.55,reapplied,single,"averaged, 93.6-173.5",none,,,0,2.25,mentioned briefly,peer-reviewed,cover
-Summerhays_2011,sagebrush steppe,"Great Basin, USA",19.5,activated carbon,sucrose,,,,reapplied,multiple,multiple,tilling,burn,herbicide,3,28,absent,thesis,density
-Vinton_2006,tallgrass prairie,"Midwest, USA",17.5,sucrose,,,,200,reapplied,single,single,none,,,0,4,absent,peer-reviewed,density
-Wilson_1995,mixed-grass prairie,central Canada,15,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,density
-Wilson_2012,mixed-grass prairie,central Canada,207,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,density
-Blumenthal_2009,mixed-grass prairie,"Great Plains, USA",16,dextrose,,,,875.25,reapplied,single,single,water manipulation,,,1,1.3,mentioned briefly,peer-reviewed,biomass
-Badgery_2008,,southeast Australia,,sucrose,,,,525,reapplied,single,single,grazing,,,1,4,absent,peer-reviewed,excluded (missing SD)
-Bakker_2003,mixed-grass prairie,central Canada,39,straw,sawdust,,,,reapplied,multiple,multiple,native seeded,herbicide,,2,30,mentioned briefly,peer-reviewed,excluded (missing SD)
-Brockington_2003,Idaho fescue/bluebunch wheatgrass,"Rocky Mountains, USA",12,sucrose,,,,100,1,single,single,none,,,0,1.54,mentioned briefly,thesis,excluded (missing SD)
-Cleland_2013,coastal sage scrub,"coastal CA, USA",15,sucrose,,,,428,reapplied,single,single,native seeded,,,1,1.5,absent,peer-reviewed,excluded (missing SD)
-Cole_2017,grassy woodland,southeast Australia,36,sucrose,,,,572,reapplied,single,single,grazing,burn,,2,81,absent,peer-reviewed,excluded (missing SD)
-Cole_2016,grassy woodland,southeast Australia,30,sucrose,,,,572,reapplied,single,single,grazing,burn,,2,81,mentioned briefly,peer-reviewed,excluded (missing SD)
-Cole_2021,montane shrubland,"HI, USA",12,sucrose AND sawdust,,,,545,reapplied,single,single,hand-pulling,,,1,64,mentioned briefly,peer-reviewed,excluded (missing SD)
-Gerlach_2015,grassy woodland,southeast Australia,17,sucrose AND sawdust,,,,1530,reapplied,single,single,native seeded,,,1,0.5625,absent,peer-reviewed,excluded (missing SD)
-Grygiel_2010,tallgrass prairie,"Great Plains, USA",65,sucrose,,,,500,1,single,single,fertilizer,,,1,8.0656,absent,peer-reviewed,excluded (missing SD)
-Kardol_2008,,Europe,27.5,straw,woodchip,,,,1,multiple,multiple,native seeded,,,1,16,mentioned briefly,peer-reviewed,excluded (missing SD)
-Larios_2013,,"coastal CA, USA",12,sucrose,,,,421,reapplied,single,single,native seeded,,,1,1,absent,dissertation,excluded (missing SD)
-Litton_2018,montane shrubland,"HI, USA",12,sucrose AND sawdust,,,,545,reapplied,single,single,hand-pulling,,,1,64,numbers,technical report,excluded (missing SD)
-Mangold_2008,Idaho fescue/bluebunch wheatgrass,"Rocky Mountains, USA",3,sucrose,,,,500,reapplied,single,single,native seeded,,,1,2.25,absent,peer-reviewed,excluded (missing SD)
-Meyer_2001,shadscale-bunchgrass,"Great Basin, USA",14,sucrose,,,,21,reapplied,single,single,tilling,,,1,0.01,absent,technical report,excluded (missing SD)
-Mitchell_2014,gulf coastal prairie,"Gulf of Mexico, USA",24,sucrose,,,,54.6,1,single,single,native seeded,,,1,54,absent,thesis,excluded (missing SD)
-Priest_2011,tallgrass prairie,northeast USA,15,sucrose,,,,400,1,single,single,native seeded,herbicide,,2,1,absent,peer-reviewed,excluded (missing SD)
-Reynecke_2012,Puget lowland prairie,"Pacific Northwest, USA",,sucrose,,,,21,reapplied,single,single,native seeded,herbicide,,2,1,absent,thesis,excluded (missing SD)
-Ruwanza_2009,fynbos,South Africa,18,sucrose,,,,84,reapplied,single,single,native seeded,herbicide,,2,2.25,discussed,thesis,excluded (missing SD)
-Smallbone_2007,grassy woodland,southeast Australia,34,sucrose,,,,630,reapplied,single,single,native seeded,,,1,6,absent,peer-reviewed,excluded (missing SD)
-Thomas_2010,serpentine grassland,"coastal CA, USA",6,sucrose,,,,201.6,reapplied,single,single,none,,,0,0.37161216,absent,conference,excluded (missing SD)
-Torok_2014,sand grassland,Europe,60,sucrose AND sawdust,,,,207.8333333,reapplied,single,"averaged,70-281.6",none,,,0,100,absent,peer-reviewed,excluded (missing SD)
-Seastedt_2007,mixed-grass prairie,"Rocky Mountains, USA",27,sucrose,,,,800,reapplied,single,single,soil amendment,native seeded,,2,4,absent,peer-reviewed,excluded (incompatible experiment)
-Doll_2011,tallgrass prairie,"Midwest, USA",39,sawdust,,,,600,reapplied,single,single,grazing,burn,,2,350,absent,peer-reviewed,excluded (incompatible experiment)
-Hopkins-Arnold_1998,tallgrass prairie,"Great Plains, USA",40,sucrose AND sawdust,,,,25,reapplied,single,single,grazing,burn,,2,not provided?,absent,dissertation,excluded (incompatible experiment)
-Huddleston_2005,,"Great Basin, USA",5,sawdust,,,,367.8900901,reapplied,single,single,cutting,burn,,2,1,mentioned briefly,peer-reviewed,excluded (incompatible experiment)
-Khavin_2001,tallgrass prairie,"Midwest, USA",76,sawdust,,,,21.55605997,1,single,single,burn,,,1,16,absent,thesis,excluded (incompatible experiment)
-McLendon_1992,sagebrush steppe,"Rocky Mountains, USA",40,sucrose,,,,160,reapplied,single,single,none,,,0,160,absent,peer-reviewed,excluded (incompatible experiment)
-Mitchell_2011,,"Pacific Northwest, USA",14,sucrose,activated carbon,,,420,reapplied,multiple,single,native seeded,,,1,50,discussed,peer-reviewed,excluded (incompatible experiment)
-Nolan_2015,shrub steppe,"Pacific Northwest, USA",32,activated carbon,,,,550,1,single,"averaged, 100-1000",none,,,0,225,numbers,peer-reviewed,excluded (incompatible experiment)
-Ringer_2016,montane ponderosa pine,"Rocky Mountains, USA",22,wood mulch,,,,,1,single,single,none,,,0,7.5,numbers,thesis,excluded (incompatible experiment)
-Spiegelberger_2009,mountain grassland,Europe,34,sawdust,,,,630,reapplied,single,single,grazing,,,1,9,discussed,peer-reviewed,excluded (incompatible experiment)
-Suding_2004,mixed-grass prairie,"Rocky Mountains, USA",25,sucrose,,,,210,reapplied,single,single,soil amendment,,,1,1.5,absent,peer-reviewed,excluded (incompatible experiment)
-Witwicki_2013,sagebrush steppe,"Great Basin, USA",18,sucrose,,,,200,1,single,single,water manipulation,,,1,25,absent,peer-reviewed,excluded (incompatible experiment)
-Young_2013,sagebrush steppe,"Great Basin, USA",19,sucrose,,,,110,reapplied,single,single,cutting,,,1,not provided,absent,peer-reviewed,excluded (incompatible experiment)
-Yelenik_2017,subtropical woodland,"HI, USA",27,sawdust,,,,550,reapplied,single,single,cutting,,,1,10,absent,peer-reviewed,excluded (incompatible experiment)
-Young_1997,,"Great Basin, USA",20,sucrose,,,,174,reapplied,single,single,none,,,0,9,absent,peer-reviewed,excluded (incompatible experiment)
+paper,paper_ID,biome,region,dur,ctyp1,ctyp2,ctyp3,ctyp4,cratav,capr,ctypm,cratm,mtrt1,mtrt2,mtrt3,mtrtn,plot,cost,peer,scrn3
+Alpert_2000,1,coastal grassland,"coastal CA, USA",22,sawdust,,,,689.7939189,1,single,single,none,,,0,1,mentioned briefly,peer-reviewed,biomass
+Averett_2004,2,tallgrass prairie,"Midwest, USA",26,sawdust,,,,3000,1,single,single,none,,,0,4,absent,peer-reviewed,biomass
+Baer_2004,3,tallgrass prairie,"Midwest, USA",30,sawdust,,,,2529.244369,1,single,single,none,,,0,4,absent,peer-reviewed,cover
+Beckstead_2004,4,shadscale-bunchgrass,"Great Basin, USA",9,sucrose,,,,63,reapplied,single,single,litter removal,,,1,0.09,absent,peer-reviewed,density
+Belnap_1995,5,cold desert,"Great Basin, USA",12,sucrose,mulch,sucrose AND mulch,straw,30,reapplied,multiple,multiple,fertilizer,,,1,50,absent,technical report,density
+Blumenthal_2003,6,tallgrass prairie,"Midwest, USA",3,sucrose AND sawdust,,,,1151.461538,1,single,"averaged, 84-3346",none,,,0,4,mentioned briefly,peer-reviewed,biomass
+Brown_2017,7,grassy woodland,southeast Australia,3,sucrose,,,,420,reapplied,single,multiple,none,,,0,1,mentioned briefly,peer-reviewed,"cover, density"
+Brunson_2010,8,sagebrush steppe,"Great Basin, USA",8,sucrose,,,,709.0909091,1,single,"averaged, 50-1200",none,,,0,12,mentioned briefly,peer-reviewed,biomass
+Burke_2013,10,shortgrass steppe,"Great Plains, USA",120,lignin,lignin AND sucrose,sawdust,sucrose AND sawdust,350,reapplied,multiple,single,none,,,0,9,absent,peer-reviewed,cover
+Cherwin_2009,11,mixed-grass prairie,"Rocky Mountains, USA",27,sucrose,,,,800,reapplied,single,single,soil amendment,,,1,4,mentioned briefly,peer-reviewed,cover
+Cione_2002,12,coastal sage scrub,"coastal CA, USA",3,mulch,,,,,1,single,,native seeded,,,1,25,absent,peer-reviewed,cover
+Concilio_2016,13,mixed-grass prairie,"Rocky Mountains, USA",5,sucrose,,,,500,reapplied,single,single,water manipulation,,,1,9,absent,peer-reviewed,cover
+Corbin_2004,14,coastal grassland,"coastal CA, USA",18,sawdust,,,,275.9175676,reapplied,single,single,none,,,0,2.25,mentioned briefly,peer-reviewed,biomass
+Davis_2001,15,wetland prairie,"Pacific Northwest, USA",9,sucrose AND sawdust,,,,521.1776276,reapplied,single,"averaged, 460-598",none,,,0,0.25,discussed,dissertation,biomass
+DeCorte_2011,16,creosote scrub,southwest USA,15,sucrose,,,,1263,1,single,single,tilling,,,1,1,discussed,thesis,biomass
+Desserud_2013,17,fescue prairie,central Canada,24,straw,,,,,1,single,,none,,,0,not provided,absent,peer-reviewed,biomass
+Gendron_2007,50,mixed-grass prairie,central Canada,123,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,cover
+Gray_2013,19,upland prairie,"Pacific Northwest, USA",15,sucrose,,,,3620,1,single,"averaged, 1810-5430",none,,,0,1,absent,technical report,cover
+Haubensak_2006,21,coastal grassland,"coastal CA, USA",17.5,sawdust,,,,229.9313063,reapplied,single,single,native seeded,,,1,2.25,absent,peer-reviewed,biomass
+Hoelzle_2010,22,sagebrush steppe,"Rocky Mountains, USA",266,sucrose,,,,160,reapplied,single,single,none,,,0,160,absent,thesis,biomass
+Holmes_2008,23,fynbos,South Africa,23,woodchip mulch,,,,,1,single,,tilling,herbicide,,2,12.5,numbers,peer-reviewed,cover
+Iannone_2008a,24,sedge meadow,"Midwest, USA",22,sawdust,,,,4191.6,1,single,single,native seeded,cover crop,,2,1,absent,peer-reviewed,density
+Kirkpatrick_2011,26,Puget lowland prairie,"Pacific Northwest, USA",50,sucrose,,,,1000,reapplied,single,single,none,,,0,1,discussed,peer-reviewed,cover
+Lamm JF_2019,27,sagebrush steppe,"Pacific Northwest, USA",3,sucrose,,,,50,1,,,none,,,0,1,numbers,thesis,cover
+Lawrence_2015,28,upland prairie,"Pacific Northwest, USA",18.5,sucrose,,,,630,reapplied,,,native seeded,,,1,1,absent,thesis,cover
+LeJeune_2006,29,mixed-grass prairie,"Rocky Mountains, USA",16,sucrose,,,,210,reapplied,single,single,none,,,0,1.5,absent,peer-reviewed,cover
+Morris_2013,30,grassy woodland,southeast Australia,11,sucrose,,,,840,reapplied,single,single,native seeded,burn,,2,25,absent,peer-reviewed,cover
+Morris_2018,31,grassy woodland,southeast Australia,30,sucrose,,,,2100,reapplied,single,"averaged, 700-3500",cutting,burn,scalp,3,4,absent,peer-reviewed,cover
+Neill_2015,32,coastal sandplain grassland,northeast USA,46,sawdust,,,,76.33719369,1,single,single,tilling,water manipulation,,2,25,discussed,peer-reviewed,cover
+Nowak_2006,33,sagebrush steppe,"Great Basin, USA",30.5,sucrose,,,,150,reapplied,single,single,native seeded,,,1,3.75,discussed,technical report,density
+Nowak_Mazzola,34,sagebrush steppe,"Great Basin, USA",20,sucrose,,,,150,reapplied,single,single,native seeded,,,2,3.75,absent,peer-reviewed,biomass
+Paschke_2000,35,shortgrass steppe,"Great Plains, USA",39,sucrose,,,,160,reapplied,single,single,none,,,0,100,absent,peer-reviewed,biomass
+Peltzer_1998,49,mixed-grass prairie,central Canada,39,sawdust,,,,183.945045,reapplied,single,single,none,,,0,0.007853982,absent,peer-reviewed,cover
+Prober_2005,37,grassy woodland,southeast Australia,17,sucrose,,,,630,reapplied,single,single,native seeded,burn,herbicide,3,6,absent,peer-reviewed,cover
+Rashid_2010,38,Kashmir Himalaya,Himalaya,10,sawdust,,,,,1,single,,none,,,0,4,mentioned briefly,peer-reviewed,density
+Reever Morgan_1999,39,mixed-grass prairie,"Rocky Mountains, USA",6,sucrose AND sawdust,,,,714.3120721,reapplied,single,single,none,,,0,2.25,discussed,peer-reviewed,"biomass, density"
+Rowe_2009,40,sagebrush steppe,"Rocky Mountains, USA",22,sucrose,,,,260.4,reapplied,single,single,soil amendment,,,1,1.5,mentioned briefly,peer-reviewed,cover
+Sandel_2011,41,coastal grassland,"coastal CA, USA",45,sucrose AND sawdust,,,,195,reapplied,single,single,none,,,0,20.5,mentioned briefly,peer-reviewed,cover
+Smith_2021,42,grassy woodland,southeast Australia,5,sucrose AND sawdust,,,,420,1,single,single,cutting,burn,scalp,3,2,mentioned briefly,peer-reviewed,biomass
+Sollenberger_2016,43,tallgrass prairie,"Midwest, USA",46,woodchip,,,,,1,single,single,none,,,0,16,absent,peer-reviewed,biomass
+Souza_2011,44,,"Midwest, USA",30,sucrose,,,,1000,reapplied,single,single,none,,,0,9,absent,peer-reviewed,cover
+Steers_2011,45,creosote scrub,southwest USA,30,sucrose,,,,133.55,reapplied,single,"averaged, 93.6-173.5",none,,,0,2.25,mentioned briefly,peer-reviewed,cover
+Summerhays_2011,46,sagebrush steppe,"Great Basin, USA",19.5,activated carbon,sucrose,,,,reapplied,multiple,multiple,tilling,burn,herbicide,3,28,absent,thesis,density
+Vinton_2006,47,tallgrass prairie,"Midwest, USA",17.5,sucrose,,,,200,reapplied,single,single,none,,,0,4,absent,peer-reviewed,density
+Wilson_1995,48,mixed-grass prairie,central Canada,15,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,density
+Wilson_2012,51,mixed-grass prairie,central Canada,207,sawdust,,,,183.945045,reapplied,single,single,tilling,,,1,75,absent,peer-reviewed,density
+Blumenthal_2009,52,mixed-grass prairie,"Great Plains, USA",16,dextrose,,,,875.25,reapplied,single,single,water manipulation,,,1,1.3,mentioned briefly,peer-reviewed,biomass
+Badgery_2008,53,,southeast Australia,,sucrose,,,,525,reapplied,single,single,grazing,,,1,4,absent,peer-reviewed,excluded (missing SD)
+Bakker_2003,54,mixed-grass prairie,central Canada,39,straw,sawdust,,,,reapplied,multiple,multiple,native seeded,herbicide,,2,30,mentioned briefly,peer-reviewed,excluded (missing SD)
+Brockington_2003,55,Idaho fescue/bluebunch wheatgrass,"Rocky Mountains, USA",12,sucrose,,,,100,1,single,single,none,,,0,1.54,mentioned briefly,thesis,excluded (missing SD)
+Cleland_2013,56,coastal sage scrub,"coastal CA, USA",15,sucrose,,,,428,reapplied,single,single,native seeded,,,1,1.5,absent,peer-reviewed,excluded (missing SD)
+Cole_2017,57,grassy woodland,southeast Australia,36,sucrose,,,,572,reapplied,single,single,grazing,burn,,2,81,absent,peer-reviewed,excluded (missing SD)
+Cole_2016,58,grassy woodland,southeast Australia,30,sucrose,,,,572,reapplied,single,single,grazing,burn,,2,81,mentioned briefly,peer-reviewed,excluded (missing SD)
+Cole_2021,59,montane shrubland,"HI, USA",12,sucrose AND sawdust,,,,545,reapplied,single,single,hand-pulling,,,1,64,mentioned briefly,peer-reviewed,excluded (missing SD)
+Gerlach_2015,60,grassy woodland,southeast Australia,17,sucrose AND sawdust,,,,1530,reapplied,single,single,native seeded,,,1,0.5625,absent,peer-reviewed,excluded (missing SD)
+Grygiel_2010,61,tallgrass prairie,"Great Plains, USA",65,sucrose,,,,500,1,single,single,fertilizer,,,1,8.0656,absent,peer-reviewed,excluded (missing SD)
+Kardol_2008,62,,Europe,27.5,straw,woodchip,,,,1,multiple,multiple,native seeded,,,1,16,mentioned briefly,peer-reviewed,excluded (missing SD)
+Larios_2013,63,,"coastal CA, USA",12,sucrose,,,,421,reapplied,single,single,native seeded,,,1,1,absent,dissertation,excluded (missing SD)
+Litton_2018,64,montane shrubland,"HI, USA",12,sucrose AND sawdust,,,,545,reapplied,single,single,hand-pulling,,,1,64,numbers,technical report,excluded (missing SD)
+Mangold_2008,65,Idaho fescue/bluebunch wheatgrass,"Rocky Mountains, USA",3,sucrose,,,,500,reapplied,single,single,native seeded,,,1,2.25,absent,peer-reviewed,excluded (missing SD)
+Meyer_2001,66,shadscale-bunchgrass,"Great Basin, USA",14,sucrose,,,,21,reapplied,single,single,tilling,,,1,0.01,absent,technical report,excluded (missing SD)
+Mitchell_2014,67,gulf coastal prairie,"Gulf of Mexico, USA",24,sucrose,,,,54.6,1,single,single,native seeded,,,1,54,absent,thesis,excluded (missing SD)
+Priest_2011,68,tallgrass prairie,northeast USA,15,sucrose,,,,400,1,single,single,native seeded,herbicide,,2,1,absent,peer-reviewed,excluded (missing SD)
+Reynecke_2012,69,Puget lowland prairie,"Pacific Northwest, USA",,sucrose,,,,21,reapplied,single,single,native seeded,herbicide,,2,1,absent,thesis,excluded (missing SD)
+Ruwanza_2009,70,fynbos,South Africa,18,sucrose,,,,84,reapplied,single,single,native seeded,herbicide,,2,2.25,discussed,thesis,excluded (missing SD)
+Smallbone_2007,71,grassy woodland,southeast Australia,34,sucrose,,,,630,reapplied,single,single,native seeded,,,1,6,absent,peer-reviewed,excluded (missing SD)
+Thomas_2010,72,serpentine grassland,"coastal CA, USA",6,sucrose,,,,201.6,reapplied,single,single,none,,,0,0.37161216,absent,conference,excluded (missing SD)
+Torok_2014,73,sand grassland,Europe,60,sucrose AND sawdust,,,,207.8333333,reapplied,single,"averaged,70-281.6",none,,,0,100,absent,peer-reviewed,excluded (missing SD)
+Seastedt_2007,74,mixed-grass prairie,"Rocky Mountains, USA",27,sucrose,,,,800,reapplied,single,single,soil amendment,native seeded,,2,4,absent,peer-reviewed,excluded (incompatible experiment)
+Doll_2011,75,tallgrass prairie,"Midwest, USA",39,sawdust,,,,600,reapplied,single,single,grazing,burn,,2,350,absent,peer-reviewed,excluded (incompatible experiment)
+Hopkins-Arnold_1998,76,tallgrass prairie,"Great Plains, USA",40,sucrose AND sawdust,,,,25,reapplied,single,single,grazing,burn,,2,not provided?,absent,dissertation,excluded (incompatible experiment)
+Huddleston_2005,77,,"Great Basin, USA",5,sawdust,,,,367.8900901,reapplied,single,single,cutting,burn,,2,1,mentioned briefly,peer-reviewed,excluded (incompatible experiment)
+Khavin_2001,78,tallgrass prairie,"Midwest, USA",76,sawdust,,,,21.55605997,1,single,single,burn,,,1,16,absent,thesis,excluded (incompatible experiment)
+McLendon_1992,79,sagebrush steppe,"Rocky Mountains, USA",40,sucrose,,,,160,reapplied,single,single,none,,,0,160,absent,peer-reviewed,excluded (incompatible experiment)
+Mitchell_2011,80,,"Pacific Northwest, USA",14,sucrose,activated carbon,,,420,reapplied,multiple,single,native seeded,,,1,50,discussed,peer-reviewed,excluded (incompatible experiment)
+Nolan_2015,81,shrub steppe,"Pacific Northwest, USA",32,activated carbon,,,,550,1,single,"averaged, 100-1000",none,,,0,225,numbers,peer-reviewed,excluded (incompatible experiment)
+Ringer_2016,82,montane ponderosa pine,"Rocky Mountains, USA",22,wood mulch,,,,,1,single,single,none,,,0,7.5,numbers,thesis,excluded (incompatible experiment)
+Spiegelberger_2009,83,mountain grassland,Europe,34,sawdust,,,,630,reapplied,single,single,grazing,,,1,9,discussed,peer-reviewed,excluded (incompatible experiment)
+Suding_2004,84,mixed-grass prairie,"Rocky Mountains, USA",25,sucrose,,,,210,reapplied,single,single,soil amendment,,,1,1.5,absent,peer-reviewed,excluded (incompatible experiment)
+Witwicki_2013,85,sagebrush steppe,"Great Basin, USA",18,sucrose,,,,200,1,single,single,water manipulation,,,1,25,absent,peer-reviewed,excluded (incompatible experiment)
+Young_2013,86,sagebrush steppe,"Great Basin, USA",19,sucrose,,,,110,reapplied,single,single,cutting,,,1,not provided,absent,peer-reviewed,excluded (incompatible experiment)
+Yelenik_2017,87,subtropical woodland,"HI, USA",27,sawdust,,,,550,reapplied,single,single,cutting,,,1,10,absent,peer-reviewed,excluded (incompatible experiment)
+Young_1997,86,,"Great Basin, USA",20,sucrose,,,,174,reapplied,single,single,none,,,0,9,absent,peer-reviewed,excluded (incompatible experiment)
