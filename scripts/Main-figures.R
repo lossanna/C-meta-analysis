@@ -20,7 +20,7 @@ f1.df <- data.frame(model = c("Exotic", "Native"),
 
 # Orchard plots
 f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
-  ggtitle("Exotic plant summary response") +
+  ggtitle("Exotic weed summary response") +
   annotate(geom = "text", x = -10, y = 1.4,
            label = paste0("Confidence interval: ", round(f1.df[1, 2], 3), ", ", round(f1.df[1, 3], 3), "***", "\n",
                           "Prediction interval: ", round(f1.df[1, 4], 3), ", ", round(f1.df[1, 5], 3)),
@@ -85,7 +85,7 @@ forest(x = n.forest.ex.papgfs$x,
 par(cex = 0.75, font = 4)
 text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 6, labels = "Exotic plant response")
+text(x = 0, y = 6, labels = "Exotic weed response")
 dev.off()
 
 tiff("output_figs/Figure_2.tiff", width = 6, height = 4, units = "in", res = 300)
@@ -104,7 +104,7 @@ forest(x = n.forest.ex.papgfs$x,
 par(cex = 0.75, font = 4)
 text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 6, labels = "Exotic plant response")
+text(x = 0, y = 6, labels = "Exotic weed response")
 dev.off()
 
 
@@ -131,7 +131,7 @@ forest(x = n.forest.ex.dlc$x,
 par(cex = 0.75, font = 4)
 text(x = -2.4, y = 11, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 11, labels = "Exotic plant response")
+text(x = 0, y = 11, labels = "Exotic weed response")
 dev.off()
 
 tiff("output_figs/Figure_3.tiff", width = 6, height = 4, units = "in", res = 300)
@@ -150,7 +150,7 @@ forest(x = n.forest.ex.dlc$x,
 par(cex = 0.75, font = 4)
 text(x = -2.4, y = 11, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 11, labels = "Exotic plant response")
+text(x = 0, y = 11, labels = "Exotic weed response")
 dev.off()
 
 
@@ -179,7 +179,7 @@ text(x = -6.55, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),
 par(cex = 0.75, font = 4)
 text(x = -5, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 16.1, labels = "Exotic plant response")
+text(x = 0, y = 16.1, labels = "Exotic weed response")
 dev.off()
 
 tiff("output_figs/Figure_4.tiff", width = 6, height = 4, units = "in", res = 300)
@@ -201,7 +201,7 @@ text(x = -6.35, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),
 par(cex = 0.75, font = 4)
 text(x = -4.7, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 16.1, labels = "Exotic plant response")
+text(x = 0, y = 16.1, labels = "Exotic weed response")
 dev.off()
 
 
