@@ -59,7 +59,53 @@ ggarrange(f1.orc.ex, f1.orc.nt,
 dev.off()
 
 
-# Figure 2 (anpergfs exotic) ----------------------------------------------
+# Figure 2 (dlc exotic) ---------------------------------------------------
+
+n.forest.ex.dlc <- count(ex, !!sym("dlc"))
+n.forest.ex.dlc$x <- ex.mv.dlc[[1]]
+n.forest.ex.dlc$ci.lb <- ex.mv.dlc[[6]]
+n.forest.ex.dlc$ci.ub <- ex.mv.dlc[[7]]
+
+pdf("output_figs/Figure_2.pdf", height = 5)
+forest(x = n.forest.ex.dlc$x,
+       ci.lb = n.forest.ex.dlc$ci.lb,
+       ci.ub = n.forest.ex.dlc$ci.ub,
+       slab = n.forest.ex.dlc$dlc,
+       header = "Study duration (months)",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.dlc$n,
+       ilab.xpos = -2.4,
+       cex = 0.75,
+       top = 2)
+
+par(cex = 0.75, font = 4)
+text(x = -2.4, y = 11, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 11, labels = "Exotic weed response")
+dev.off()
+
+tiff("output_figs/Figure_2.tiff", width = 6, height = 4, units = "in", res = 300)
+forest(x = n.forest.ex.dlc$x,
+       ci.lb = n.forest.ex.dlc$ci.lb,
+       ci.ub = n.forest.ex.dlc$ci.ub,
+       slab = n.forest.ex.dlc$dlc,
+       header = "Study duration (months)",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.dlc$n,
+       ilab.xpos = -2.4,
+       cex = 0.75,
+       top = 2)
+
+par(cex = 0.75, font = 4)
+text(x = -2.4, y = 11, labels = "k")
+par(cex = 0.75, font = 2)
+text(x = 0, y = 11, labels = "Exotic weed response")
+dev.off()
+
+
+# Figure 3 (anpergfs exotic) ----------------------------------------------
 
 n.forest.ex.papgfs <- count(ex, !!sym("plant_apgfs"))
 n.forest.ex.papgfs$x <- ex.mv.papgfs[[1]]
@@ -69,7 +115,7 @@ n.forest.ex.papgfs <- n.forest.ex.papgfs %>%
   filter(plant_apgfs %in% c("annual forb", "annual graminoid", 
                             "perennial forb", "perennial graminoid"))
 
-pdf("output_figs/Figure_2.pdf", height = 4)
+pdf("output_figs/Figure_3.pdf", height = 4)
 forest(x = n.forest.ex.papgfs$x,
        ci.lb = n.forest.ex.papgfs$ci.lb,
        ci.ub = n.forest.ex.papgfs$ci.ub,
@@ -88,7 +134,7 @@ par(cex = 0.75, font = 2)
 text(x = 0, y = 6, labels = "Exotic weed response")
 dev.off()
 
-tiff("output_figs/Figure_2.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/Figure_3.tiff", width = 6, height = 4, units = "in", res = 300)
 forest(x = n.forest.ex.papgfs$x,
        ci.lb = n.forest.ex.papgfs$ci.lb,
        ci.ub = n.forest.ex.papgfs$ci.ub,
@@ -105,52 +151,6 @@ par(cex = 0.75, font = 4)
 text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
 text(x = 0, y = 6, labels = "Exotic weed response")
-dev.off()
-
-
-# Figure 3 (dlc exotic) ---------------------------------------------------
-
-n.forest.ex.dlc <- count(ex, !!sym("dlc"))
-n.forest.ex.dlc$x <- ex.mv.dlc[[1]]
-n.forest.ex.dlc$ci.lb <- ex.mv.dlc[[6]]
-n.forest.ex.dlc$ci.ub <- ex.mv.dlc[[7]]
-
-pdf("output_figs/Figure_3.pdf", height = 5)
-forest(x = n.forest.ex.dlc$x,
-       ci.lb = n.forest.ex.dlc$ci.lb,
-       ci.ub = n.forest.ex.dlc$ci.ub,
-       slab = n.forest.ex.dlc$dlc,
-       header = "Study duration (months)",
-       annotate = FALSE,
-       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
-       ilab = n.forest.ex.dlc$n,
-       ilab.xpos = -2.4,
-       cex = 0.75,
-       top = 2)
-
-par(cex = 0.75, font = 4)
-text(x = -2.4, y = 11, labels = "k")
-par(cex = 0.75, font = 2)
-text(x = 0, y = 11, labels = "Exotic weed response")
-dev.off()
-
-tiff("output_figs/Figure_3.tiff", width = 6, height = 4, units = "in", res = 300)
-forest(x = n.forest.ex.dlc$x,
-       ci.lb = n.forest.ex.dlc$ci.lb,
-       ci.ub = n.forest.ex.dlc$ci.ub,
-       slab = n.forest.ex.dlc$dlc,
-       header = "Study duration (months)",
-       annotate = FALSE,
-       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
-       ilab = n.forest.ex.dlc$n,
-       ilab.xpos = -2.4,
-       cex = 0.75,
-       top = 2)
-
-par(cex = 0.75, font = 4)
-text(x = -2.4, y = 11, labels = "k")
-par(cex = 0.75, font = 2)
-text(x = 0, y = 11, labels = "Exotic weed response")
 dev.off()
 
 
