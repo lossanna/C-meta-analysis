@@ -16,9 +16,12 @@ library(metafor)
 ```
 
 # Supplemental materials
-Supplemental Figures S1-15 and Tables S3-9 for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis"
+Supplemental materials for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis". \
 
-## Table S3. Systematic review: Publication types
+**Table S1 & S2. Raw data**  
+See accompanying Zenodo archive for Tables S1 & S2, and R Markdown documents detailing analysis and code. \
+  
+**Table S3. Systematic review: Publication types** 
 ```{r}
 peer$perc <- round(peer$perc, 1)
 peer$peer <- c("conference", "doctoral dissertation", "peer-reviewed article", "technical report", "master's thesis")
@@ -29,7 +32,9 @@ peer %>%
   kable_classic(full_width = FALSE, latex_options = "HOLD_position")
 ```
 
-## Table S4. Systematic review: Study regions
+\
+
+**Table S4. Systematic review: Study regions**
 ```{r}
 reg$perc <- round(reg$perc, 1)
 colnames(reg) <- c("Region", "n", "Percent (%)")
@@ -49,7 +54,8 @@ hist(plot.na$plot, breaks = 50, xlab = expression(paste("Plot size (m"^2*")")), 
 ```
 **Figure S2.** Plot size for systematic review.
 
-## Table S5. Systematic review: C types
+\newpage 
+**Table S5. Systematic review: C types**
 ```{r}
 ctypa$perc <- round(ctypa$perc, 1)
 colnames(ctypa) <- c("C type", "n", "Percent (%)")
@@ -62,9 +68,11 @@ ctypa %>%
 ```{r, fig.height=5}
 hist(cratav.na$cratav, breaks = 50, xlab = expression(paste("C rate (g C m"^-2*" y"^-1*")")), main = NULL)
 ```
-**Figure S3.** Average C rate for systematic review.
+**Figure S3.** Average C rate for systematic review. \
 
-## Table S6. Systematic review: Number of treatment combinations with C addition
+\
+
+**Table S6.** Systematic review: Number of treatment combinations with C addition
 ```{r}
 mtrtn$perc <- round(mtrtn$perc, 1)
 mtrtn$mtrtn <- c("C addition only", "1 additional treatment", "2 additional treatments", "3 additional treatments")
@@ -75,7 +83,8 @@ mtrtn %>%
   kable_classic(full_width = FALSE, latex_options = "HOLD_position")
 ```
 
-## Table S7. Systematic review: Types of treatment combinations with C addition
+\newpage
+**Table S7. Systematic review: Types of treatment combinations with C addition** 
 ```{r}
 mtrt$perc <- round(mtrt$perc, 1)
 colnames(mtrt) <- c("Additional treatments", "n", "Percent (%)")
@@ -85,7 +94,9 @@ mtrt %>%
   kable_classic(full_width = FALSE, latex_options = "HOLD_position")
 ```
 
-## Table S8. Systematic review: Inclusion of cost
+\
+
+**Table S8. Systematic review: Inclusion of cost** 
 ```{r}
 cost$perc <- round(cost$perc, 1)
 cost$cost <- c("absent", "discussed in context of results", "mentioned briefly", "quantitative estimate")
@@ -207,10 +218,8 @@ forest.cat(nt, "plant_anper", nt.mv, nt.mv.panp, h)
 ```
 **Figure S15.** Standardized mean Hedges’ *g* effect size $\pm$ 95% confidence interval (CI) for exotic (A) and native plant abundance (B) in response to C addition, categorized by plant duration (annual/perennial), with number of comparisons *k*. CIs that do not overlap zero are considered significant.
 
-
-
-
-## Table S9. Meta-analysis: Heterogeneity statistics
+\newpage
+**Table S9. Meta-analysis: Heterogeneity statistics**
 ```{r}
 hetero %>% 
   kbl(longtable = TRUE, booktabs = TRUE) %>% 
