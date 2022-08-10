@@ -330,6 +330,6 @@ forest(x = n.forest.nt.seedn$x,
 par(cex = 1.1, font = 4)
 text(x = -0.7, y = 4, labels = "k")
 par(cex = 1.1, font = 2)
-text(x = 0.2, y = 4, labels = "Native")
+text(x = -0.2, y = 4, labels = "Native")
 dev.off()
 
