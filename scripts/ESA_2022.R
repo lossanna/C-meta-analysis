@@ -278,3 +278,58 @@ text(x = -1.4, y = 6, labels = "k")
 par(cex = 1.1, font = 2)
 text(x = 0, y = 6, labels = "Native")
 dev.off()
+
+
+# Seeding of native -------------------------------------------------------
+
+# Exotic
+n.forest.ex.seedn <- count(ex, !!sym("seedn"))
+n.forest.ex.seedn$x <- ex.mv.seedn[[1]]
+n.forest.ex.seedn$ci.lb <- ex.mv.seedn[[6]]
+n.forest.ex.seedn$ci.ub <- ex.mv.seedn[[7]]
+
+tiff("output_figs/ESA_2022/seedn-exotic.tiff", width = 6, height = 4, units = "in", res = 300)
+forest(x = n.forest.ex.seedn$x,
+       ci.lb = n.forest.ex.seedn$ci.lb,
+       ci.ub = n.forest.ex.seedn$ci.ub,
+       slab = n.forest.ex.seedn$seedn,
+       header = "Seeding",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.ex.seedn$n,
+       ilab.xpos = -1.1,
+       cex = 1,
+       top = 2)
+
+par(cex = 1.1, font = 4)
+text(x = -1.1, y = 4, labels = "k")
+par(cex = 1.1, font = 2)
+text(x = -0.6, y = 4, labels = "Exotic")
+dev.off()
+
+
+# Native
+n.forest.nt.seedn <- count(nt, !!sym("seedn"))
+n.forest.nt.seedn$x <- nt.mv.seedn[[1]]
+n.forest.nt.seedn$ci.lb <- nt.mv.seedn[[6]]
+n.forest.nt.seedn$ci.ub <- nt.mv.seedn[[7]]
+
+tiff("output_figs/ESA_2022/seedn-native.tiff", width = 6, height = 4, units = "in", res = 300)
+forest(x = n.forest.nt.seedn$x,
+       ci.lb = n.forest.nt.seedn$ci.lb,
+       ci.ub = n.forest.nt.seedn$ci.ub,
+       slab = n.forest.nt.seedn$seedn,
+       header = "Seeding",
+       annotate = FALSE,
+       xlab = substitute(paste("Effect size (Hedges' ", italic("g"), ")")),
+       ilab = n.forest.nt.seedn$n,
+       ilab.xpos = -0.7,
+       cex = 1,
+       top = 2)
+
+par(cex = 1.1, font = 4)
+text(x = -0.7, y = 4, labels = "k")
+par(cex = 1.1, font = 2)
+text(x = 0.2, y = 4, labels = "Native")
+dev.off()
+
