@@ -111,6 +111,16 @@ P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * ex.mv.o$sigma2 / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))
 
 
+# Probability based on PI (IntHout 2016)
+D <- 0 # threshold D (null effect)
+M <- ex.mv.o[["b"]] # summary treatment effect
+SD.PI <- predict(ex.mv.o)$se * sqrt(ex.mv.o[["k"]]) # SD of prediction interval, calculated from SE
+
+t <- as.numeric((D - M) / (SD.PI))
+
+pt(t, ex.mv.o[["k"]] - 1) # left-tail cumulative t-distribution with k-1 df
+
+
 # By paper
 ex.mv.paper <- rma.mv(yi = yi,
                     V = vi,

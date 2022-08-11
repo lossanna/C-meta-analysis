@@ -84,6 +84,16 @@ P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * nt.mv$sigma2 / (sum(nt.mv$sigma2) + (nt.mv$k-nt.mv$p)/sum(diag(P)))
 
 
+# Probability based on PI (IntHout 2016)
+D <- 0 # threshold D (null effect)
+M <- nt.mv[["b"]] # summary treatment effect
+SD.PI <- predict(nt.mv)$se * sqrt(nt.mv[["k"]]) # SD of prediction interval, calculated from SE
+
+t <- as.numeric((D - M) / (SD.PI))
+
+pt(t, nt.mv[["k"]] - 1, lower.tail = FALSE) # right-tail cumulative t-distribution with k-1 df
+
+
 # Outliers removed
   # no outliers (more or fewer)
 
