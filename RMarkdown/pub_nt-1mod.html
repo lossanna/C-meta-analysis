@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-08-11" />
 
 <title>Native single moderator models</title>
 
@@ -1512,7 +1512,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Native single moderator models</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-06-21</h4>
+<h4 class="date">2022-08-11</h4>
 
 </div>
 
@@ -1622,7 +1622,8 @@ out.cratc &lt;- c(440)</code></pre>
 <pre><code>## 
 ##     pred     se   ci.lb  ci.ub   pi.lb  pi.ub 
 ##  -0.0742 0.0592 -0.1902 0.0417 -0.7502 0.6018</code></pre>
-<pre class="r"><code>nt.mv[[&quot;QM&quot;]] / sum(nt.mv[[&quot;QE&quot;]], nt.mv[[&quot;QM&quot;]])</code></pre>
+<pre class="r"><code># QM/QT
+nt.mv[[&quot;QM&quot;]] / sum(nt.mv[[&quot;QE&quot;]], nt.mv[[&quot;QM&quot;]])</code></pre>
 <pre><code>## [1] 0.001696612</code></pre>
 <pre class="r"><code># I^2
 W &lt;- diag(1 / nt$vi)
@@ -1630,8 +1631,18 @@ X &lt;- model.matrix(nt.mv)
 P &lt;- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * sum(nt.mv$sigma2) / (sum(nt.mv$sigma2) + (nt.mv$k-nt.mv$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 20.53777</code></pre>
-<pre class="r"><code>100 * nt.mv$sigma2 / (sum(nt.mv$sigma2) + (nt.mv$k-nt.mv$p)/sum(diag(P)))</code></pre>
+<pre class="r"><code># I^2 across nested experiment and within nested experiment
+100 * nt.mv$sigma2 / (sum(nt.mv$sigma2) + (nt.mv$k-nt.mv$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 2.053777e+01 1.511454e-06</code></pre>
+<pre class="r"><code># Probability based on PI (IntHout 2016)
+D &lt;- 0 # threshold D (null effect)
+M &lt;- nt.mv[[&quot;b&quot;]] # summary treatment effect
+SD.PI &lt;- predict(nt.mv)$se * sqrt(nt.mv[[&quot;k&quot;]]) # SD of prediction interval, calculated from SE
+
+t &lt;- as.numeric((D - M) / (SD.PI))
+
+pt(t, nt.mv[[&quot;k&quot;]] - 1, lower.tail = FALSE) # right-tail cumulative t-distribution with k-1 df</code></pre>
+<pre><code>## [1] 0.480463</code></pre>
 </div>
 <div id="biome" class="section level1">
 <h1>Biome</h1>

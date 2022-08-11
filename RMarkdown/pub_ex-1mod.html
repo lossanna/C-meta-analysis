@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-08-11" />
 
 <title>Exotic single moderator models</title>
 
@@ -1512,7 +1512,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Exotic single moderator models</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-06-21</h4>
+<h4 class="date">2022-08-11</h4>
 
 </div>
 
@@ -1629,7 +1629,8 @@ out.pgfs &lt;- c(257, 258)</code></pre>
 <pre><code>## 
 ##     pred     se   ci.lb   ci.ub   pi.lb  pi.ub 
 ##  -0.5831 0.1068 -0.7923 -0.3738 -2.0800 0.9138</code></pre>
-<pre class="r"><code>ex.mv[[&quot;QM&quot;]] / sum(ex.mv[[&quot;QE&quot;]], ex.mv[[&quot;QM&quot;]])</code></pre>
+<pre class="r"><code># QM/QT
+ex.mv[[&quot;QM&quot;]] / sum(ex.mv[[&quot;QE&quot;]], ex.mv[[&quot;QM&quot;]])</code></pre>
 <pre><code>## [1] 0.0278053</code></pre>
 <pre class="r"><code># I^2
 W &lt;- diag(1 / ex$vi)
@@ -1637,8 +1638,18 @@ X &lt;- model.matrix(ex.mv)
 P &lt;- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * sum(ex.mv$sigma2) / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 59.59988</code></pre>
-<pre class="r"><code>100 * ex.mv$sigma2 / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))</code></pre>
+<pre class="r"><code># I^2 across nested experiment and within nested experiment
+100 * ex.mv$sigma2 / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 41.87386 17.72602</code></pre>
+<pre class="r"><code># Probability based on PI (IntHout 2016)
+D &lt;- 0 # threshold D (null effect)
+M &lt;- ex.mv[[&quot;b&quot;]] # summary treatment effect
+SD.PI &lt;- predict(ex.mv)$se * sqrt(ex.mv[[&quot;k&quot;]]) # SD of prediction interval, calculated from SE
+
+t &lt;- as.numeric((D - M) / (SD.PI))
+
+pt(t, ex.mv[[&quot;k&quot;]] - 1) # left-tail cumulative t-distribution with k-1 df</code></pre>
+<pre><code>## [1] 0.5975788</code></pre>
 </div>
 <div id="outliers-removed" class="section level2">
 <h2>Outliers removed</h2>
@@ -1672,16 +1683,27 @@ ex.mv.o &lt;- rma.mv(yi = yi,
 <pre><code>## 
 ##     pred     se   ci.lb   ci.ub   pi.lb  pi.ub 
 ##  -0.5768 0.1009 -0.7746 -0.3791 -1.9782 0.8246</code></pre>
-<pre class="r"><code>ex.mv.o[[&quot;QM&quot;]] / sum(ex.mv.o[[&quot;QE&quot;]], ex.mv.o[[&quot;QM&quot;]])</code></pre>
+<pre class="r"><code># QM/QT
+ex.mv.o[[&quot;QM&quot;]] / sum(ex.mv.o[[&quot;QE&quot;]], ex.mv.o[[&quot;QM&quot;]])</code></pre>
 <pre><code>## [1] 0.03125952</code></pre>
-<pre class="r"><code># I^2
+<pre class="r"><code># I^2 overall
 W &lt;- diag(1 / ex.o$vi)
 X &lt;- model.matrix(ex.mv.o)
 P &lt;- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * sum(ex.mv.o$sigma2) / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 56.4348</code></pre>
-<pre class="r"><code>100 * ex.mv.o$sigma2 / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))</code></pre>
+<pre class="r"><code># I^2 across nested experiment and within nested experiment
+100 * ex.mv.o$sigma2 / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))</code></pre>
 <pre><code>## [1] 38.93651 17.49828</code></pre>
+<pre class="r"><code># Probability based on PI (IntHout 2016)
+D &lt;- 0 # threshold D (null effect)
+M &lt;- ex.mv.o[[&quot;b&quot;]] # summary treatment effect
+SD.PI &lt;- predict(ex.mv.o)$se * sqrt(ex.mv.o[[&quot;k&quot;]]) # SD of prediction interval, calculated from SE
+
+t &lt;- as.numeric((D - M) / (SD.PI))
+
+pt(t, ex.mv.o[[&quot;k&quot;]] - 1) # left-tail cumulative t-distribution with k-1 df</code></pre>
+<pre><code>## [1] 0.6022503</code></pre>
 </div>
 <div id="comparison" class="section level2">
 <h2>Comparison</h2>

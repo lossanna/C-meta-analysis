@@ -88,6 +88,8 @@ ex.mv <- rma.mv(yi = yi,
 ```{r}
 print(ex.mv)
 predict(ex.mv)
+
+# QM/QT
 ex.mv[["QM"]] / sum(ex.mv[["QE"]], ex.mv[["QM"]])
 
 # I^2
@@ -96,7 +98,18 @@ X <- model.matrix(ex.mv)
 P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * sum(ex.mv$sigma2) / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))
 
+# I^2 across nested experiment and within nested experiment
 100 * ex.mv$sigma2 / (sum(ex.mv$sigma2) + (ex.mv$k-ex.mv$p)/sum(diag(P)))
+
+
+# Probability based on PI (IntHout 2016)
+D <- 0 # threshold D (null effect)
+M <- ex.mv[["b"]] # summary treatment effect
+SD.PI <- predict(ex.mv)$se * sqrt(ex.mv[["k"]]) # SD of prediction interval, calculated from SE
+
+t <- as.numeric((D - M) / (SD.PI))
+
+pt(t, ex.mv[["k"]] - 1) # left-tail cumulative t-distribution with k-1 df
 ```
 
 ## Outliers removed
@@ -111,15 +124,27 @@ ex.mv.o <- rma.mv(yi = yi,
 ```{r}
 print(ex.mv.o)
 predict(ex.mv.o)
+
+# QM/QT
 ex.mv.o[["QM"]] / sum(ex.mv.o[["QE"]], ex.mv.o[["QM"]])
 
-# I^2
+# I^2 overall
 W <- diag(1 / ex.o$vi)
 X <- model.matrix(ex.mv.o)
 P <- W - W %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% W
 100 * sum(ex.mv.o$sigma2) / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))
 
+# I^2 across nested experiment and within nested experiment
 100 * ex.mv.o$sigma2 / (sum(ex.mv.o$sigma2) + (ex.mv.o$k-ex.mv.o$p)/sum(diag(P)))
+
+# Probability based on PI (IntHout 2016)
+D <- 0 # threshold D (null effect)
+M <- ex.mv.o[["b"]] # summary treatment effect
+SD.PI <- predict(ex.mv.o)$se * sqrt(ex.mv.o[["k"]]) # SD of prediction interval, calculated from SE
+
+t <- as.numeric((D - M) / (SD.PI))
+
+pt(t, ex.mv.o[["k"]] - 1) # left-tail cumulative t-distribution with k-1 df
 ```
 
 ## Comparison
