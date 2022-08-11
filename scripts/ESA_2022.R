@@ -110,7 +110,7 @@ n.forest.ex.dlc$x <- ex.mv.dlc[[1]]
 n.forest.ex.dlc$ci.lb <- ex.mv.dlc[[6]]
 n.forest.ex.dlc$ci.ub <- ex.mv.dlc[[7]]
 
-tiff("output_figs/ESA_2022/dlc-exotic.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/ESA_2022/dlc-exotic.tiff", width = 6, height = 4.5, units = "in", res = 300)
 forest(x = n.forest.ex.dlc$x,
        ci.lb = n.forest.ex.dlc$ci.lb,
        ci.ub = n.forest.ex.dlc$ci.ub,
@@ -136,7 +136,7 @@ n.forest.nt.dlc$x <- nt.mv.dlc[[1]]
 n.forest.nt.dlc$ci.lb <- nt.mv.dlc[[6]]
 n.forest.nt.dlc$ci.ub <- nt.mv.dlc[[7]]
 
-tiff("output_figs/ESA_2022/dlc-native.tiff", width = 6, height = 4, units = "in", res = 300)
+tiff("output_figs/ESA_2022/dlc-native.tiff", width = 6, height = 4.5, units = "in", res = 300)
 forest(x = n.forest.nt.dlc$x,
        ci.lb = n.forest.nt.dlc$ci.lb,
        ci.ub = n.forest.nt.dlc$ci.ub,
