@@ -19,11 +19,12 @@ library(ggpubr)
 load("../RData/Main-figures.RData")
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
 - This document contains the code used to produce the main figures in the paper.
   - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+- Note that the word "exotic" is used to refer to the non-native dataset and models in the code, but has been replaced with "non-native" in the figures.
 
 # Setup
 ```{r, eval=FALSE}
@@ -55,7 +56,7 @@ nt.out.cratc <- c(440)
 ```
 
 # Figure 1
-Figure 1 is an orchard plot to display the results of the exotic and native summary models.
+Figure 1 is an orchard plot to display the results of the non-native and native summary models.
 ```{r, eval=FALSE}
 # Exotic summary model
 out <- c(601, 457)
@@ -72,7 +73,7 @@ nt.mv <- rma.mv(yi = yi,
                 data = nt)
 
 # Table of estimate, CI, and PI
-f1.df <- data.frame(model = c("Exotic", "Native"),
+f1.df <- data.frame(model = c("Non-native", "Native"),
                     ci.lb = c(ex.mv.o[["ci.lb"]], nt.mv[["ci.lb"]]),
                     ci.ub = c(ex.mv.o[["ci.ub"]], nt.mv[["ci.ub"]]),
                     pi.lb = c(predict(ex.mv.o)$pi.lb, predict(nt.mv)$pi.lb),
@@ -101,7 +102,7 @@ ggarrange(f1.orc.ex, f1.orc.nt,
 ```
 
 # Figure 2
-Figure 2 is a forest plot of exotic weed response by study duration (months from first C app to harvest).
+Figure 2 is a forest plot of non-native weed response by study duration (months from first C app to harvest).
 ```{r, eval=FALSE}
 # Exotic dlc model
 ex.mv.dlc <- rma.mv(yi = yi,
@@ -132,11 +133,11 @@ forest(x = n.forest.ex.dlc$x,
 par(cex = 0.75, font = 4)
 text(x = -2.4, y = 11, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 11, labels = "Exotic weed response")
+text(x = 0, y = 11, labels = "Non-native weed response")
 ```
 
 # Figure 3
-Figure 3 is a forest plot of exotic weed response by plant lifeform (annual/perennial and grass/forb/shrub).
+Figure 3 is a forest plot of non-native weed response by plant lifeform (annual/perennial and grass/forb/shrub).
 ```{r, eval=FALSE}
 # Exotic anpergfs model
 ex.mv.papgfs <- rma.mv(yi = yi,
@@ -171,7 +172,7 @@ forest(x = n.forest.ex.papgfs$x,
 par(cex = 0.75, font = 4)
 text(x = -1.3, y = 6, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 6, labels = "Exotic weed response")
+text(x = 0, y = 6, labels = "Non-native weed response")
 ```
 
 # Figure 4
@@ -199,7 +200,7 @@ n.forest.ex.cratc$x <- ex.mv.cratc.o[[1]]
 n.forest.ex.cratc$ci.lb <- ex.mv.cratc.o[[6]]
 n.forest.ex.cratc$ci.ub <- ex.mv.cratc.o[[7]]
 ```
-```{r, fig.height=4, fig.width=4}
+```{r, fig.height=4, fig.width=6}
 forest(x = n.forest.ex.cratc$x,
        ci.lb = n.forest.ex.cratc$ci.lb,
        ci.ub = n.forest.ex.cratc$ci.ub,
@@ -217,7 +218,7 @@ text(x = -6.35, y = 16.1, labels = bquote(paste("(g C ", m^-2, " ", y^-1, ")")),
 par(cex = 0.75, font = 4)
 text(x = -4.7, y = 16.1, labels = "k")
 par(cex = 0.75, font = 2)
-text(x = 0, y = 16.1, labels = "Exotic weed response")
+text(x = 0, y = 16.1, labels = "Non-native weed response")
 ```
 
 # Figure 5
@@ -246,7 +247,7 @@ n.forest.nt.cratc$x <- nt.mv.cratc.o[[1]]
 n.forest.nt.cratc$ci.lb <- nt.mv.cratc.o[[6]]
 n.forest.nt.cratc$ci.ub <- nt.mv.cratc.o[[7]]
 ```
-```{r, fig.height=4, fig.width=4}
+```{r, fig.height=4, fig.width=6}
 forest(x = n.forest.nt.cratc$x,
        ci.lb = n.forest.nt.cratc$ci.lb,
        ci.ub = n.forest.nt.cratc$ci.ub,

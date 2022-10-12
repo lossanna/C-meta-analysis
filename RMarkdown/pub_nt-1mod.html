@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-08-11" />
+<meta name="date" content="2022-10-11" />
 
 <title>Native single moderator models</title>
 
@@ -1512,19 +1512,19 @@ div.tocify {
 
 <h1 class="title toc-ignore">Native single moderator models</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-08-11</h4>
+<h4 class="date">2022-10-11</h4>
 
 </div>
 
 
 <p>Analysis for Ossanna &amp; Gornish (2022), “Efficacy of labile carbon
-addition to reduce fast-growing, exotic invasive plants: A review and
-meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
+addition to reduce fast-growing, invasive non-native plants: A review
+and meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <ul>
 <li>This is the analysis of the summary effect and effect of a single
-moderator on exotic plant abundance.
+moderator on native plant abundance.
 <ul>
 <li>See “Data cleaning and effect size” document for code for data
 cleaning and calculation of effect size
@@ -1613,7 +1613,7 @@ out.cratc &lt;- c(440)</code></pre>
 ## 
 ## Model Results:
 ## 
-## estimate      se     zval    pval    ci.lb   ci.ub 
+## estimate      se     zval    pval    ci.lb   ci.ub    
 ##  -0.0742  0.0592  -1.2543  0.2097  -0.1902  0.0417    
 ## 
 ## ---
@@ -1688,7 +1688,7 @@ single.mod.cat(nt, &quot;biome&quot;, nt.mv, nt.mv.bio, h)</code></pre>
 ## factor(biome)tallgrass prairie              0.3279  0.1634   2.0068  0.0448 
 ## factor(biome)upland prairie                -0.2855  0.1736  -1.6445  0.1001 
 ## factor(biome)wetland prairie                0.5439  0.2621   2.0754  0.0379 
-##                                             ci.lb    ci.ub 
+##                                             ci.lb    ci.ub      
 ## factor(biome)coastal grassland            -0.2754   0.2690      
 ## factor(biome)coastal sandplain grassland  -0.9903   1.4876      
 ## factor(biome)cold desert                  -1.1825   0.0835    . 
@@ -1749,7 +1749,7 @@ single.mod.cat(nt, &quot;region&quot;, nt.mv, nt.mv.reg, h)</code></pre>
 ## factor(region)Rocky Mountains, USA     -0.3713  0.1752  -2.1190  0.0341 
 ## factor(region)southeast Australia      -0.0526  0.1771  -0.2970  0.7665 
 ## factor(region)southwest, USA           -1.5178  0.4243  -3.5775  0.0003 
-##                                         ci.lb    ci.ub 
+##                                         ci.lb    ci.ub      
 ## factor(region)central Canada           0.1696   1.0076   ** 
 ## factor(region)coastal CA, USA         -0.3169   0.2932      
 ## factor(region)Great Basin, USA        -0.3189   0.0671      
@@ -1821,7 +1821,7 @@ single.mod.cat(nt, &quot;soil_suborder&quot;, nt.mv.soil.na, nt.mv.soil, h)</cod
 ## factor(soil_suborder)Xerands             -0.1586  0.5374  -0.2951  0.7679 
 ## factor(soil_suborder)Xerepts             -0.0065  0.5146  -0.0126  0.9900 
 ## factor(soil_suborder)Xerolls             -0.0523  0.2153  -0.2430  0.8080 
-##                                           ci.lb   ci.ub 
+##                                           ci.lb   ci.ub     
 ## factor(soil_suborder)Aqualfs            -0.0164  1.1076   . 
 ## factor(soil_suborder)Aquolls            -0.6386  0.1359     
 ## factor(soil_suborder)Argids             -0.6884  0.0765     
@@ -1850,7 +1850,8 @@ single.mod.cat(nt, &quot;soil_suborder&quot;, nt.mv.soil.na, nt.mv.soil, h)</cod
 <h1>Duration since first C app (categorical)</h1>
 <pre class="r"><code># Create categories
 count(nt, duration_first)</code></pre>
-<pre><code>##    duration_first   n 
+<pre><code>## 
+##    duration_first   n 
 ## 1             3.0   5 
 ## 2             5.0   3 
 ## 3             6.0   2 
@@ -1902,7 +1903,8 @@ for(i in 1:nrow(nt)) {
 }
 nt$dfc &lt;- factor(nt$df, levels = c(&quot;3&quot;, &quot;5-6&quot;, &quot;7-12&quot;, &quot;12-18&quot;, &quot;19-24&quot;, &quot;25-36&quot;, &quot;37-50&quot;, &quot;100-200&quot;, &quot;&gt;200&quot;))</code></pre>
 <pre class="r"><code>count(nt, dfc)</code></pre>
-<pre><code>##       dfc   n 
+<pre><code>## 
+##       dfc   n 
 ## 1       3   5 
 ## 2     5-6   5 
 ## 3    7-12  67 
@@ -1938,7 +1940,7 @@ single.mod.cat(nt, &quot;dfc&quot;, nt.mv, nt.mv.dfc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                     estimate      se     zval    pval    ci.lb   ci.ub 
+##                     estimate      se     zval    pval    ci.lb   ci.ub    
 ## factor(dfc)3          0.0971  0.3489   0.2783  0.7808  -0.5867  0.7808    
 ## factor(dfc)5-6       -0.5350  0.2945  -1.8165  0.0693  -1.1122  0.0423  . 
 ## factor(dfc)7-12       0.1162  0.1833   0.6338  0.5262  -0.2431  0.4755    
@@ -1959,7 +1961,8 @@ single.mod.cat(nt, &quot;dfc&quot;, nt.mv, nt.mv.dfc, h)</code></pre>
 <h1>Duration since last C app (categorical)</h1>
 <pre class="r"><code># Create categories
 count(nt, duration_last)</code></pre>
-<pre><code>##    duration_last   n 
+<pre><code>## 
+##    duration_last   n 
 ## 1           0.50   6 
 ## 2           0.75 108 
 ## 3           1.00  12 
@@ -2007,7 +2010,8 @@ for(i in 1:nrow(nt)) {
 nt$dlc &lt;- factor(nt$dl, levels = c(&quot;0-1.5&quot;, &quot;2&quot;, &quot;3-3.5&quot;, &quot;4-6&quot;, &quot;7-12&quot;, &quot;13-18&quot;, &quot;19-24&quot;, 
                                    &quot;36-49&quot;, &quot;&gt;100&quot;))</code></pre>
 <pre class="r"><code>count(nt, dlc)</code></pre>
-<pre><code>##     dlc   n 
+<pre><code>## 
+##     dlc   n 
 ## 1 0-1.5 127 
 ## 2     2  78 
 ## 3 3-3.5  10 
@@ -2043,7 +2047,7 @@ single.mod.cat(nt, &quot;dlc&quot;, nt.mv, nt.mv.dlc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                   estimate      se     zval    pval    ci.lb    ci.ub 
+##                   estimate      se     zval    pval    ci.lb    ci.ub     
 ## factor(dlc)0-1.5   -0.4035  0.1256  -3.2132  0.0013  -0.6496  -0.1574  ** 
 ## factor(dlc)2        0.1358  0.1447   0.9387  0.3479  -0.1477   0.4193     
 ## factor(dlc)3-3.5   -0.0622  0.2416  -0.2576  0.7967  -0.5357   0.4113     
@@ -2100,7 +2104,7 @@ single.mod.cat(nt, &quot;C_type&quot;, nt.mv, nt.mv.ctyp, h)</code></pre>
 ## factor(C_type)sucrose AND mulch      -1.5518  0.6380  -2.4321  0.0150  -2.8023 
 ## factor(C_type)sucrose AND sawdust     0.2737  0.1123   2.4377  0.0148   0.0536 
 ## factor(C_type)woodchip                0.8793  0.5826   1.5092  0.1312  -0.2626 
-##                                       ci.ub 
+##                                       ci.ub      
 ## factor(C_type)dextrose              -1.1388  *** 
 ## factor(C_type)lignin                 0.5434      
 ## factor(C_type)lignin AND sucrose     0.3431      
@@ -2124,7 +2128,8 @@ single.mod.cat(nt, &quot;C_type&quot;, nt.mv, nt.mv.ctyp, h)</code></pre>
 <div id="all-data" class="section level2">
 <h2>All data</h2>
 <pre class="r"><code>count(nt, C_rate)</code></pre>
-<pre><code>##        C_rate   n 
+<pre><code>## 
+##        C_rate   n 
 ## 1    30.00000   2 
 ## 2    50.00000   1 
 ## 3    76.33719   1 
@@ -2212,7 +2217,8 @@ nt$cratc &lt;- factor(nt$cratc, levels = c(&quot;30-100&quot;, &quot;133-160&quo
                                         &quot;506-600&quot;, &quot;620-700&quot;, &quot;714-999&quot;, &quot;1000-1330&quot;, &quot;1600-2000&quot;,
                                         &quot;2110-3000&quot;, &quot;3346-5000&quot;, &quot;&gt;5000&quot;))</code></pre>
 <pre class="r"><code>count(nt, cratc)</code></pre>
-<pre><code>##        cratc   n 
+<pre><code>## 
+##        cratc   n 
 ## 1     30-100  10 
 ## 2    133-160 343 
 ## 3    174-200  33 
@@ -2277,21 +2283,21 @@ single.mod.cat(nt.cratc.na, &quot;cratc&quot;, nt.mv.cratc.na, nt.mv.cratc, h)</
 ## factor(cratc)2110-3000    0.6591  0.1920   3.4322  0.0006   0.2827   1.0354 
 ## factor(cratc)3346-5000    0.2382  0.1980   1.2031  0.2289  -0.1498   0.6261 
 ## factor(cratc)&gt;5000       -0.0924  0.3826  -0.2414  0.8092  -0.8422   0.6575 
-##  
+##                             
 ## factor(cratc)30-100       * 
 ## factor(cratc)133-160      . 
-## factor(cratc)174-200 
+## factor(cratc)174-200        
 ## factor(cratc)210-300      * 
-## factor(cratc)330-400 
-## factor(cratc)420-500 
-## factor(cratc)506-600 
-## factor(cratc)620-700 
-## factor(cratc)714-999 
-## factor(cratc)1000-1330 
-## factor(cratc)1600-2000 
+## factor(cratc)330-400        
+## factor(cratc)420-500        
+## factor(cratc)506-600        
+## factor(cratc)620-700        
+## factor(cratc)714-999        
+## factor(cratc)1000-1330      
+## factor(cratc)1600-2000      
 ## factor(cratc)2110-3000  *** 
-## factor(cratc)3346-5000 
-## factor(cratc)&gt;5000 
+## factor(cratc)3346-5000      
+## factor(cratc)&gt;5000          
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -2353,21 +2359,21 @@ single.mod.cat(nt.cratc.o, &quot;cratc&quot;, nt.mv.cratc.na.o, nt.mv.cratc.o, h
 ## factor(cratc)2110-3000    0.6590  0.1919   3.4346  0.0006   0.2829   1.0351 
 ## factor(cratc)3346-5000    0.2421  0.1977   1.2246  0.2207  -0.1454   0.6297 
 ## factor(cratc)&gt;5000       -0.6026  0.4164  -1.4472  0.1478  -1.4186   0.2135 
-##  
+##                             
 ## factor(cratc)30-100       * 
 ## factor(cratc)133-160      . 
-## factor(cratc)174-200 
+## factor(cratc)174-200        
 ## factor(cratc)210-300      * 
-## factor(cratc)330-400 
-## factor(cratc)420-500 
-## factor(cratc)506-600 
-## factor(cratc)620-700 
-## factor(cratc)714-999 
-## factor(cratc)1000-1330 
-## factor(cratc)1600-2000 
+## factor(cratc)330-400        
+## factor(cratc)420-500        
+## factor(cratc)506-600        
+## factor(cratc)620-700        
+## factor(cratc)714-999        
+## factor(cratc)1000-1330      
+## factor(cratc)1600-2000      
 ## factor(cratc)2110-3000  *** 
-## factor(cratc)3346-5000 
-## factor(cratc)&gt;5000 
+## factor(cratc)3346-5000      
+## factor(cratc)&gt;5000          
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -2380,7 +2386,8 @@ single.mod.cat(nt.cratc.o, &quot;cratc&quot;, nt.mv.cratc.na.o, nt.mv.cratc.o, h
 <h1>C applications total (categorical)</h1>
 <pre class="r"><code># Create categories
 count(nt, C_app)</code></pre>
-<pre><code>##    C_app   n 
+<pre><code>## 
+##    C_app   n 
 ## 1    1.0 167 
 ## 2    2.0 240 
 ## 3    3.0  14 
@@ -2420,7 +2427,8 @@ for(i in 1:nrow(nt)) {
 }
 nt$capc &lt;- factor(nt$capc, levels = c(&quot;1&quot;, &quot;2&quot;, &quot;3-6&quot;, &quot;7-10&quot;, &quot;15-22&quot;, &quot;32-40&quot;, &quot;&gt;40&quot;)))</code></pre>
 <pre class="r"><code>count(nt, capc)</code></pre>
-<pre><code>##    capc   n 
+<pre><code>## 
+##    capc   n 
 ## 1     1 167 
 ## 2     2 240 
 ## 3   3-6  72 
@@ -2454,7 +2462,7 @@ single.mod.cat(nt, &quot;capc&quot;, nt.mv, nt.mv.capc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                    estimate      se     zval    pval    ci.lb    ci.ub 
+##                    estimate      se     zval    pval    ci.lb    ci.ub    
 ## factor(capc)1        0.1795  0.1040   1.7254  0.0844  -0.0244   0.3833  . 
 ## factor(capc)2       -0.0644  0.0989  -0.6514  0.5148  -0.2582   0.1294    
 ## factor(capc)3-6     -0.2460  0.1187  -2.0720  0.0383  -0.4786  -0.0133  * 
@@ -2472,7 +2480,8 @@ single.mod.cat(nt, &quot;capc&quot;, nt.mv, nt.mv.capc, h)</code></pre>
 <div id="months-applying-c" class="section level1">
 <h1>Months applying C</h1>
 <pre class="r"><code>count(nt, C_app_tm)</code></pre>
-<pre><code>##    C_app_tm   n 
+<pre><code>## 
+##    C_app_tm   n 
 ## 1      0.00 167 
 ## 2      1.00   6 
 ## 3      2.00   1 
@@ -2524,7 +2533,8 @@ for(i in 1:nrow(nt)) {
 nt$capt &lt;- factor(nt$capt, levels = c(&quot;1 application total&quot;, &quot;1-6&quot;, &quot;7-12&quot;, &quot;13-24&quot;, 
                                       &quot;25-36&quot;, &quot;37-48&quot;, &quot;&gt;48&quot;))</code></pre>
 <pre class="r"><code>count(nt, capt)</code></pre>
-<pre><code>##                  capt   n 
+<pre><code>## 
+##                  capt   n 
 ## 1 1 application total 167 
 ## 2                 1-6 190 
 ## 3                7-12  57 
@@ -2566,7 +2576,7 @@ single.mod.cat(nt, &quot;capt&quot;, nt.mv, nt.mv.capt, h)</code></pre>
 ## factor(capt)25-36                 -0.5304  0.2255  -2.3523  0.0187  -0.9724 
 ## factor(capt)37-48                 -0.0723  0.1299  -0.5569  0.5776  -0.3268 
 ## factor(capt)&gt;48                   -0.1842  0.2108  -0.8735  0.3824  -0.5974 
-##                                    ci.ub 
+##                                    ci.ub    
 ## factor(capt)1 application total   0.4372  * 
 ## factor(capt)1-6                  -0.0009  * 
 ## factor(capt)7-12                  0.5912    
@@ -2614,7 +2624,7 @@ single.mod.cat(nt, &quot;plant_anper&quot;, nt.mv, nt.mv.panp, h)</code></pre>
 ## factor(plant_anper)biennial    -0.2311  0.3566  -0.6481  0.5169  -0.9301 
 ## factor(plant_anper)perennial   -0.0303  0.0608  -0.4991  0.6177  -0.1494 
 ## factor(plant_anper)unknown     -0.1615  0.1271  -1.2701  0.2041  -0.4106 
-##                                 ci.ub 
+##                                 ci.ub     
 ## factor(plant_anper)annual     -0.1194  ** 
 ## factor(plant_anper)biennial    0.4678     
 ## factor(plant_anper)perennial   0.0888     
@@ -2660,12 +2670,12 @@ single.mod.cat(nt, &quot;plant_gfs&quot;, nt.mv, nt.mv.pgfs, h)</code></pre>
 ## factor(plant_gfs)shrub       -0.0248  0.1214  -0.2045  0.8380  -0.2627  0.2130 
 ## factor(plant_gfs)subshrub    -0.2650  0.2280  -1.1627  0.2450  -0.7118  0.1817 
 ## factor(plant_gfs)unknown     -0.1700  0.1122  -1.5152  0.1297  -0.3900  0.0499 
-##  
-## factor(plant_gfs)forb 
-## factor(plant_gfs)graminoid 
-## factor(plant_gfs)shrub 
-## factor(plant_gfs)subshrub 
-## factor(plant_gfs)unknown 
+##                               
+## factor(plant_gfs)forb         
+## factor(plant_gfs)graminoid    
+## factor(plant_gfs)shrub        
+## factor(plant_gfs)subshrub     
+## factor(plant_gfs)unknown      
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -2715,7 +2725,7 @@ single.mod.cat(nt, &quot;plant_apgfs&quot;, nt.mv, nt.mv.papgfs, h)</code></pre>
 ## factor(plant_apgfs)unknown graminoid     -0.0435  0.2038  -0.2136  0.8308 
 ## factor(plant_apgfs)unknown shrub          1.3462  0.4482   3.0037  0.0027 
 ## factor(plant_apgfs)unknown unknown       -0.0871  0.2680  -0.3249  0.7453 
-##                                           ci.lb    ci.ub 
+##                                           ci.lb    ci.ub     
 ## factor(plant_apgfs)annual forb          -0.4964   0.0324   . 
 ## factor(plant_apgfs)annual graminoid     -1.1008   0.0943   . 
 ## factor(plant_apgfs)annual unknown       -1.7191  -0.3803  ** 
@@ -2739,7 +2749,8 @@ single.mod.cat(nt, &quot;plant_apgfs&quot;, nt.mv, nt.mv.papgfs, h)</code></pre>
 <div id="plot-size-categorical" class="section level1">
 <h1>Plot size (categorical)</h1>
 <pre class="r"><code>count(nt, plot)</code></pre>
-<pre><code>##            plot   n 
+<pre><code>## 
+##            plot   n 
 ## 1  7.853982e-03   2 
 ## 2  2.500000e-01  15 
 ## 3  1.000000e+00  89 
@@ -2790,7 +2801,8 @@ nt$plotc &lt;- factor(nt$plotc,
                            levels = c(&quot;&lt;1&quot;, &quot;1&quot;, &quot;1.3-3.75&quot;, &quot;4&quot;, &quot;6-9&quot;, &quot;12&quot;, &quot;12.5-16&quot;, 
                                       &quot;25&quot;, &quot;28-50&quot;, &quot;75&quot;, &quot;&gt;100&quot;))</code></pre>
 <pre class="r"><code>count(nt, plotc)</code></pre>
-<pre><code>##       plotc   n 
+<pre><code>## 
+##       plotc   n 
 ## 1        &lt;1  17 
 ## 2         1  89 
 ## 3  1.3-3.75 238 
@@ -2836,7 +2848,7 @@ single.mod.cat(nt.plotc.na, &quot;plotc&quot;, nt.mv.plotc.na, nt.mv.plotc, h)</
 ## 
 ## Model Results:
 ## 
-##                        estimate      se     zval    pval    ci.lb    ci.ub 
+##                        estimate      se     zval    pval    ci.lb    ci.ub    
 ## factor(plotc)&lt;1          0.5137  0.2551   2.0136  0.0441   0.0137   1.0137  * 
 ## factor(plotc)1          -0.1142  0.1239  -0.9218  0.3566  -0.3570   0.1286    
 ## factor(plotc)1.3-3.75   -0.2338  0.0918  -2.5473  0.0109  -0.4136  -0.0539  * 
@@ -2857,7 +2869,8 @@ single.mod.cat(nt.plotc.na, &quot;plotc&quot;, nt.mv.plotc.na, nt.mv.plotc, h)</
 <div id="seeding-of-native" class="section level1">
 <h1>Seeding of native</h1>
 <pre class="r"><code>count(nt, seeding_native)</code></pre>
-<pre><code>##    seeding_native   n 
+<pre><code>## 
+##    seeding_native   n 
 ## 1             0.0 174 
 ## 2           150.0   1 
 ## 3           160.0   5 
@@ -2911,7 +2924,7 @@ single.mod.cat(nt, &quot;seedn&quot;, nt.mv, nt.mv.seedn, h)</code></pre>
 ##                                 estimate      se     zval    pval    ci.lb 
 ## factor(seedn)native not seeded   -0.2840  0.0915  -3.1050  0.0019  -0.4632 
 ## factor(seedn)native seeded        0.0335  0.0663   0.5059  0.6130  -0.0964 
-##                                   ci.ub 
+##                                   ci.ub     
 ## factor(seedn)native not seeded  -0.1047  ** 
 ## factor(seedn)native seeded       0.1634     
 ## 

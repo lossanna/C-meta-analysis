@@ -1,5 +1,5 @@
 ---
-title: "Native model selection 14"
+title: "Native model selection"
 author: "Lia Ossanna"
 date: "`r format(Sys.Date())`"
 output: 
@@ -19,12 +19,12 @@ eval(metafor:::.glmulti)
 load("../RData/nt-mod14o.RData")
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
 - Model selection follows [this tutorial](https://www.metafor-project.org/doku.php/tips:model_selection_with_glmulti_and_mumin) from the  `metafor` website.
   - Code also adapted from Kinlock 2017 (*Global Ecology and Biogeography*) and Yan 2018 (*Forests*).
-- See "Exotic model selection 14" document (`pub_ex-modsel-14.html`) for rationale of moderators included.
+- See "Non-native (exotic) model selection" document (`pub_ex-modsel.html`) for rationale of moderators included.
 - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
 
 
@@ -52,7 +52,7 @@ eval(metafor:::.glmulti)
 
 
 
-# 14: `region`, `dlc`, `C_type`, `cratc`, `capt`, `plant_apgfs`, `plotc`
+# Model: `region`, `dlc`, `C_type`, `cratc`, `capt`, `plant_apgfs`, `plotc`
 - Model had two outliers removed.
 
 ```{r, eval=FALSE}

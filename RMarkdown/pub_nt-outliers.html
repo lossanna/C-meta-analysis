@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-10-11" />
 
 <title>Native outliers for models</title>
 
@@ -1512,14 +1512,14 @@ div.tocify {
 
 <h1 class="title toc-ignore">Native outliers for models</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-06-21</h4>
+<h4 class="date">2022-10-11</h4>
 
 </div>
 
 
 <p>Analysis for Ossanna &amp; Gornish (2022), “Efficacy of labile carbon
-addition to reduce fast-growing, exotic invasive plants: A review and
-meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
+addition to reduce fast-growing, invasive non-native plants: A review
+and meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <ul>
@@ -1599,8 +1599,8 @@ most extreme residuals.</li>
 <div id="code-annotations" class="section level2">
 <h2>Code annotations</h2>
 <ul>
-<li>See Biome section of “Exotic outliers for models” document for
-annotated code (<code>pub_ex-outliers.html</code>).</li>
+<li>See Biome section of “Non-native (exotic) outliers for models”
+document for annotated code (<code>pub_ex-outliers.html</code>).</li>
 </ul>
 </div>
 </div>
@@ -2040,7 +2040,8 @@ length(x[[&quot;resid&quot;]]) + length(y[[&quot;resid&quot;]])</code></pre>
 <pre><code>##  [1]   7   9  15  26  27  28  38  39  50  53  58 212 225 228 300 303 306 508 527
 ## [20] 576 590</code></pre>
 <pre class="r"><code>nt[651, c(&quot;paper&quot;, &quot;obs_ID&quot;, &quot;dfc&quot;)]</code></pre>
-<pre><code>##                  paper obs_ID dfc 
+<pre><code>## 
+##                  paper obs_ID dfc 
 ## 651 Reever Morgan_1999   1615 5-6</code></pre>
 <ul>
 <li>Observation 1615 is influential, but not an outlier.</li>
@@ -2193,7 +2194,8 @@ length(x[[&quot;resid&quot;]]) + length(y[[&quot;resid&quot;]])</code></pre>
 <pre class="r"><code>y$slab # not influential</code></pre>
 <pre><code>##  [1] 192 310 313 451 456 471 478 479 484 497 521 531 617</code></pre>
 <pre class="r"><code>nt[c(230, 229), c(&quot;paper&quot;, &quot;obs_ID&quot;, &quot;C_type&quot;)]</code></pre>
-<pre><code>##          paper obs_ID C_type 
+<pre><code>## 
+##          paper obs_ID C_type 
 ## 230 Burke_2013    347 lignin 
 ## 229 Burke_2013    346 lignin</code></pre>
 <ul>
@@ -2287,7 +2289,8 @@ length(x[[&quot;resid&quot;]]) + length(y[[&quot;resid&quot;]])</code></pre>
 <pre class="r"><code>x$slab # 247</code></pre>
 <pre><code>##  [1]   7   9  15  26  28  38 212 247 300 303 306 508 527 576 590</code></pre>
 <pre class="r"><code>nt[c(247, 253), c(&quot;paper&quot;, &quot;obs_ID&quot;, &quot;cratc&quot;)]</code></pre>
-<pre><code>##         paper obs_ID cratc 
+<pre><code>## 
+##         paper obs_ID cratc 
 ## 247 Gray_2013    440 &gt;5000 
 ## 253 Gray_2013    452 &gt;5000</code></pre>
 <ul>
@@ -2616,7 +2619,8 @@ length(x[[&quot;resid&quot;]]) + length(y[[&quot;resid&quot;]])</code></pre>
 <pre class="r"><code>x$slab # not influential</code></pre>
 <pre><code>##  [1]   7   9  15  26  28  38  39 212 225 300 303 306 508 527 576 590</code></pre>
 <pre class="r"><code>nt[c(331, 335), c(&quot;paper&quot;, &quot;obs_ID&quot;, &quot;plant_apgfs&quot;)]</code></pre>
-<pre><code>##           paper obs_ID       plant_apgfs 
+<pre><code>## 
+##           paper obs_ID       plant_apgfs 
 ## 331   Rowe_2009   1618    annual unknown 
 ## 335 Sandel_2011   1628 unknown graminoid</code></pre>
 <ul>
@@ -3359,7 +3363,8 @@ length(x[[&quot;resid&quot;]]) + length(y[[&quot;resid&quot;]])</code></pre>
 <pre class="r"><code>y$slab # 351, 637</code></pre>
 <pre><code>##  [1] 186 215 301 304 351 436 441 456 463 464 469 482 506 516 554 602 637</code></pre>
 <pre class="r"><code>nt[c(351, 637, 325), c(&quot;paper&quot;, &quot;obs_ID&quot;, &quot;dlc&quot;, &quot;cratc&quot;, &quot;C_type&quot;, &quot;plant_apgfs&quot;)]</code></pre>
-<pre><code>##           paper obs_ID dlc   cratc              C_type         plant_apgfs 
+<pre><code>## 
+##           paper obs_ID dlc   cratc              C_type         plant_apgfs 
 ## 351 Sandel_2011   1697 4-6 174-200 sucrose AND sawdust perennial graminoid 
 ## 637  Nowak_2006   1002 4-6 133-160             sucrose   perennial unknown 
 ## 325 Prober_2005   1595   2 620-700             sucrose perennial graminoid</code></pre>

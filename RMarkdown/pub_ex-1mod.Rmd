@@ -1,5 +1,5 @@
 ---
-title: "Exotic single moderator models"
+title: "Non-native (exotic) single moderator models"
 author: "Lia Ossanna"
 date: "`r format(Sys.Date())`"
 output: 
@@ -14,15 +14,16 @@ load("../RData/ex-1mod.RData")
 ```
 
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
-- This is the analysis of the summary effect and effect of a single moderator on exotic plant abundance.
+- This is the analysis of the summary effect and effect of a single moderator on non-native (exotic) plant abundance.
   - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+- Note that the word "exotic" is used to refer to the non-native dataset and models in the code.
 - For each model there are the model results, proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and a forest plot.
 - When there are missing data for a moderator, a new model is run with the subset of data that the single-moderator model uses; this is reflected in the forest plot.
   - Missing data will return `TRUE` for the first line of code, `any(is.na(dat$variable))`.
-- Analysis includes a model run with all the data, and a model run with outliers removed (see "Exotic outliers for models" document for details; `pub_ex-outliers.html`).
+- Analysis includes a model run with all the data, and a model run with outliers removed (see "Non-native (exotic) outliers for models" document for details; `pub_ex-outliers.html`).
   - When only one model is presented, no outliers were removed.
 
 

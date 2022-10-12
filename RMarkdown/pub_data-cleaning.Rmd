@@ -12,11 +12,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
-- This document details data cleaning and calculating effect size for both the exotic and native datasets.
-- See "Exotic single moderator models" and "Native single moderator models" documents for more details on tranformation of continuous variables to categorical variables (`pub_ex-1mod.html`, `pub_nt-1mod.html`).
+- This document details data cleaning and calculating effect size for both the non-native and native datasets.
+- See "Non-native (exotic) single moderator models" and "Native single moderator models" documents for more details on transformation of continuous variables to categorical variables (`pub_ex-1mod.html`, `pub_nt-1mod.html`).
+- Note that the word "exotic" is used to refer to the non-native dataset and models in the code.
 
 
 # Setup and data wrangling
@@ -110,7 +111,7 @@ all.1res.ex <- rbind(biomass, cover)
 all.1res.nt <- rbind(biomass, cover, density)
 ```
 
-# Exotic
+# Non-native (exotic)
 ## Calculate effect size
 ```{r}
 ex <- all.1res.ex %>%

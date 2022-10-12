@@ -11,9 +11,9 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-10-11" />
 
-<title>Native model selection 14</title>
+<title>Native model selection</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1510,16 +1510,16 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Native model selection 14</h1>
+<h1 class="title toc-ignore">Native model selection</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-06-21</h4>
+<h4 class="date">2022-10-11</h4>
 
 </div>
 
 
 <p>Analysis for Ossanna &amp; Gornish (2022), “Efficacy of labile carbon
-addition to reduce fast-growing, exotic invasive plants: A review and
-meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
+addition to reduce fast-growing, invasive non-native plants: A review
+and meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <ul>
@@ -1529,8 +1529,8 @@ tutorial</a> from the <code>metafor</code> website.
 <li>Code also adapted from Kinlock 2017 (<em>Global Ecology and
 Biogeography</em>) and Yan 2018 (<em>Forests</em>).</li>
 </ul></li>
-<li>See “Exotic model selection 14” document
-(<code>pub_ex-modsel-14.html</code>) for rationale of moderators
+<li>See “Non-native (exotic) model selection” document
+(<code>pub_ex-modsel.html</code>) for rationale of moderators
 included.</li>
 <li>See “Data cleaning and effect size” document for code for data
 cleaning and calculation of effect size
@@ -1557,8 +1557,8 @@ rand &lt;- list(~ 1 | obs_ID, ~ 1 | exp_ID)
 # Multimodel inference
 eval(metafor:::.glmulti)</code></pre>
 </div>
-<div id="region-dlc-c_type-cratc-capt-plant_apgfs-plotc" class="section level1">
-<h1>14: <code>region</code>, <code>dlc</code>, <code>C_type</code>,
+<div id="model-region-dlc-c_type-cratc-capt-plant_apgfs-plotc" class="section level1">
+<h1>Model: <code>region</code>, <code>dlc</code>, <code>C_type</code>,
 <code>cratc</code>, <code>capt</code>, <code>plant_apgfs</code>,
 <code>plotc</code></h1>
 <ul>
@@ -1611,7 +1611,7 @@ weightable(res14.o.nt)[1:5, ]</code></pre>
 <pre><code>## 
 ## Multivariate Meta-Analysis Model (k = 638; method: ML)
 ## 
-##    logLik   Deviance        AIC        BIC       AICc 
+##    logLik   Deviance        AIC        BIC       AICc   
 ## -697.2018   642.7000  1494.4036  1717.3205  1503.0918   
 ## 
 ## Variance Components:
@@ -1677,7 +1677,7 @@ weightable(res14.o.nt)[1:5, ]</code></pre>
 ## plant_apgfsunknown graminoid      0.1719  0.2453   0.7009  0.4834  -0.3088 
 ## plant_apgfsunknown shrub          1.8984  0.4694   4.0446  &lt;.0001   0.9785 
 ## plant_apgfsunknown unknown       -0.1411  0.4611  -0.3061  0.7595  -1.0448 
-##                                   ci.ub 
+##                                   ci.ub      
 ## intrcpt                         -1.7322  *** 
 ## dlc2                             1.8071  *** 
 ## dlc3-3.5                         2.7662  *** 

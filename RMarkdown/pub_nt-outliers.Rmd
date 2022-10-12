@@ -14,7 +14,7 @@ library(metafor)
 load("../RData/nt-outliers.RData")
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
 - This is the analysis to identify outliers in the single-moderator models, and relevant models generated through model selection.
@@ -40,7 +40,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 
 ## Code annotations
-- See Biome section of "Exotic outliers for models" document for annotated code (`pub_ex-outliers.html`).
+- See Biome section of "Non-native (exotic) outliers for models" document for annotated code (`pub_ex-outliers.html`).
 
 
 # Summary

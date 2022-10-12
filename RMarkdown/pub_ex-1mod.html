@@ -11,9 +11,9 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-08-11" />
+<meta name="date" content="2022-10-11" />
 
-<title>Exotic single moderator models</title>
+<title>Non-native (exotic) single moderator models</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1510,26 +1510,29 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Exotic single moderator models</h1>
+<h1 class="title toc-ignore">Non-native (exotic) single moderator
+models</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-08-11</h4>
+<h4 class="date">2022-10-11</h4>
 
 </div>
 
 
 <p>Analysis for Ossanna &amp; Gornish (2022), “Efficacy of labile carbon
-addition to reduce fast-growing, exotic invasive plants: A review and
-meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
+addition to reduce fast-growing, invasive non-native plants: A review
+and meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <ul>
 <li>This is the analysis of the summary effect and effect of a single
-moderator on exotic plant abundance.
+moderator on non-native (exotic) plant abundance.
 <ul>
 <li>See “Data cleaning and effect size” document for code for data
 cleaning and calculation of effect size
 (<code>pub_data-cleaning.html</code>).</li>
 </ul></li>
+<li>Note that the word “exotic” is used to refer to the non-native
+dataset and models in the code.</li>
 <li>For each model there are the model results, proportion of
 heterogeneity explained by the model (<span class="math inline">\(\frac{Q_M}{Q_E+Q_M}\)</span>), and a forest
 plot.</li>
@@ -1541,8 +1544,8 @@ reflected in the forest plot.
 code, <code>any(is.na(dat$variable))</code>.</li>
 </ul></li>
 <li>Analysis includes a model run with all the data, and a model run
-with outliers removed (see “Exotic outliers for models” document for
-details; <code>pub_ex-outliers.html</code>).
+with outliers removed (see “Non-native (exotic) outliers for models”
+document for details; <code>pub_ex-outliers.html</code>).
 <ul>
 <li>When only one model is presented, no outliers were removed.</li>
 </ul></li>
@@ -1620,7 +1623,7 @@ out.pgfs &lt;- c(257, 258)</code></pre>
 ## 
 ## Model Results:
 ## 
-## estimate      se     zval    pval    ci.lb    ci.ub 
+## estimate      se     zval    pval    ci.lb    ci.ub      
 ##  -0.5831  0.1068  -5.4613  &lt;.0001  -0.7923  -0.3738  *** 
 ## 
 ## ---
@@ -1674,7 +1677,7 @@ ex.mv.o &lt;- rma.mv(yi = yi,
 ## 
 ## Model Results:
 ## 
-## estimate      se     zval    pval    ci.lb    ci.ub 
+## estimate      se     zval    pval    ci.lb    ci.ub      
 ##  -0.5768  0.1009  -5.7168  &lt;.0001  -0.7746  -0.3791  *** 
 ## 
 ## ---
@@ -1768,7 +1771,7 @@ single.mod.cat(ex, &quot;biome&quot;, ex.mv.bio.na, ex.mv.bio, h)</code></pre>
 ## factor(biome)tallgrass prairie             -0.6662  0.3613  -1.8439  0.0652 
 ## factor(biome)upland prairie                -1.2566  0.2838  -4.4283  &lt;.0001 
 ## factor(biome)wetland prairie               -0.2731  0.5288  -0.5163  0.6056 
-##                                             ci.lb    ci.ub 
+##                                             ci.lb    ci.ub      
 ## factor(biome)coastal grassland            -0.6324   0.3429      
 ## factor(biome)coastal sage scrub           -1.5131   1.3093      
 ## factor(biome)coastal sandplain grassland  -0.7820   1.2838      
@@ -1836,7 +1839,7 @@ single.mod.cat(ex, &quot;region&quot;, ex.mv, ex.mv.reg, h)</code></pre>
 ## factor(region)South Africa              0.1677  0.7595   0.2207  0.8253 
 ## factor(region)southeast Australia      -1.4402  0.2705  -5.3249  &lt;.0001 
 ## factor(region)southwest USA            -1.4731  0.4348  -3.3876  0.0007 
-##                                         ci.lb    ci.ub 
+##                                         ci.lb    ci.ub      
 ## factor(region)central Canada          -0.7317   0.5900      
 ## factor(region)coastal CA, USA         -0.6341   0.3485      
 ## factor(region)Great Basin, USA        -0.9146   0.1293      
@@ -1900,7 +1903,7 @@ single.mod.cat(ex.reg.o, &quot;region&quot;, ex.mv.reg.na.o, ex.mv.reg.o, h)</co
 ## factor(region)South Africa              0.1672  0.7108   0.2352  0.8140 
 ## factor(region)southeast Australia      -1.3910  0.2460  -5.6537  &lt;.0001 
 ## factor(region)southwest USA            -1.4678  0.3943  -3.7227  0.0002 
-##                                         ci.lb    ci.ub 
+##                                         ci.lb    ci.ub      
 ## factor(region)central Canada          -0.6662   0.5437      
 ## factor(region)coastal CA, USA         -0.5807   0.3029      
 ## factor(region)Great Basin, USA        -0.8539   0.0801      
@@ -1983,7 +1986,7 @@ single.mod.cat(ex, &quot;soil_suborder&quot;, ex.mv.soil.na, ex.mv.soil, h)</cod
 ## factor(soil_suborder)Xerands              0.1273  0.5805   0.2193  0.8264 
 ## factor(soil_suborder)Xerepts             -0.0057  0.6278  -0.0091  0.9928 
 ## factor(soil_suborder)Xerolls             -1.2368  0.3145  -3.9328  &lt;.0001 
-##                                           ci.lb    ci.ub 
+##                                           ci.lb    ci.ub      
 ## factor(soil_suborder)Aqualfs            -1.2798   0.7342      
 ## factor(soil_suborder)Aquolls            -2.1484  -0.2161    * 
 ## factor(soil_suborder)Argids             -1.0890   0.0909    . 
@@ -2016,7 +2019,8 @@ single.mod.cat(ex, &quot;soil_suborder&quot;, ex.mv.soil.na, ex.mv.soil, h)</cod
 <h2>All data</h2>
 <pre class="r"><code># Create categories
 count(ex, duration_first)</code></pre>
-<pre><code>##    duration_first  n 
+<pre><code>## 
+##    duration_first  n 
 ## 1             3.0 88 
 ## 2             5.0  8 
 ## 3             6.0  3 
@@ -2071,7 +2075,8 @@ for(i in 1:nrow(ex)) {
 }
 ex$dfc &lt;- factor(ex$df, levels = c(&quot;3&quot;, &quot;5-6&quot;, &quot;7-12&quot;, &quot;12-18&quot;, &quot;19-24&quot;, &quot;25-36&quot;, &quot;37-50&quot;, &quot;100-200&quot;, &quot;&gt;200&quot;))</code></pre>
 <pre class="r"><code>count(ex, dfc)</code></pre>
-<pre><code>##       dfc   n 
+<pre><code>## 
+##       dfc   n 
 ## 1       3  88 
 ## 2     5-6  11 
 ## 3    7-12 127 
@@ -2107,7 +2112,7 @@ single.mod.cat(ex, &quot;dfc&quot;, ex.mv, ex.mv.dfc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                     estimate      se     zval    pval    ci.lb    ci.ub 
+##                     estimate      se     zval    pval    ci.lb    ci.ub      
 ## factor(dfc)3         -1.5026  0.2559  -5.8722  &lt;.0001  -2.0042  -1.0011  *** 
 ## factor(dfc)5-6       -0.2381  0.3760  -0.6334  0.5265  -0.9750   0.4988      
 ## factor(dfc)7-12      -0.7388  0.2932  -2.5195  0.0118  -1.3135  -0.1641    * 
@@ -2157,7 +2162,7 @@ single.mod.cat(ex.dfc.o, &quot;dfc&quot;, ex.mv.dfc.na.o, ex.mv.dfc.o, h)</code>
 ## 
 ## Model Results:
 ## 
-##                     estimate      se     zval    pval    ci.lb    ci.ub 
+##                     estimate      se     zval    pval    ci.lb    ci.ub      
 ## factor(dfc)3         -1.4735  0.2425  -6.0764  &lt;.0001  -1.9487  -0.9982  *** 
 ## factor(dfc)5-6       -0.2699  0.3590  -0.7518  0.4522  -0.9735   0.4337      
 ## factor(dfc)7-12      -0.7167  0.2751  -2.6052  0.0092  -1.2560  -0.1775   ** 
@@ -2186,7 +2191,8 @@ single.mod.cat(ex.dfc.o, &quot;dfc&quot;, ex.mv.dfc.na.o, ex.mv.dfc.o, h)</code>
 <h1>Duration since last C app (categorical)</h1>
 <pre class="r"><code># Create categories
 count(ex, duration_last)</code></pre>
-<pre><code>##    duration_last  n 
+<pre><code>## 
+##    duration_last  n 
 ## 1           0.50 10 
 ## 2           0.75 32 
 ## 3           1.00 11 
@@ -2236,7 +2242,8 @@ for(i in 1:nrow(ex)) {
 ex$dlc &lt;- factor(ex$dl, levels = c(&quot;0-1.5&quot;, &quot;2&quot;, &quot;3-3.5&quot;, &quot;4-6&quot;, &quot;7-12&quot;, &quot;13-18&quot;, &quot;19-24&quot;, 
                                    &quot;36-49&quot;, &quot;&gt;100&quot;))</code></pre>
 <pre class="r"><code>count(ex, dlc)</code></pre>
-<pre><code>##     dlc  n 
+<pre><code>## 
+##     dlc  n 
 ## 1 0-1.5 53 
 ## 2     2 64 
 ## 3 3-3.5 92 
@@ -2272,7 +2279,7 @@ single.mod.cat(ex, &quot;dlc&quot;, ex.mv, ex.mv.dlc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                   estimate      se     zval    pval    ci.lb    ci.ub 
+##                   estimate      se     zval    pval    ci.lb    ci.ub      
 ## factor(dlc)0-1.5   -1.0594  0.2301  -4.6038  &lt;.0001  -1.5104  -0.6084  *** 
 ## factor(dlc)2       -0.7199  0.2262  -3.1822  0.0015  -1.1633  -0.2765   ** 
 ## factor(dlc)3-3.5   -0.9071  0.2384  -3.8055  0.0001  -1.3743  -0.4399  *** 
@@ -2330,7 +2337,7 @@ single.mod.cat(ex, &quot;C_type&quot;, ex.mv, ex.mv.ctyp, h)</code></pre>
 ## factor(C_type)sucrose AND sawdust    -0.3614  0.2637  -1.3703  0.1706  -0.8783 
 ## factor(C_type)woodchip               -0.1018  0.5041  -0.2020  0.8399  -1.0898 
 ## factor(C_type)woodchip mulch          0.1675  0.8286   0.2022  0.8398  -1.4565 
-##                                       ci.ub 
+##                                       ci.ub      
 ## factor(C_type)dextrose              -0.2513    * 
 ## factor(C_type)lignin                 1.4747      
 ## factor(C_type)lignin AND sucrose     1.9087      
@@ -2356,7 +2363,8 @@ single.mod.cat(ex, &quot;C_type&quot;, ex.mv, ex.mv.ctyp, h)</code></pre>
 <h2>All data</h2>
 <pre class="r"><code># Create categories
 count(ex, C_rate)</code></pre>
-<pre><code>##        C_rate  n 
+<pre><code>## 
+##        C_rate  n 
 ## 1    30.00000  2 
 ## 2    50.00000 10 
 ## 3    63.00000  1 
@@ -2452,7 +2460,8 @@ ex$cratc &lt;- factor(ex$cratc, levels = c(&quot;30-100&quot;, &quot;133-160&quo
                                      &quot;506-600&quot;, &quot;620-700&quot;, &quot;714-999&quot;, &quot;1000-1330&quot;, &quot;1600-2000&quot;,
                                      &quot;2110-3000&quot;, &quot;3346-5000&quot;, &quot;&gt;5000&quot;))</code></pre>
 <pre class="r"><code>count(ex, cratc)</code></pre>
-<pre><code>##        cratc  n 
+<pre><code>## 
+##        cratc  n 
 ## 1     30-100 45 
 ## 2    133-160 56 
 ## 3    174-200 60 
@@ -2517,10 +2526,10 @@ single.mod.cat(ex.cratc.na, &quot;cratc&quot;, ex.mv.cratc.na, ex.mv.cratc, h)</
 ## factor(cratc)2110-3000   -0.7311  0.2014  -3.6302  0.0003  -1.1259  -0.3364 
 ## factor(cratc)3346-5000   -0.8978  0.2416  -3.7170  0.0002  -1.3713  -0.4244 
 ## factor(cratc)&gt;5000       -1.6735  0.4591  -3.6449  0.0003  -2.5734  -0.7736 
-##  
+##                             
 ## factor(cratc)30-100       * 
-## factor(cratc)133-160 
-## factor(cratc)174-200 
+## factor(cratc)133-160        
+## factor(cratc)174-200        
 ## factor(cratc)210-300     ** 
 ## factor(cratc)330-400      * 
 ## factor(cratc)420-500     ** 
@@ -2588,10 +2597,10 @@ single.mod.cat(ex.cratc.o, &quot;cratc&quot;, ex.mv.cratc.na.o, ex.mv.cratc.o, h
 ## factor(cratc)2110-3000   -0.7295  0.2001  -3.6452  0.0003  -1.1217  -0.3373 
 ## factor(cratc)3346-5000   -0.8951  0.2400  -3.7292  0.0002  -1.3655  -0.4246 
 ## factor(cratc)&gt;5000       -2.3387  0.5103  -4.5826  &lt;.0001  -3.3390  -1.3385 
-##  
+##                             
 ## factor(cratc)30-100       * 
-## factor(cratc)133-160 
-## factor(cratc)174-200 
+## factor(cratc)133-160        
+## factor(cratc)174-200        
 ## factor(cratc)210-300     ** 
 ## factor(cratc)330-400      * 
 ## factor(cratc)420-500     ** 
@@ -2622,7 +2631,8 @@ single.mod.cat(ex.cratc.o, &quot;cratc&quot;, ex.mv.cratc.na.o, ex.mv.cratc.o, h
 <h1>C applications total (categorical)</h1>
 <pre class="r"><code># Create categories
 count(ex, C_app)</code></pre>
-<pre><code>##    C_app   n 
+<pre><code>## 
+##    C_app   n 
 ## 1    1.0 283 
 ## 2    2.0  20 
 ## 3    3.0  19 
@@ -2663,7 +2673,8 @@ for(i in 1:nrow(ex)) {
 }
 ex$capc &lt;- factor(ex$capc, levels = c(&quot;1&quot;, &quot;2&quot;, &quot;3-6&quot;, &quot;7-10&quot;, &quot;15-22&quot;, &quot;32-40&quot;, &quot;&gt;40&quot;)))</code></pre>
 <pre class="r"><code>count(ex, capc)</code></pre>
-<pre><code>##    capc   n 
+<pre><code>## 
+##    capc   n 
 ## 1     1 283 
 ## 2     2  20 
 ## 3   3-6  85 
@@ -2697,7 +2708,7 @@ single.mod.cat(ex, &quot;capc&quot;, ex.mv, ex.mv.capc, h)</code></pre>
 ## 
 ## Model Results:
 ## 
-##                    estimate      se     zval    pval    ci.lb    ci.ub 
+##                    estimate      se     zval    pval    ci.lb    ci.ub      
 ## factor(capc)1       -0.4563  0.1508  -3.0265  0.0025  -0.7518  -0.1608   ** 
 ## factor(capc)2       -0.5667  0.2748  -2.0618  0.0392  -1.1054  -0.0280    * 
 ## factor(capc)3-6     -1.0618  0.1774  -5.9865  &lt;.0001  -1.4095  -0.7142  *** 
@@ -2715,7 +2726,8 @@ single.mod.cat(ex, &quot;capc&quot;, ex.mv, ex.mv.capc, h)</code></pre>
 <div id="months-applying-c" class="section level1">
 <h1>Months applying C</h1>
 <pre class="r"><code>count(ex, C_app_tm)</code></pre>
-<pre><code>##    C_app_tm   n 
+<pre><code>## 
+##    C_app_tm   n 
 ## 1      0.00 283 
 ## 2      1.00   8 
 ## 3      2.00   1 
@@ -2763,7 +2775,8 @@ for(i in 1:nrow(ex)) {
 ex$capt &lt;- factor(ex$capt, levels = c(&quot;1 application total&quot;, &quot;1-6&quot;, &quot;7-12&quot;, &quot;13-24&quot;, 
                                       &quot;25-36&quot;, &quot;37-48&quot;, &quot;&gt;48&quot;))</code></pre>
 <pre class="r"><code>count(ex, capt)</code></pre>
-<pre><code>##                  capt   n 
+<pre><code>## 
+##                  capt   n 
 ## 1 1 application total 283 
 ## 2                 1-6  34 
 ## 3                7-12  41 
@@ -2805,7 +2818,7 @@ single.mod.cat(ex, &quot;capt&quot;, ex.mv, ex.mv.capt, h)</code></pre>
 ## factor(capt)25-36                 -1.3745  0.3338  -4.1171  &lt;.0001  -2.0288 
 ## factor(capt)37-48                 -0.1728  0.1789  -0.9662  0.3339  -0.5234 
 ## factor(capt)&gt;48                    0.3709  0.2782   1.3330  0.1825  -0.1744 
-##                                    ci.ub 
+##                                    ci.ub      
 ## factor(capt)1 application total  -0.2044  *** 
 ## factor(capt)1-6                  -0.0471    * 
 ## factor(capt)7-12                 -0.3762  *** 
@@ -2853,7 +2866,7 @@ single.mod.cat(ex, &quot;plant_anper&quot;, ex.mv, ex.mv.panp, h)</code></pre>
 ## factor(plant_anper)biennial    -0.5771  0.3632  -1.5890  0.1121  -1.2889 
 ## factor(plant_anper)perennial   -0.2597  0.1325  -1.9609  0.0499  -0.5193 
 ## factor(plant_anper)unknown     -0.6758  0.1504  -4.4937  &lt;.0001  -0.9706 
-##                                 ci.ub 
+##                                 ci.ub      
 ## factor(plant_anper)annual     -0.4450  *** 
 ## factor(plant_anper)biennial    0.1347      
 ## factor(plant_anper)perennial  -0.0001    * 
@@ -2900,10 +2913,10 @@ single.mod.cat(ex, &quot;plant_gfs&quot;, ex.mv, ex.mv.pgfs, h)</code></pre>
 ## factor(plant_gfs)graminoid   -0.6413  0.1196  -5.3606  &lt;.0001  -0.8757  -0.4068 
 ## factor(plant_gfs)shrub       -0.1644  0.4495  -0.3657  0.7146  -1.0454   0.7167 
 ## factor(plant_gfs)unknown     -0.7345  0.2830  -2.5955  0.0094  -1.2891  -0.1798 
-##  
+##                                 
 ## factor(plant_gfs)forb       *** 
 ## factor(plant_gfs)graminoid  *** 
-## factor(plant_gfs)shrub 
+## factor(plant_gfs)shrub          
 ## factor(plant_gfs)unknown     ** 
 ## 
 ## ---
@@ -2950,11 +2963,11 @@ single.mod.cat(ex.pgfs.o, &quot;plant_gfs&quot;, ex.mv.pgfs.na.o, ex.mv.pgfs.o, 
 ## factor(plant_gfs)graminoid   -0.6169  0.1096  -5.6299  &lt;.0001  -0.8317  -0.4021 
 ## factor(plant_gfs)shrub       -0.1526  0.4395  -0.3472  0.7285  -1.0140   0.7088 
 ## factor(plant_gfs)unknown     -0.4416  0.2712  -1.6285  0.1034  -0.9731   0.0899 
-##  
+##                                 
 ## factor(plant_gfs)forb       *** 
 ## factor(plant_gfs)graminoid  *** 
-## factor(plant_gfs)shrub 
-## factor(plant_gfs)unknown 
+## factor(plant_gfs)shrub          
+## factor(plant_gfs)unknown        
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -3010,7 +3023,7 @@ single.mod.cat(ex, &quot;plant_apgfs&quot;, ex.mv, ex.mv.papgfs, h)</code></pre>
 ## factor(plant_apgfs)unknown graminoid     -1.3667  0.2634  -5.1889  &lt;.0001 
 ## factor(plant_apgfs)unknown shrub         -0.1915  0.5486  -0.3491  0.7270 
 ## factor(plant_apgfs)unknown unknown       -0.7030  0.2772  -2.5361  0.0112 
-##                                           ci.lb    ci.ub 
+##                                           ci.lb    ci.ub      
 ## factor(plant_apgfs)annual forb          -0.9344  -0.3948  *** 
 ## factor(plant_apgfs)annual graminoid     -0.8348  -0.3235  *** 
 ## factor(plant_apgfs)biennial forb        -1.1993   0.2033      
@@ -3031,7 +3044,8 @@ single.mod.cat(ex, &quot;plant_apgfs&quot;, ex.mv, ex.mv.papgfs, h)</code></pre>
 <div id="plot-size-categorical" class="section level1">
 <h1>Plot size (categorical)</h1>
 <pre class="r"><code>count(ex, plot)</code></pre>
-<pre><code>##            plot   n 
+<pre><code>## 
+##            plot   n 
 ## 1  7.853982e-03   1 
 ## 2  9.000000e-02   1 
 ## 3  2.500000e-01   9 
@@ -3085,7 +3099,8 @@ ex$plotc &lt;- factor(ex$plotc,
                            levels = c(&quot;&lt;1&quot;, &quot;1&quot;, &quot;1.3-3.75&quot;, &quot;4&quot;, &quot;6-9&quot;, &quot;12&quot;, &quot;12.5-16&quot;, 
                                       &quot;25&quot;, &quot;28-50&quot;, &quot;75&quot;, &quot;&gt;100&quot;))</code></pre>
 <pre class="r"><code>count(ex, plotc)</code></pre>
-<pre><code>##       plotc   n 
+<pre><code>## 
+##       plotc   n 
 ## 1        &lt;1  11 
 ## 2         1  55 
 ## 3  1.3-3.75  29 
@@ -3132,7 +3147,7 @@ single.mod.cat(ex.plotc.na, &quot;plotc&quot;, ex.mv.plotc.na, ex.mv.plotc, h)</
 ## 
 ## Model Results:
 ## 
-##                        estimate      se     zval    pval    ci.lb    ci.ub 
+##                        estimate      se     zval    pval    ci.lb    ci.ub      
 ## factor(plotc)&lt;1         -0.4909  0.4858  -1.0106  0.3122  -1.4430   0.4612      
 ## factor(plotc)1          -0.9030  0.2287  -3.9487  &lt;.0001  -1.3513  -0.4548  *** 
 ## factor(plotc)1.3-3.75   -0.8331  0.2928  -2.8450  0.0044  -1.4070  -0.2591   ** 
@@ -3156,7 +3171,8 @@ single.mod.cat(ex.plotc.na, &quot;plotc&quot;, ex.mv.plotc.na, ex.mv.plotc, h)</
 <div id="all-data-5" class="section level2">
 <h2>All data</h2>
 <pre class="r"><code>count(ex, seeding_native)</code></pre>
-<pre><code>##    seeding_native   n 
+<pre><code>## 
+##    seeding_native   n 
 ## 1             0.0 208 
 ## 2           150.0   4 
 ## 3           262.5   4 
@@ -3181,7 +3197,8 @@ for(i in 1:nrow(ex)) {
   }
 }</code></pre>
 <pre class="r"><code>count(ex, seedn)</code></pre>
-<pre><code>##               seedn   n 
+<pre><code>## 
+##               seedn   n 
 ## 1 native not seeded 208 
 ## 2     native seeded 280</code></pre>
 <pre class="r"><code>any(is.na(ex$seedn))</code></pre>
@@ -3213,7 +3230,7 @@ single.mod.cat(ex, &quot;seedn&quot;, ex.mv, ex.mv.seedn, h)</code></pre>
 ##                                 estimate      se     zval    pval    ci.lb 
 ## factor(seedn)native not seeded   -0.6118  0.1311  -4.6652  &lt;.0001  -0.8689 
 ## factor(seedn)native seeded       -0.5483  0.1446  -3.7911  0.0002  -0.8318 
-##                                   ci.ub 
+##                                   ci.ub      
 ## factor(seedn)native not seeded  -0.3548  *** 
 ## factor(seedn)native seeded      -0.2648  *** 
 ## 
@@ -3259,7 +3276,7 @@ single.mod.cat(ex.seedn.o, &quot;seedn&quot;, ex.mv.seedn.na.o, ex.mv.seedn.o, h
 ##                                 estimate      se     zval    pval    ci.lb 
 ## factor(seedn)native not seeded   -0.6120  0.1263  -4.8469  &lt;.0001  -0.8594 
 ## factor(seedn)native seeded       -0.5771  0.1396  -4.1354  &lt;.0001  -0.8506 
-##                                   ci.ub 
+##                                   ci.ub      
 ## factor(seedn)native not seeded  -0.3645  *** 
 ## factor(seedn)native seeded      -0.3036  *** 
 ## 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lia Ossanna" />
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-10-11" />
 
 <title>Data cleaning and effect size</title>
 
@@ -1512,23 +1512,25 @@ div.tocify {
 
 <h1 class="title toc-ignore">Data cleaning and effect size</h1>
 <h4 class="author">Lia Ossanna</h4>
-<h4 class="date">2022-06-21</h4>
+<h4 class="date">2022-10-11</h4>
 
 </div>
 
 
 <p>Analysis for Ossanna &amp; Gornish (2022), “Efficacy of labile carbon
-addition to reduce fast-growing, exotic invasive plants: A review and
-meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
+addition to reduce fast-growing, invasive non-native plants: A review
+and meta-analysis”, <em>Journal of Applied Ecology</em>.</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <ul>
 <li>This document details data cleaning and calculating effect size for
-both the exotic and native datasets.</li>
-<li>See “Exotic single moderator models” and “Native single moderator
-models” documents for more details on tranformation of continuous
-variables to categorical variables (<code>pub_ex-1mod.html</code>,
-<code>pub_nt-1mod.html</code>).</li>
+both the non-native and native datasets.</li>
+<li>See “Non-native (exotic) single moderator models” and “Native single
+moderator models” documents for more details on transformation of
+continuous variables to categorical variables
+(<code>pub_ex-1mod.html</code>, <code>pub_nt-1mod.html</code>).</li>
+<li>Note that the word “exotic” is used to refer to the non-native
+dataset and models in the code.</li>
 </ul>
 </div>
 <div id="setup-and-data-wrangling" class="section level1">
@@ -1621,8 +1623,8 @@ all.1res.ex &lt;- rbind(biomass, cover)
 # Combine all response variables for native
 all.1res.nt &lt;- rbind(biomass, cover, density)</code></pre>
 </div>
-<div id="exotic" class="section level1">
-<h1>Exotic</h1>
+<div id="non-native-exotic" class="section level1">
+<h1>Non-native (exotic)</h1>
 <div id="calculate-effect-size" class="section level2">
 <h2>Calculate effect size</h2>
 <pre class="r"><code>ex &lt;- all.1res.ex %&gt;%

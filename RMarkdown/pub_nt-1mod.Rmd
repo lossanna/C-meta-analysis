@@ -13,10 +13,10 @@ library(metafor)
 load("../RData/nt-1mod.RData")
 ```
 
-Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, exotic invasive plants: A review and meta-analysis”, *Journal of Applied Ecology*.
+Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis”, *Journal of Applied Ecology*.
 
 # Introduction
-- This is the analysis of the summary effect and effect of a single moderator on exotic plant abundance.
+- This is the analysis of the summary effect and effect of a single moderator on native plant abundance.
   - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
 - For each model there are the model results, proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and a forest plot.
 - When there are missing data for a moderator, a new model is run with the subset of data that the single-moderator model uses; this is reflected in the forest plot.

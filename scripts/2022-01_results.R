@@ -76,7 +76,7 @@ t26 <- nointercept(nt.mv.seedn)
 hetero <- rbind(t01, t02, t03, t04, t05, t06, t07, t08, t09, t10, t11, t12, t13, t14, t15,
                 t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26)
 hetero <- signif(hetero, digits = 4)
-hetero$Model <- c(rep(c("Exotic", "Native"), 13))
+hetero$Model <- c(rep(c("Non-native", "Native"), 13))
 hetero <- hetero[ , c(8, 1:7)]
 
 
