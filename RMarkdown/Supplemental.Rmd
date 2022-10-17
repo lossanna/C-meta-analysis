@@ -19,7 +19,7 @@ library(metafor)
 Supplemental materials for Ossanna & Gornish (2022), "Efficacy of labile carbon addition to reduce fast-growing, invasive non-native plants: A review and meta-analysis". \
 
 **Table S1 & S2. Raw data**  
-For Tables S1 & S2, see accompanying Zenodo archive under the same name as the paper title. The Zenodo archive also includes R Markdown documents detailing analysis and code. \
+For Tables S1 & S2, see accompanying Zenodo archive at <https://doi.org/10.5281/zenodo.6800070>. The Zenodo archive also includes R Markdown documents further detailing analysis and code. \
   
 **Table S3. Systematic review: Publication types** 
 ```{r}
