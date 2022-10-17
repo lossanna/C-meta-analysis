@@ -18,7 +18,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 # Introduction
 - This is the analysis to identify outliers in the single-moderator models, and relevant models generated through model selection.
-  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`code_data-cleaning.html`).
 
 ## Hat values and standardized residuals
 - The first method for determining outliers is from Habeck 2015 (*AoB Plants*):
@@ -40,7 +40,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 
 ## Code annotations
-- See Biome section of "Non-native (exotic) outliers for models" document for annotated code (`pub_ex-outliers.html`).
+- See Biome section of "Non-native (exotic) outliers for models" document for annotated code (`code_nonnative-outliers.html`).
 
 
 # Summary

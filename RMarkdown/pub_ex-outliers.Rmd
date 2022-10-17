@@ -20,7 +20,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 # Introduction
 - This is the analysis to identify outliers in the single-moderator models, and relevant models generated through model selection.
-  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`code_data-cleaning.html`).
 - Note that the word "exotic" is used to refer to the non-native dataset and models in the code.
 
 ## Hat values and standardized residuals

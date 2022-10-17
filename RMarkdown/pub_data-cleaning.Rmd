@@ -16,7 +16,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 # Introduction
 - This document details data cleaning and calculating effect size for both the non-native and native datasets.
-- See "Non-native (exotic) single moderator models" and "Native single moderator models" documents for more details on transformation of continuous variables to categorical variables (`pub_ex-1mod.html`, `pub_nt-1mod.html`).
+- See "Non-native (exotic) single moderator models" and "Native single moderator models" documents for more details on transformation of continuous variables to categorical variables (`code_nonnative-moderator-analysis.html`, `code_native-moderator-analysis.html`).
 - Note that the word "exotic" is used to refer to the non-native dataset and models in the code.
 
 

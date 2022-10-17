@@ -13,7 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(metafor)
-library(orchaRd)
 library(ggpubr)
 
 load("../RData/Main-figures.RData")
@@ -23,7 +22,7 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 # Introduction
 - This document contains the code used to produce the main figures in the paper.
-  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`code_data-cleaning.html`).
 - Note that the word "exotic" is used to refer to the non-native dataset and models in the code, but has been replaced with "non-native" in the figures.
 
 # Setup
@@ -80,7 +79,7 @@ f1.df <- data.frame(model = c("Non-native", "Native"),
                     pi.ub = c(predict(ex.mv.o)$pi.ub, predict(nt.mv)$pi.ub),
                     estimate = c(ex.mv.o[["b"]], nt.mv[["b"]]))
 ```
-```{r, fig.height=7, fig.width=6}
+```{r, eval=FALSE}
 # Orchard plots
 f1.orc.ex <- orchard_plot(ex.mv.o, mod = "Int", xlab = "Effect size (Hedges' g)", transfm = "none") +
   ggtitle("Exotic weed summary response") +
@@ -95,6 +94,8 @@ f1.orc.nt <- orchard_plot(nt.mv, mod = "Int", xlab = "Effect size (Hedges' g)", 
            label = paste0("Confidence interval: ", round(f1.df[2, 2], 3), ", ", round(f1.df[2, 3], 3), "\n",
                           "Prediction interval: ", round(f1.df[2, 4], 3), ", ", round(f1.df[2, 5], 3)),
            hjust = 0)
+```
+```{r, fig.height=7, fig.width=6}
 
 ggarrange(f1.orc.ex, f1.orc.nt,
           ncol = 1, nrow = 2,

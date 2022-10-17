@@ -24,8 +24,8 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 # Introduction
 - Model selection follows [this tutorial](https://www.metafor-project.org/doku.php/tips:model_selection_with_glmulti_and_mumin) from the  `metafor` website.
   - Code also adapted from Kinlock 2017 (*Global Ecology and Biogeography*) and Yan 2018 (*Forests*).
-- See "Non-native (exotic) model selection" document (`pub_ex-modsel.html`) for rationale of moderators included.
-- See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+- See "Non-native (exotic) model selection" document (`code_nonnative-model-selection.html`) for rationale of moderators included.
+- See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`code_data-cleaning.html`).
 
 
 

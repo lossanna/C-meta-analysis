@@ -17,11 +17,11 @@ Analysis for Ossanna & Gornish (2022), “Efficacy of labile carbon addition to 
 
 # Introduction
 - This is the analysis of the summary effect and effect of a single moderator on native plant abundance.
-  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`pub_data-cleaning.html`).
+  - See "Data cleaning and effect size" document for code for data cleaning and calculation of effect size (`code_data-cleaning.html`).
 - For each model there are the model results, proportion of heterogeneity explained by the model ($\frac{Q_M}{Q_E+Q_M}$), and a forest plot.
 - When there are missing data for a moderator, a new model is run with the subset of data that the single-moderator model uses; this is reflected in the forest plot.
   - Missing data will return `TRUE` for the first line of code, `any(is.na(dat$variable))`.
-- Analysis includes a model run with all the data, and a model run with outliers removed (see "Native outliers for models" document for details; `pub_nt-outliers.html`).
+- Analysis includes a model run with all the data, and a model run with outliers removed (see "Native outliers for models" document for details; `code_native-outliers.html`).
   - When only one model is presented, no outliers were removed.
 
 
